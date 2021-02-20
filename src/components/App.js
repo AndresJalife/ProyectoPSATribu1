@@ -2,7 +2,7 @@ import logo from '../logo.svg';
 import './App.css';
 import React from "react";
 import CargaDeHoras from './../pages/CargaDeHoras';
-import Proyecto from '../pages/Proyecto';
+import MainProyectos from '../pages/Proyectos/MainProyectos';
 import Recursos from './../pages/Recursos';
 import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
@@ -17,11 +17,11 @@ function App(props) {
 
         <main>
             <Switch>
+                <Route path="/proyecto" component={MainProyectos} />
                 <Route exact path="/" component={Main} />
-                <Route exact path="/proyecto" component={Proyecto} />
-                <Route exact path="/recursos" component={Recursos} />
-                <Route exact path="/cargadehoras" component={CargaDeHoras} />
-                <Route exact path="/soporte" component={Soporte} />
+                <Route path="/recursos" component={Recursos} />
+                <Route path="/cargadehoras" component={CargaDeHoras} />
+                <Route path="/soporte" component={Soporte} />
             </Switch>
         </main>
 
