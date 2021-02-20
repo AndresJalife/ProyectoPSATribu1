@@ -1,7 +1,7 @@
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import './App.css';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +18,14 @@ function App() {
           Learn React
         </a>
       </header>
+
+      <main>
+        {props.children}
+      </main>
+
+      <footer>
+        Your copyright message
+      </footer>
     </div>
   );
 }
