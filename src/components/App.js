@@ -1,7 +1,7 @@
 import logo from '../logo.svg';
 import './App.css';
 import React from "react";
-import CargaDeHoras from './../pages/CargaDeHoras';
+import CargaDeHorasPage from '../pages/CargaDeHoras/CargaDeHorasPage';
 import MainProyectos from '../pages/Proyectos/MainProyectos';
 import Recursos from './../pages/Recursos';
 import Soporte from './../pages/Soporte';
@@ -20,7 +20,7 @@ function App(props) {
                 <Route path="/proyecto" component={MainProyectos} />
                 <Route exact path="/" component={Main} />
                 <Route path="/recursos" component={Recursos} />
-                <Route path="/cargadehoras" component={CargaDeHoras} />
+                <Route path="/cargadehoras" component={CargaDeHorasPage} />
                 <Route path="/soporte" component={Soporte} />
             </Switch>
         </main>
