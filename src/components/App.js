@@ -12,21 +12,21 @@ function App(props) {
   return (
     <div className="App">
         <header>
-            This is my website!
+            PSA
         </header>
 
         <main>
             <Switch>
-                <Route path="/proyecto" component={MainProyectos} />
+                <Route exact path="/proyectos" component={MainProyectos} />
                 <Route exact path="/" component={Main} />
-                <Route path="/recursos" component={Recursos} />
-                <Route path="/cargadehoras" component={CargaDeHorasPage} />
-                <Route path="/soporte" component={Soporte} />
+                <Route exact path="/recursos" component={Recursos} />
+                <Route exact path="/cargadehoras" component={CargaDeHorasPage} />
+                <Route exact path="/soporte" component={Soporte} />
             </Switch>
         </main>
 
         <footer>
-            Your copyright message
+            PSA 2021
         </footer>
     </div>
   );
