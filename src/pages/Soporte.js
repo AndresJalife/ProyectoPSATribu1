@@ -4,9 +4,8 @@ export default class Soporte extends Component {
     render() {
         return (
             <div>
-                
+
             </div>
         )
     }
 }
-

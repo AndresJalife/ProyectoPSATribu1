@@ -1,23 +1,33 @@
 import logo from '../logo.svg';
 import './App.css';
+import React from "react";
+import CargaDeHoras from './../pages/CargaDeHoras';
+import Proyecto from '../pages/Proyecto';
+import Recursos from './../pages/Recursos';
+import Soporte from './../pages/Soporte';
+import Main from './../pages/Main';
+import {Route, Switch} from "react-router";
 
 function App(props) {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Pagina Principal</p>
-        <button onClick={}>Proyectos</button>
-        <button onClick={}>Recursos</button>
-        <button onClick={}>Soporte y carga de horas</button>
-      </header>
+        <header>
+            This is my website!
+        </header>
 
-      <main>
-        {props.children}
-      </main>
+        <main>
+            <Switch>
+                <Route path="/" component={Main} />
+                <Route path="/proyecto" component={Proyecto} />
+                <Route path="/recursos" component={Recursos} />
+                <Route path="/cargadehoras" component={CargaDeHoras} />
+                <Route path="/soporte" component={Soporte} />
+            </Switch>
+        </main>
 
-      <footer>
-        Your copyright message
-      </footer>
+        <footer>
+            Your copyright message
+        </footer>
     </div>
   );
 }
