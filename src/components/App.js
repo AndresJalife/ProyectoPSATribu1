@@ -6,7 +6,7 @@ import Proyecto from '../pages/Proyecto';
 import Recursos from './../pages/Recursos';
 import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
-import {Route} from "react-router";
+import {Route, Switch} from "react-router";
 
 function App(props) {
   return (
@@ -15,15 +15,15 @@ function App(props) {
             This is my website!
         </header>
 
-        <div>
-            <Route path="/" component={App}>
+        <main>
+            <Switch>
                 <Route path="/" component={Main} />
-                {/* <Route path="/proyecto" component={Proyecto} />*/}
+                <Route path="/proyecto" component={Proyecto} />
                 <Route path="/recursos" component={Recursos} />
                 <Route path="/cargadehoras" component={CargaDeHoras} />
                 <Route path="/soporte" component={Soporte} />
-            </Route>
-        </div>
+            </Switch>
+        </main>
 
         <footer>
             Your copyright message
