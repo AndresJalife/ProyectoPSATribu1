@@ -17,11 +17,11 @@ function App(props) {
 
         <main>
             <Switch>
-                <Route path="/" component={Main} />
-                <Route path="/proyecto" component={Proyecto} />
-                <Route path="/recursos" component={Recursos} />
-                <Route path="/cargadehoras" component={CargaDeHoras} />
-                <Route path="/soporte" component={Soporte} />
+                <Route exact path="/" component={Main} />
+                <Route exact path="/proyecto" component={Proyecto} />
+                <Route exact path="/recursos" component={Recursos} />
+                <Route exact path="/cargadehoras" component={CargaDeHoras} />
+                <Route exact path="/soporte" component={Soporte} />
             </Switch>
         </main>
 
