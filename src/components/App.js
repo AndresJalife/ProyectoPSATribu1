@@ -2,7 +2,7 @@ import logo from '../logo.svg';
 import './App.css';
 import React from "react";
 import CargaDeHoras from './../pages/CargaDeHoras';
-import Proyecto from './../pages/Proyecto/Proyecto';
+import Proyecto from '../pages/Proyecto';
 import Recursos from './../pages/Recursos';
 import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
@@ -18,7 +18,7 @@ function App(props) {
         <div>
             <Route path="/" component={App}>
                 <Route path="/" component={Main} />
-                <Route path="/proyecto" component={Proyecto} />
+                {/* <Route path="/proyecto" component={Proyecto} />*/}
                 <Route path="/recursos" component={Recursos} />
                 <Route path="/cargadehoras" component={CargaDeHoras} />
                 <Route path="/soporte" component={Soporte} />
