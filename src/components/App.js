@@ -1,7 +1,7 @@
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import './App.css';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <header className="App-header">
@@ -10,6 +10,14 @@ function App() {
         <button onClick={}>Recursos</button>
         <button onClick={}>Soporte y carga de horas</button>
       </header>
+
+      <main>
+        {props.children}
+      </main>
+
+      <footer>
+        Your copyright message
+      </footer>
     </div>
   );
 }
