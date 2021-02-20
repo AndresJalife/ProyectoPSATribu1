@@ -2,7 +2,7 @@ import logo from '../logo.svg';
 import './App.css';
 import React from "react";
 import CargaDeHoras from './../pages/CargaDeHoras';
-import Proyecto from './../pages/Proyecto';
+import Proyecto from './../pages/Proyecto/Proyecto';
 import Recursos from './../pages/Recursos';
 import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
