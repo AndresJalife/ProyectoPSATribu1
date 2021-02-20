@@ -1,31 +1,33 @@
 import logo from '../logo.svg';
 import './App.css';
+import React from "react";
+import CargaDeHoras from './../pages/CargaDeHoras';
+import Proyecto from './../pages/Proyecto';
+import Recursos from './../pages/Recursos';
+import Soporte from './../pages/Soporte';
+import Main from './../pages/Main';
+import {Route} from "react-router";
 
 function App(props) {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <header>
+            This is my website!
+        </header>
 
-      <main>
-        {props.children}
-      </main>
+        <div>
+            <Route path="/" component={App}>
+                <Route path="/" component={Main} />
+                <Route path="/proyecto" component={Proyecto} />
+                <Route path="/recursos" component={Recursos} />
+                <Route path="/cargadehoras" component={CargaDeHoras} />
+                <Route path="/soporte" component={Soporte} />
+            </Route>
+        </div>
 
-      <footer>
-        Your copyright message
-      </footer>
+        <footer>
+            Your copyright message
+        </footer>
     </div>
   );
 }

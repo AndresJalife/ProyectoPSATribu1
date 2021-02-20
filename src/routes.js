@@ -1,14 +1,14 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route } from 'react-router';
 
 /**
  * Import all page components here
  */
 import App from './components/App';
-import CargaDeHoras from './components/CargaDeHoras';
-import Proyecto from './components/Proyecto';
-import Recursos from './components/Recursos';
-import Soporte from './components/Soporte';
+import CargaDeHoras from './pages/CargaDeHoras';
+import Proyecto from './pages/Proyecto';
+import Recursos from './pages/Recursos';
+import Soporte from './pages/Soporte';
 
 /**
  * All routes go here.
@@ -16,8 +16,9 @@ import Soporte from './components/Soporte';
  */
 export default (
     <Route path="/" component={App}>
-        <IndexRoute component={MainPage} />
-        <Route path="/some/where" component={SomePage} />
-        <Route path="/some/otherpage" component={SomeOtherPage} />
+        <Route path="/proyecto" component={Proyecto} />
+        <Route path="/recursos" component={Recursos} />
+        <Route path="/cargadehoras" component={CargaDeHoras} />
+        <Route path="/soporte" component={Soporte} />
     </Route>
 );
