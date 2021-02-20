@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class ProyectoCard extends Component {
+export default class ProyectoPage extends Component {
     render() {
         return (
             <div>

@@ -1,0 +1,29 @@
+.paginaProyectos{
+    padding:3%;
+    margin: 5%;
+    margin-left: 10%;
+    height: 100%;
+    
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+  }
+  #proyectosHeader{
+    display: flex;
+  }
+  
+  #tituloProyectos{
+    /* color:red; */
+  }
+  
+  .botonAgregarProyecto{
+    margin-left: 75%;
+  }
+  
+  #proyectosContainer{
+    margin-top: 10%;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    padding: 5%;
+  }
