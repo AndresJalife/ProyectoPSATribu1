@@ -11,13 +11,12 @@ export default class Proyecto extends Component {
         this.Data = new ProyectoData(this);
         this.Logic = new ProyectoLogic(this);
     }
-    
-    
 
     render() {
         return (
             <div>
                 {this.View.getHeader()}
+                {this.View.getBody()}
             </div>
         )
     }

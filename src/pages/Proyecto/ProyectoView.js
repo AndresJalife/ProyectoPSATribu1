@@ -6,7 +6,7 @@ class ProyectoView {
     }
 
     getHeader(){
-        return  <div class='hljs-header'>
+        return  <div class='header'>
                     <button onClick={/*rout to home*/} id='homeButton'>HOME</button>
                     <p id='headerPSA'>PSA</p>
                 </div>
