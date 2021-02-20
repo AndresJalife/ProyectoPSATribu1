@@ -17,7 +17,7 @@ function App(props) {
 
         <main>
             <Switch>
-                <Route path="/proyecto" component={MainProyectos} />
+                <Route path="/proyectos" component={MainProyectos} />
                 <Route exact path="/" component={Main} />
                 <Route path="/recursos" component={Recursos} />
                 <Route path="/cargadehoras" component={CargaDeHoras} />
