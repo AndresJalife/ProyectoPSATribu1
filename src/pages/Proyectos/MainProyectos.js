@@ -1,51 +1,42 @@
 import React, { Component } from 'react';
 import ProyectoCard from '../../components/Proyectos/ProyectoCard';
 
-export default class MainProyectos extends Component {
+export default class MainProyectos extends Component
+{
 
-    constructor(){
-        super();
-        this.obtenerProyectos();
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            projects: []
+        }
     }
 
-    agregarProyecto(){
+    agregarProyecto()
+    {
         
     }
 
-    obtenerProyectos(){
-        let listaDeProyectos = <div class='listaDeProyectos'></div>;
-
-        function reqListener() {
-            let data = JSON.parse(this.responseText);
-            data.map(proyecto => {listaDeProyectos.appendChild(
-                <ProyectoCard dataProyecto={proyecto} />
-            )});
-        }
-          
-        function reqError(err) {
-            console.log('Fetch Error :-S', err);
-        }
-          
-        let getReq = new XMLHttpRequest();
-        getReq.onload = reqListener;
-        getReq.onerror = reqError;
-        getReq.open('GET', 'https://proyectopsa.herokuapp.com/proyectos', true);
-        getReq.send();
-
-        return listaDeProyectos
+    async componentDidMount()
+    {
+        //const projects = (await fetch('https://proyectopsa.herokuapp.com/proyectos/')).json();
+        const project = (await fetch('https://proyectopsa.herokuapp.com/proyectos/3')).json();
+        this.setState({
+            projects: [project]
+        });
     }
 
-    render() {
-        return  <div class='paginaProyectos'>
+    render()
+    {
+        return  (<div className='paginaProyectos'>
                     <div id='proyectosHeader'>
                       <p id='tituloProyectos'>Proyectos</p>
-                      <button class='botonAgregarProyecto' onClick={() => this.agregarProyecto()}>Agregar Proyecto</button>
+                      <button className='botonAgregarProyecto' onClick={() => this.agregarProyecto()}>Agregar Proyecto</button>
                     </div>
-                    
                     <div id='proyectosContainer'>
-                        {this.obtenerProyectos()}   
+                        {this.state.projects.map((p) => <ProyectoCard project={p} />)}
                     </div>
-                </div>
+                </div>);
         
     }
 }
