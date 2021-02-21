@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+
+import TimePicker from 'react-times';
 import HoursModel from '../../models/CargaDeHoras/HoursModel';
+
+import 'react-times/css/classic/default.css';
 
 export default class ModalHours extends Component {
 
@@ -9,7 +13,8 @@ export default class ModalHours extends Component {
         super(props);
 
         this.state = {
-            isShow: false
+            isShow: false,
+            hoursModel: new HoursModel()
         };
 
         this.saveHours = this.saveHours.bind(this);
@@ -20,8 +25,10 @@ export default class ModalHours extends Component {
 
     changeVisibility() {
         this.setState({
-            isShow: !this.state.isShow
-        })
+            isShow: !this.state.isShow,
+            hoursModel: this.state.hoursModel
+        });
+
     }
 
     saveHoursWithEnter(e){
@@ -30,6 +37,17 @@ export default class ModalHours extends Component {
 
     saveHours() {
         this.changeVisibility();
+    }
+
+    onTimeChange(newHours) {
+       var newModel = new HoursModel(this.state.hoursModel);
+
+       newModel.setNewHours(newHours.hour, newHours.minute);
+
+        this.setState({
+            isShow: this.state.isShow,
+            hoursModel: newModel
+        })
     }
 
     render(){
@@ -53,6 +71,15 @@ export default class ModalHours extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Cantidad de Horas</Label>
+                            <TimePicker
+                                theme="classic"
+                                time={this.state.hoursModel.getHoursAsString()}
+                                timeMode="24"
+                                timeConfig={{
+                                    step: 15,
+                                    unit: 'minutes'
+                                }}
+                                onTimeChange={this.onTimeChange.bind(this)}/>
                         </FormGroup>
                         <FormGroup>
                             <Label>Fecha</Label>
