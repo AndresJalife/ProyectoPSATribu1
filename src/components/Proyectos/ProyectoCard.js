@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Link, useHistory} from "react-router-dom"
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Col, Row, Container
+    CardTitle, CardSubtitle, Button, Col, Row, Container, Badge
 } from 'reactstrap';
 
 export default function ProyectoCard (props)
@@ -12,7 +12,8 @@ export default function ProyectoCard (props)
     {
         history.push(`/proyectos/${props.project.id}`);
     }
-
+    const estadoString = props.project.estado.charAt(0).toUpperCase() + props.project.estado.slice(1);
+    const estadoColor = "success";
     return (
         <div>
             <Card>
@@ -20,17 +21,19 @@ export default function ProyectoCard (props)
                     <Container>
                         <Row>
                             <Col>
-                                <CardTitle tag="h5">{props.project.nombre}</CardTitle>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted">{}</CardSubtitle>
+                                <CardTitle tag="h2">{props.project.nombre}</CardTitle>
+                            </Col>
+                            <Col>
+                                <h4><Badge color={estadoColor}>{estadoString}</Badge></h4>
                             </Col>
                             <Col>
                                 <CardText>{props.project.descripcion}</CardText>
                             </Col>
                             <Col>
                             </Col>
-                            <Col>
+                            <Col body className="text-center">
                                 <Link to={`/proyectos/${props.project.codigo}`}>
-                                <Button color="primary">Ir al proyecto</Button>
+                                <Button color="info">Ir al proyecto</Button>
                                 </Link>
                             </Col>
                         </Row>
