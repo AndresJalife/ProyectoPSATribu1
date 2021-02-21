@@ -11,10 +11,6 @@
   #proyectosHeader{
     display: flex;
   }
-
-  .botonAgregarProyecto{
-    color:black;
-  }
   
   #tituloProyectos{
     /* color:red; */

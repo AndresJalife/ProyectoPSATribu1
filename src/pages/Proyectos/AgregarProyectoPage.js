@@ -3,40 +3,46 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import './AgregarProyectoPage.css';
 
 export default class AgregarProyectoPage extends Component {
+
+    crearProyecto(){
+        // Document.
+    }
+
     render() {
         return (
-            <div  className='formContainer'>
+            <div className='formContainer'>
                 <Form>
                     <FormGroup>
-                        <Label for="exampleEmail">Nombre Proyecto</Label>
-                        <Input type="date" name="email" id="exampleEmail" className='asd' placeholder="" />
+                        <Label for="nombreProyecto" id='nombre'>Nombre Proyecto *</Label>
+                        <Input type="string" name="nombreProyecto" id="nombreProyecto" className='general' maxlength="256" required />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="exampleEmail">Fecha Inicio</Label>
-                        <Input type="date" name="email" id="exampleEmail" className='asd' placeholder="" />
+                        <Label for="fechaInicio">Fecha Inicio *</Label>
+                        <Input type="date" name="fechaInicio" id="fechaInicio" className='general' required/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="exampleEmail">Fecha Fin</Label>
-                        <Input type="date" name="email" id="exampleEmail" className='asd' placeholder="" />
+                        <Label for="fechaFin">Fecha Fin</Label>
+                        <Input type="date" name="fechaFin" id="fechaFin" className='general' />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="exampleEmail">Horas</Label>
-                        <Input type="date" name="email" id="exampleEmail" className='asd' placeholder="" />
+                        <Label for="estado">Estado</Label>
+                        <Input type="date" name="estado" id="estado" className='general' />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="exampleEmail">Presupuesto</Label>
-                        <Input type="date" name="email" id="exampleEmail" className='asd' placeholder="" />
+                        <Label for="horas">Horas</Label>
+                        <Input type="number" name="horas" id="horas" className='general' />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="exampleEmail">Estado</Label>
-                        <Input type="date" name="email" id="exampleEmail" className='asd' placeholder="" />
+                        <Label for="presupuesto">Presupuesto</Label>
+                        <Input type="number" name="presupuesto" id="presupuesto" className='general' />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="exampleEmail">Descripción</Label>
-                        <Input type="date" name="email" id="exampleEmail" className='asd' placeholder="" />
+                        <Label for="descripcion">Descripción *</Label>
+                        <Input type="textarea" name="descripcion" id="descripcion" className='general' maxlength="256" required />
                     </FormGroup>
-                    <Button>Submit</Button>
+                    <Button onClick={this.crearProyecto()}>Crear Proyecto</Button>
                 </Form>
+                <label>(*) para aquellos campos que sean requeridos obligatoriamente</label>
             </div>
         )
     }
