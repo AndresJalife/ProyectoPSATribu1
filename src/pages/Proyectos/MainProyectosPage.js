@@ -37,7 +37,7 @@ export default class MainProyectosPage extends Component
     {
         return  (<div className='paginaProyectos'>
                     <div id='proyectosHeader'>
-                        <p id='tituloProyectos'>Proyectos</p>
+                        <h1>Proyectos</h1>
                         <Button className='botonAgregarProyectoContainer'>
                             <NavLink className='botonAgregarProyecto' to='/proyectos/nuevoProyecto'>Agregar Proyecto</NavLink>
                         </Button>
