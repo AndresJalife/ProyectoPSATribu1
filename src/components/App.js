@@ -9,6 +9,7 @@ import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
 import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
+import ProyectoPage from "../pages/Proyectos/ProyectoPage";
 
 function App(props) {
   return (
@@ -26,6 +27,7 @@ function App(props) {
         <main>
             <Switch>
                 <Route exact path="/proyectos" component={MainProyectosPage} />
+                <Route exact path="/proyectos/:id" component={ProyectoPage} />
                 <Route exact path="/" component={Main} />
                 <Route exact path="/recursos" component={Recursos} />
                 <Route exact path="/cargadehoras" component={CargaDeHorasPage} />

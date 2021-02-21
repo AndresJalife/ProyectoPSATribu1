@@ -18,12 +18,16 @@ export default class MainProyectosPage extends Component
         
     }
 
-    async componentDidMount() {
-        const projects = (await fetch('https://proyectopsa.herokuapp.com/proyectos/')).json();
-        // const project = (await fetch('https://proyectopsa.herokuapp.com/proyectos/3')).json();
-        this.setState({
-            projects: [projects]
-        });
+    componentDidMount()
+    {
+        fetch('https://proyectopsa.herokuapp.com/proyectos/')
+            .then(r => r.json())
+            .then((projects) =>
+            {
+                this.setState({
+                    projects: projects
+                });
+            }, (error) => {console.log(error);});
     }
 
     render(){
@@ -33,7 +37,6 @@ export default class MainProyectosPage extends Component
                         <a className='botonAgregarProyectoContainer' href='/proyectos/nuevoProyecto'>
                             <Button>Agregar Proyecto</Button>
                         </a>
-
                     </div>
                     {this.state.projects.map((p) => <ProyectoCard project={p} />)}
                 </div>);
