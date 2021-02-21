@@ -11,12 +11,16 @@
   #proyectosHeader{
     display: flex;
   }
+
+  .botonAgregarProyecto{
+    color:black;
+  }
   
   #tituloProyectos{
     /* color:red; */
   }
   
-  .botonAgregarProyecto{
+  .botonAgregarProyectoContainer{
     margin-left: 75%;
   }
   
@@ -26,4 +30,4 @@
     border-color: black;
     border-width: 1px;
     padding: 5%;
-  }
+  } 
