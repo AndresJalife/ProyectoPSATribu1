@@ -7,12 +7,19 @@ import Recursos from './../pages/Recursos';
 import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
+import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
 
 function App(props) {
   return (
     <div className="App">
-        <header>
-            PSA
+        <header
+            className="App-header-ppal">
+            <div className="MuiToolbar-root MuiToolbar-root App-subheader-height MuiToolbar-gutters">
+
+                    <Col xl={12} lg={12}>
+                        PSA
+                    </Col>
+            </div>
         </header>
 
         <main>

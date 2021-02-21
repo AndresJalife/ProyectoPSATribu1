@@ -6,6 +6,7 @@ import TimePicker from 'react-times';
 import HoursModel from '../../models/CargaDeHoras/HoursModel';
 
 import 'react-times/css/classic/default.css';
+import './ModalHours.css'
 
 export default class ModalHours extends Component {
 
@@ -71,26 +72,37 @@ export default class ModalHours extends Component {
                     <ModalBody onKeyPress={this.saveHoursWithEnter}>
                         <FormGroup>
                             <Label>Proyecto</Label>
+                            <Input type="select"></Input>
                         </FormGroup>
                         <FormGroup>
                             <Label>Tarea</Label>
+                            <Input type="select"></Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Cantidad de Horas</Label>
-                            <TimePicker
-                                theme="classic"
-                                time={this.state.hoursModel.getHoursAsString()}
-                                timeMode="24"
-                                timeConfig={{
-                                    step: 15,
-                                    unit: 'minutes'
-                                }}
-                                onTimeChange={this.onTimeChange.bind(this)}/>
+                            <Row>
+                                <Col lg={6}>
+                                    <Label>Cantidad de Horas</Label>
+                                    <TimePicker
+                                        theme="classic"
+                                        time={this.state.hoursModel.getHoursAsString()}
+                                        timeMode="24"
+                                        timeConfig={{
+                                            step: 15,
+                                            unit: 'minutes'
+                                        }}
+                                        onTimeChange={this.onTimeChange.bind(this)}/>
+                                </Col>
+
+                                <Col lg={6}>
+                                    <Label>Fecha</Label>
+                                    <Input type="date"
+                                           max={(new Date().toISOString().split("T")[0])}></Input>
+                                </Col>
+                            </Row>
+
                         </FormGroup>
                         <FormGroup>
-                            <Label>Fecha</Label>
-                            <Input type="date"
-                                   max={(new Date().toISOString().split("T")[0])}></Input>
+
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
