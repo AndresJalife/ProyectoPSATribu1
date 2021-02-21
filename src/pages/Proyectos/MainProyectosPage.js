@@ -43,7 +43,7 @@ export default class MainProyectosPage extends Component
                         </Button>
                     </div>
                     <div id='proyectosContainer'>
-                        {this.state.projects.map((p) => <ProyectoCard key={p.id} project={p} />)}
+                        {this.state.projects.map((p) => <ProyectoCard key={p.codigo} project={p} />)}
                     </div>
                 </div>);
         
