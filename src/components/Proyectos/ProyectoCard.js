@@ -21,7 +21,7 @@ export default function ProyectoCard (props)
                     <Container>
                         <Row>
                             <Col>
-                                <CardTitle tag="h2">{props.project.nombre}</CardTitle>
+                                <CardTitle tag="h3">{props.project.nombre}</CardTitle>
                             </Col>
                             <Col>
                                 <h4><Badge color={estadoColor}>{estadoString}</Badge></h4>

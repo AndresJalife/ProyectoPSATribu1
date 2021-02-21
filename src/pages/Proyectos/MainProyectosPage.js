@@ -42,9 +42,9 @@ export default class MainProyectosPage extends Component
                             <NavLink className='botonAgregarProyecto' to='/proyectos/nuevoProyecto'>Agregar Proyecto</NavLink>
                         </Button>
                     </div>
-                    <div id='proyectosContainer'>
-                        {this.state.projects.map((p) => <ProyectoCard key={p.codigo} project={p} />)}
-                    </div>
+                    <br />
+                    <br />
+                    {this.state.projects.map((p) => <ProyectoCard key={p.codigo} project={p} />)}
                 </div>);
         
     }
