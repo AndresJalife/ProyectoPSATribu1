@@ -7,6 +7,7 @@ import HoursModel from '../../models/CargaDeHoras/HoursModel';
 
 import 'react-times/css/classic/default.css';
 import './ModalHours.css'
+import ProyectoCard from "../Proyectos/ProyectoCard";
 
 export default class ModalHours extends Component {
 
@@ -15,7 +16,9 @@ export default class ModalHours extends Component {
 
         this.state = {
             isShow: false,
-            hoursModel: new HoursModel()
+            hoursModel: new HoursModel(),
+            lstProjects: [],
+            isTaskDisabled: true
         };
 
         this.saveHours = this.saveHours.bind(this);
@@ -57,6 +60,27 @@ export default class ModalHours extends Component {
         })
     }
 
+    componentDidMount()
+    {
+        fetch('https://proyectopsa.herokuapp.com/proyectos/')
+            .then(r => r.json())
+            .then((projects) =>
+            {
+                this.setState({
+                    lstProjects: projects
+                });
+            }, (error) => {console.log(error);});
+    }
+
+    onProjectChange(newIdProject){
+        this.state.hoursModel.setIdProject(newIdProject);
+        
+        this.setState({
+            hoursModel: this.state.hoursModel,
+            isTaskDisabled: (newIdProject == 0)
+        });
+    }
+
     render(){
 
         return (
@@ -72,11 +96,16 @@ export default class ModalHours extends Component {
                     <ModalBody onKeyPress={this.saveHoursWithEnter}>
                         <FormGroup>
                             <Label>Proyecto</Label>
-                            <Input type="select"></Input>
+                            <Input type="select"
+                                   onChange={e => this.onProjectChange(e.target.value)}>
+                                <option value="0"></option>
+                                {this.state.lstProjects.map((p) => <option value={p.codigo}>{p.nombre}</option>)}
+                            </Input>
                         </FormGroup>
                         <FormGroup>
                             <Label>Tarea</Label>
-                            <Input type="select"></Input>
+                            <Input type="select"
+                                   disabled={this.state.isTaskDisabled}></Input>
                         </FormGroup>
                         <FormGroup>
                             <Row>
