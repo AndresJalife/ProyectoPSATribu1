@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Button} from "reactstrap";
 
 export default class ProyectoPage extends Component
 {
@@ -27,7 +28,8 @@ export default class ProyectoPage extends Component
     {
         return (
             <div>
-                Proyecto "{this.state.project.nombre}"
+                <h1>Proyecto "{this.state.project.nombre}"</h1>
+                <Button color="primary">primary</Button>
             </div>
         );
     }
