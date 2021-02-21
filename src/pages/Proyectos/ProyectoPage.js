@@ -1,19 +1,34 @@
 import React, { Component } from 'react'
-import {useParams} from "react-router";
 
-async function getProjectData(id)
+export default class ProyectoPage extends Component
 {
-    const endpoint = `https://proyectopsa.herokuapp.com/proyectos/${id}`;
-    return (await fetch(endpoint)).json();
-}
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            project: {}
+        }
+    }
 
-export default async function ProyectoPage()
-{
-    let { id } = useParams();
-    const project = await getProjectData(id);
-    return (
-        <div>
-            {project.nombre}
-        </div>
-    );
+    componentDidMount()
+    {
+        const id = this.props.match.params.id;
+        fetch(`https://proyectopsa.herokuapp.com/proyectos/${id}`)
+            .then(r => r.json())
+            .then(r => {
+                this.setState({
+                    project: r.proyecto
+                })
+            });
+    }
+
+
+    render()
+    {
+        return (
+            <div>
+                Proyecto "{this.state.project.nombre}"
+            </div>
+        );
+    }
 }
