@@ -47,6 +47,14 @@ export default class HoursModel {
         this.idProject = newIdProject;
     }
 
+    getIdTask(){
+        return this.idTask;
+    }
+
+    setIdTask(newIdTask){
+        this.idTask = newIdTask;
+    }
+
     getHoursAsString(){
         return this.quantityHours + ":" + this.quantityMinutes;
     }

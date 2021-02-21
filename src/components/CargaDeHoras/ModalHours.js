@@ -18,7 +18,9 @@ export default class ModalHours extends Component {
             isShow: false,
             hoursModel: new HoursModel(),
             lstProjects: [],
-            isTaskDisabled: true
+            lstTasks: [],
+            isTaskDisabled: true,
+            taskIsLoading: false
         };
 
         this.saveHours = this.saveHours.bind(this);
@@ -72,13 +74,40 @@ export default class ModalHours extends Component {
             }, (error) => {console.log(error);});
     }
 
+    getListTasks(){
+
+        this.setState({taskIsLoading: true})
+
+        let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
+
+        fetch(urlTask)
+            .then(r => r.json())
+            .then((tasks) =>
+            {
+                this.setState({
+                    lstTasks: tasks,
+                    taskIsLoading: false
+                });
+            }, (error) => {console.log(error);});
+    }
+
     onProjectChange(newIdProject){
         this.state.hoursModel.setIdProject(newIdProject);
-        
+
+        let shouldTaskDisabled = (newIdProject == 0);
+
+        if (shouldTaskDisabled){
+            this.setState({lstTasks: []});
+        } else {
+            this.getListTasks();
+        }
+
         this.setState({
             hoursModel: this.state.hoursModel,
-            isTaskDisabled: (newIdProject == 0)
+            isTaskDisabled: shouldTaskDisabled
         });
+
+        ;
     }
 
     render(){
@@ -105,7 +134,10 @@ export default class ModalHours extends Component {
                         <FormGroup>
                             <Label>Tarea</Label>
                             <Input type="select"
-                                   disabled={this.state.isTaskDisabled}></Input>
+                                   disabled={this.state.isTaskDisabled}>
+                                <option value="0"></option>
+                                {this.state.lstTasks.map((t) => <option value={t.codigo}>{t.nombre}</option>)}
+                            </Input>
                         </FormGroup>
                         <FormGroup>
                             <Row>
