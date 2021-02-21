@@ -15,6 +15,7 @@ export default class HoursModel {
         this.quantityHours = 0;
         this.quantityMinutes = 0;
         this.date = 0;
+        this.dateAsDateTime = 0;
         this.loadingDate = 0;
     }
 
@@ -25,6 +26,7 @@ export default class HoursModel {
         this.quantityHours = otherHours.quantityHours;
         this.quantityMinutes = otherHours.quantityMinutes;
         this.date = otherHours.date;
+        this.dateAsDateTime = otherHours.dateAsDateTime;
         this.loadingDate = otherHours.loadingDate;
     }
 
@@ -35,5 +37,16 @@ export default class HoursModel {
     setNewHours(hours, minutes){
         this.quantityHours = hours;
         this.quantityMinutes = minutes;
+    }
+
+    getDateAsDateTime(){
+        return this.dateAsDateTime;
+    }
+
+    setNewDateTime(newDateTime){
+        this.date = (newDateTime.getFullYear() * 10000) +
+                    (newDateTime.getMonth() + 1) * 100 +
+                    (newDateTime.getDate());
+        this.dateAsDateTime = newDateTime;
     }
 }

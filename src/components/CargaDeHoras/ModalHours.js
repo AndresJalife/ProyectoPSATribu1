@@ -25,14 +25,15 @@ export default class ModalHours extends Component {
 
     changeVisibility() {
         this.setState({
-            isShow: !this.state.isShow,
-            hoursModel: this.state.hoursModel
+            isShow: !this.state.isShow
         });
 
     }
 
     saveHoursWithEnter(e){
-
+        if(e.key === 'Enter'){
+            this.changeVisibility();
+        }
     }
 
     saveHours() {
@@ -40,13 +41,18 @@ export default class ModalHours extends Component {
     }
 
     onTimeChange(newHours) {
-       var newModel = new HoursModel(this.state.hoursModel);
-
-       newModel.setNewHours(newHours.hour, newHours.minute);
+        this.state.hoursModel.setNewHours(newHours.hour, newHours.minute);
 
         this.setState({
-            isShow: this.state.isShow,
-            hoursModel: newModel
+            hoursModel: this.state.hoursModel
+        })
+    }
+
+    onDateChange(newDate){
+        this.state.hoursModel.setNewDateTime(newDate);
+
+        this.setState({
+            hoursModel: this.state.hoursModel
         })
     }
 
@@ -58,11 +64,11 @@ export default class ModalHours extends Component {
 
                 <Modal isOpen={this.state.isShow}
                        toggle={this.changeVisibility}
-                       onKeyPress={this.saveHoursWithEnter()}>
+                       onKeyPress={this.saveHoursWithEnter}>
 
                     <ModalHeader toggle={this.changeVisibility}>Carga de Horas</ModalHeader>
 
-                    <ModalBody onKeyPress={this.saveHoursWithEnter()}>
+                    <ModalBody onKeyPress={this.saveHoursWithEnter}>
                         <FormGroup>
                             <Label>Proyecto</Label>
                         </FormGroup>
@@ -83,6 +89,8 @@ export default class ModalHours extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Fecha</Label>
+                            <Input type="date"
+                                   max={(new Date().toISOString().split("T")[0])}></Input>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
