@@ -7,7 +7,8 @@ import HoursModel from '../../models/CargaDeHoras/HoursModel';
 
 import 'react-times/css/classic/default.css';
 import './ModalHours.css'
-import ProyectoCard from "../Proyectos/ProyectoCard";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default class ModalHours extends Component {
 
@@ -74,9 +75,7 @@ export default class ModalHours extends Component {
             }, (error) => {console.log(error);});
     }
 
-    getListTasks(){
-
-        this.setState({taskIsLoading: true})
+    async getListTasks(){
 
         let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
 
@@ -85,29 +84,41 @@ export default class ModalHours extends Component {
             .then((tasks) =>
             {
                 this.setState({
-                    lstTasks: tasks,
-                    taskIsLoading: false
+                    lstTasks: tasks
                 });
             }, (error) => {console.log(error);});
     }
 
     onProjectChange(newIdProject){
+
+        this.setState({taskIsLoading: true});
+
         this.state.hoursModel.setIdProject(newIdProject);
 
         let shouldTaskDisabled = (newIdProject == 0);
 
         if (shouldTaskDisabled){
-            this.setState({lstTasks: []});
+            this.setState({
+                hoursModel: this.state.hoursModel,
+                lstTasks: [],
+                isTaskDisabled: shouldTaskDisabled,
+                taskIsLoading: false
+            });
         } else {
-            this.getListTasks();
+            let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
+
+            fetch(urlTask)
+                .then(r => r.json())
+                .then((tasks) =>
+                {
+                    this.setState({
+                        hoursModel: this.state.hoursModel,
+                        lstTasks: tasks,
+                        isTaskDisabled: false,
+                        taskIsLoading: false
+                    });
+                }, (error) => {console.log(error);});
         }
-
-        this.setState({
-            hoursModel: this.state.hoursModel,
-            isTaskDisabled: shouldTaskDisabled
-        });
-
-        ;
     }
 
     render(){
@@ -128,16 +139,28 @@ export default class ModalHours extends Component {
                             <Input type="select"
                                    onChange={e => this.onProjectChange(e.target.value)}>
                                 <option value="0"></option>
-                                {this.state.lstProjects.map((p) => <option value={p.codigo}>{p.nombre}</option>)}
+                                {this.state.lstProjects.map((p) => <option key={p.codigo} value={p.codigo}>{p.nombre}</option>)}
                             </Input>
                         </FormGroup>
                         <FormGroup>
                             <Label>Tarea</Label>
-                            <Input type="select"
-                                   disabled={this.state.isTaskDisabled}>
-                                <option value="0"></option>
-                                {this.state.lstTasks.map((t) => <option value={t.codigo}>{t.nombre}</option>)}
-                            </Input>
+                            {
+                                this.state.taskIsLoading ?
+                                    <Col className="text-center">
+                                        <Loader
+                                            type="TailSpin"
+                                            color="#00BFFF"
+                                            height={30}
+                                            width={30}></Loader>
+                                    </Col>
+                                    :
+                                    <Input type="select"
+                                           disabled={this.state.isTaskDisabled}>
+                                        <option value="0"></option>
+                                        {this.state.lstTasks.map((t) => <option key={t.codigo} value={t.codigo}>{t.nombre}</option>)}
+                                    </Input>
+                            }
+
                         </FormGroup>
                         <FormGroup>
                             <Row>
