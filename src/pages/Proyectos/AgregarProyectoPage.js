@@ -38,7 +38,7 @@ class AgregarProyectoPage extends Component {
         let estado = this.obtenerEstado();
 
         let data = {
-            nombreProyecto: nombreProyecto,
+            nombre: nombreProyecto,
             fechaInicio: fechaInicio,
             fechaFin: fechaFin == '' ? undefined : fechaFin,
             estado: estado == null ? undefined : estado,
@@ -49,7 +49,7 @@ class AgregarProyectoPage extends Component {
         
         let self = this;
 
-        fetch(url, {method:'POST', body:data, mode:'no-cors'})
+        fetch(url, {method:'POST', body:data, mode:'cors'})
             .then(function(response) {
                 if(response.ok) {
                     this.history.push(`/proyectos/`)

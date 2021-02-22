@@ -10,18 +10,27 @@ import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
 import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
 import ProyectoPage from "../pages/Proyectos/ProyectoPage";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 function App(props) {
+    const history = useHistory();
+
   return (
     <div className="App">
-        <header
-            className="App-header-ppal">
-            <div className="MuiToolbar-root MuiToolbar-root App-subheader-height MuiToolbar-gutters">
+        <header className="App-header-ppal">
+            <div id='headerContainer' className="MuiToolbar-root MuiToolbar-root App-subheader-height MuiToolbar-gutters">
+                <div id='homeButton' onClick={() => history.push('')}>
+                    <Col xl={1} lg={1}> {/*????*/}
+                        HOME
+                    </Col>
+                </div>
+                <div id='companyName'>
                     <Col xl={12} lg={12}>
                         PSA
                     </Col>
+                </div>
             </div>
+            
         </header>
 
         <main>

@@ -65,3 +65,16 @@
     position: relative;
     align-items: center;
 }
+
+#headerContainer{
+  display: flex;
+}
+
+#homeButton:hover{
+  cursor: pointer;  
+}
+
+#companyName{
+  width: 6%;
+  margin-left: 41.5%;
+}
