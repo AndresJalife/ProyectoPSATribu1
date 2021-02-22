@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
 import {NavLink} from "react-router-dom";
-import ProyectoCard from "../components/Proyectos/ProyectoCard";
+import TicketCard from "../components/CargaDeTickets/TicketCard";
 import ModalTickets from '../components/CargaDeTickets/ModalTickets';
 
 
@@ -11,27 +11,23 @@ export default class Soporte extends Component {
     {
         super(props);
         this.state = {
-            projects: []
+            tickets: []
         }
     }
 
-    agregarProyecto()
+    componentDidMount()
     {
+        fetch('https://aninfo-soporte.herokuapp.com/1/tickets')
+            .then(response => response.json().then(data => this.setState({
+            tickets: data
+        })));
 
-    }
 
-    async componentDidMount()
-    {
-        const projects = (await fetch('https://proyectopsa.herokuapp.com/proyectos/')).json();
-        // const project = (await fetch('https://proyectopsa.herokuapp.com/proyectos/3')).json();
-        this.setState({
-            projects: [projects]
-        });
     }
     render()
     {
-        return  (<div className='paginaProyectos'>
-                    <div id='proyectosHeader'>
+        return  (<div className='paginaTickets'>
+                    <div id='ticketsHeader'>
                         <p id='tituloTickets'>Tickets</p>
                     </div>
                     <div>
@@ -42,9 +38,12 @@ export default class Soporte extends Component {
                                 </ButtonToolbar>
                             </Col>
                         </Row>
-                        </div>
-                    <div id='proyectosContainer'>
-                                {this.state.projects.map((p) => <ProyectoCard project={p} />)}
+                    </div>
+                    <div id='ticketsList'>
+                        <p id='tituloTickets'>TicketsDisponibles</p>
+                    </div>
+                    <div id='ticketsContainer'>
+                                {this.state.tickets.map((item) => <TicketCard  key={item.id} item={item} />)}
                     </div>
                 </div>);
 
