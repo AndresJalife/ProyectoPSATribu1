@@ -7,7 +7,8 @@ import HoursModel from '../../models/CargaDeHoras/HoursModel';
 
 import 'react-times/css/classic/default.css';
 import './ModalHours.css'
-import ProyectoCard from "../Proyectos/ProyectoCard";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default class ModalHours extends Component {
 
@@ -74,9 +75,7 @@ export default class ModalHours extends Component {
             }, (error) => {console.log(error);});
     }
 
-    getListTasks(){
-
-        this.setState({taskIsLoading: true})
+    async getListTasks(){
 
         let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
 
@@ -85,35 +84,48 @@ export default class ModalHours extends Component {
             .then((tasks) =>
             {
                 this.setState({
-                    lstTasks: tasks,
-                    taskIsLoading: false
+                    lstTasks: tasks
                 });
             }, (error) => {console.log(error);});
     }
 
     onProjectChange(newIdProject){
+
+        this.setState({taskIsLoading: true});
+
         this.state.hoursModel.setIdProject(newIdProject);
 
         let shouldTaskDisabled = (newIdProject == 0);
 
         if (shouldTaskDisabled){
-            this.setState({lstTasks: []});
+            this.setState({
+                hoursModel: this.state.hoursModel,
+                lstTasks: [],
+                isTaskDisabled: shouldTaskDisabled,
+                taskIsLoading: false
+            });
         } else {
-            this.getListTasks();
+            let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
+
+            fetch(urlTask)
+                .then(r => r.json())
+                .then((tasks) =>
+                {
+                    this.setState({
+                        hoursModel: this.state.hoursModel,
+                        lstTasks: tasks,
+                        isTaskDisabled: false,
+                        taskIsLoading: false
+                    });
+                }, (error) => {console.log(error);});
         }
-
-        this.setState({
-            hoursModel: this.state.hoursModel,
-            isTaskDisabled: shouldTaskDisabled
-        });
-
-        ;
     }
 
     render(){
 
         return (
             <div>
+
                 <Button color="primary" onClick={this.changeVisibility}>Nueva</Button>
 
                 <Modal isOpen={this.state.isShow}
@@ -124,25 +136,37 @@ export default class ModalHours extends Component {
 
                     <ModalBody onKeyPress={this.saveHoursWithEnter}>
                         <FormGroup>
-                            <Label>Proyecto</Label>
+                            <Label>Proyecto *</Label>
                             <Input type="select"
                                    onChange={e => this.onProjectChange(e.target.value)}>
                                 <option value="0"></option>
-                                {this.state.lstProjects.map((p) => <option value={p.codigo}>{p.nombre}</option>)}
+                                {this.state.lstProjects.map((p) => <option key={p.codigo} value={p.codigo}>{p.nombre}</option>)}
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Tarea</Label>
-                            <Input type="select"
-                                   disabled={this.state.isTaskDisabled}>
-                                <option value="0"></option>
-                                {this.state.lstTasks.map((t) => <option value={t.codigo}>{t.nombre}</option>)}
-                            </Input>
+                            <Label>Tarea *</Label>
+                            {
+                                this.state.taskIsLoading ?
+                                    <Col className="text-center">
+                                        <Loader
+                                            type="TailSpin"
+                                            color="#00BFFF"
+                                            height={30}
+                                            width={30}></Loader>
+                                    </Col>
+                                    :
+                                    <Input type="select"
+                                           disabled={this.state.isTaskDisabled}>
+                                        <option value="0"></option>
+                                        {this.state.lstTasks.map((t) => <option key={t.codigo} value={t.codigo}>{t.nombre}</option>)}
+                                    </Input>
+                            }
+
                         </FormGroup>
                         <FormGroup>
                             <Row>
                                 <Col lg={6}>
-                                    <Label>Cantidad de Horas</Label>
+                                    <Label>Cantidad de Horas *</Label>
                                     <TimePicker
                                         theme="classic"
                                         time={this.state.hoursModel.getHoursAsString()}
@@ -155,7 +179,7 @@ export default class ModalHours extends Component {
                                 </Col>
 
                                 <Col lg={6}>
-                                    <Label>Fecha</Label>
+                                    <Label>Fecha *</Label>
                                     <Input type="date"
                                            max={(new Date().toISOString().split("T")[0])}></Input>
                                 </Col>
@@ -163,7 +187,10 @@ export default class ModalHours extends Component {
 
                         </FormGroup>
                         <FormGroup>
-
+                            <Col className="col-datos-oblig">
+                                (*) para aquellos campos que sean requeridos obligatoriamente
+                                <hr/>
+                            </Col>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
@@ -171,6 +198,7 @@ export default class ModalHours extends Component {
                             </Col>
                         </FormGroup>
                     </ModalBody>
+
                 </Modal>
             </div>
         );
