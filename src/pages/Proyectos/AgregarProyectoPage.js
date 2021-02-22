@@ -38,16 +38,14 @@ class AgregarProyectoPage extends Component {
         let estado = this.obtenerEstado();
 
         let data = {
-            nombre: nombreProyecto,
-            fechaInicio: fechaInicio,
-            fechaFin: fechaFin == '' ? undefined : fechaFin,
-            estado: estado == null ? undefined : estado,
-            horas: horas == null ? undefined : horas,
-            presupuesto: presupuesto == '' ? undefined : presupuesto,
-            descripcion: descripcion
+            "nombre": nombreProyecto,
+            "fechaInicio": fechaInicio,
+            "fechaFin": fechaFin == '' ? undefined : fechaFin,
+            "estado": estado == null ? undefined : estado ,
+            "horas": horas == "" ? undefined : parseInt(horas) ,
+            "presupuesto": presupuesto == '' ? undefined : parseInt(presupuesto),
+            "descripcion": descripcion
         };
-
-        console.log(data);
         
         let self = this;
 
@@ -57,26 +55,28 @@ class AgregarProyectoPage extends Component {
             headers: {
               'Content-Type': 'application/json'
             },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data) // body data type must match "Content-Type" header
+            body: JSON.stringify(data)
           })
-            .then(function(response) {
-                if(response.ok) {
-                    this.history.push(`/proyectos/`)
+            .then(response => response.json())
+            .then(function(json) {
+                if(json.codigo) {
+                    self.abrirModal("ÉXITO", `El proyecto se realizó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/proyectos/`));
                 } else {
-                    self.setState({
-                        fetchError: 'Respuesta de red OK pero respuesta HTTP no OK',
-                        modal: true,
-                    })
+                    self.abrirModal("ERROR", json.description, json.validation);
                 }
             })
             .catch(function(error) {
-                self.setState({
-                    fetchError: error.message,
-                    modal: true,
-                })
+                self.abrirModal("ERROR", error.message)
             });
+    }
+
+    abrirModal(header, body, onClose=null){
+        this.setState({
+            modalHeader: header,
+            modalBody: body,
+            modalOnClose: onClose,
+            modal: true,
+        })
     }
 
     obtenerEstado(){
@@ -150,14 +150,14 @@ class AgregarProyectoPage extends Component {
                                 </Label>
                             </FormGroup>
                             <FormGroup check >
-                            <Label check>
-                                <Input type="radio" name='radio' id='finalizado'  />{' '}
-                                Finalizado
-                            </Label>
+                                <Label check>
+                                    <Input type="radio" name='radio' id='finalizado'  />{' '}
+                                    Finalizado
+                                </Label>
                             </FormGroup>
                         </FormGroup>
                         <FormGroup>
-                            <Label className='parametro' for="horas" >Horas</Label>
+                            <Label className='parametro' for="horas">Horas</Label>
                             <Input type="number" name="horas" id="horas" className='general' />
                         </FormGroup>
                         <FormGroup>
@@ -172,11 +172,10 @@ class AgregarProyectoPage extends Component {
                     </Form>
                     <label id='requisitosLabel'>(*) para aquellos campos que sean requeridos obligatoriamente</label>
                 </div>
-                <Modal isOpen={this.state.modal} toggle={toggleModal} className='popupError'>
-                    <ModalHeader toggle={toggleModal}>ERROR</ModalHeader>
+                <Modal isOpen={this.state.modal} toggle={toggleModal} className='popupError' onClosed={this.state.modalOnClose}>
+                    <ModalHeader toggle={toggleModal}>{this.state.modalHeader}</ModalHeader>
                     <ModalBody>
-                        Hubo un problema con la creación del proyecto.
-                        Error: {this.state.fetchError}
+                        {this.state.modalBody}
                     </ModalBody>
                 </Modal>
             </div>
