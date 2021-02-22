@@ -22,22 +22,20 @@ class AgregarProyectoPage extends Component {
     };
 
     crearProyecto(){
-        // const history = useHistory();
 
         let url = "https://proyectopsa.herokuapp.com/proyectos/";
 
         let nombreProyecto = document.getElementById("nombreProyecto").value;
         let fechaInicio = document.getElementById("fechaInicio").value;
         let descripcion = document.getElementById("descripcion").value;
+        let fechaFin = document.getElementById("fechaFin").value;
+        let horas = document.getElementById("horas").value;
+        let presupuesto = document.getElementById("presupuesto").value;
 
         let isValid = this.validateRequiredEntries(nombreProyecto, fechaInicio, descripcion);
         if (!isValid) return;
 
         let estado = this.obtenerEstado();
-
-        let fechaFin = document.getElementById("fechaFin").value;
-        let horas = document.getElementById("horas").value;
-        let presupuesto = document.getElementById("presupuesto").value;
 
         let data = {
             nombreProyecto: nombreProyecto,
@@ -48,24 +46,26 @@ class AgregarProyectoPage extends Component {
             presupuesto: presupuesto == '' ? undefined : presupuesto,
             descripcion: descripcion
         };
-
-        console.log(data)
         
         let self = this;
-        // fetch(url, {method:'POST', body:data, mode:'cors'})
-        fetch(url, {method:'POST', body:data, mode:'cors'}).then(function(response) {
-            if(response.ok) {
-                this.history.push(`/proyectos/`)
-            } else {
-              console.log('Respuesta de red OK pero respuesta HTTP no OK');
-            }
-          })
-          .catch(function(error) {
-            self.setState({
-                  fetchError: error.message,
-                  modal: true,
-              })
-          });
+
+        fetch(url, {method:'POST', body:data, mode:'no-cors'})
+            .then(function(response) {
+                if(response.ok) {
+                    this.history.push(`/proyectos/`)
+                } else {
+                    self.setState({
+                        fetchError: 'Respuesta de red OK pero respuesta HTTP no OK',
+                        modal: true,
+                    })
+                }
+            })
+            .catch(function(error) {
+                self.setState({
+                    fetchError: error.message,
+                    modal: true,
+                })
+            });
     }
 
     obtenerEstado(){
