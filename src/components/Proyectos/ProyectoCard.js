@@ -33,7 +33,7 @@ export default function ProyectoCard (props)
                             </Col>
                             <Col body className="text-center">
                                 <Link to={`/proyectos/${props.project.codigo}`}>
-                                <Button color="info">Ir al proyecto</Button>
+                                <Button color="info">Ver Tareas</Button>
                                 </Link>
                             </Col>
                         </Row>

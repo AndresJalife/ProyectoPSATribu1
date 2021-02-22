@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import ProyectoCard from '../../components/Proyectos/ProyectoCard';
-import './MainProyectosPage.css';
+import './MainTareasPage.css';
 import { Button } from 'reactstrap';
 
 
-export default class MainProyectosPage extends Component
+export default class MainTareasPage extends Component
 {
 
     constructor(props)
     {
         super(props);
         this.state = {
-            projects: []
+            tareas: []
         }
     }
 
@@ -19,10 +19,10 @@ export default class MainProyectosPage extends Component
     {
         fetch('https://proyectopsa.herokuapp.com/proyectos/')
             .then(r => r.json())
-            .then((projects) =>
+            .then((tareas) =>
             {
                 this.setState({
-                    projects: projects
+                    tareas: tareas
                 });
             }, (error) => {console.log(error);});
     }
@@ -33,7 +33,7 @@ export default class MainProyectosPage extends Component
                     <div id='proyectosHeader'>
                         <h1>Proyectos</h1>
                         <a className='botonAgregarProyectoContainer' href='/proyectos/nuevoProyecto'>
-                            <Button>Agregar Proyecto</Button>
+                            <Button>Agregar Tarea</Button>
                         </a>
                     </div>
                     <br />

@@ -10,7 +10,9 @@ class AgregarProyectoPage extends Component {
     constructor() {
         super();
         this.state = {
-            fetchError: null,
+            modalHeader: null,
+            modalBody: null,
+            modalOnClose: null,
             modal: false,
         }
     }
