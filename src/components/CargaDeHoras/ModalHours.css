@@ -2,21 +2,7 @@
     zoom: 90%;
 }
 
-.loader-in-input {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -25px 0 0 -25px;
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #3498db;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    line-height: 50px;
+.col-datos-oblig{
+    zoom: 80%;
     text-align: center;
-    z-index: 2;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
-    box-shadow: 0 0 15px 15px rgba(52,58,64,.05);
-    content: '';
 }

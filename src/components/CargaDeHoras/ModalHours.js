@@ -125,6 +125,7 @@ export default class ModalHours extends Component {
 
         return (
             <div>
+
                 <Button color="primary" onClick={this.changeVisibility}>Nueva</Button>
 
                 <Modal isOpen={this.state.isShow}
@@ -135,7 +136,7 @@ export default class ModalHours extends Component {
 
                     <ModalBody onKeyPress={this.saveHoursWithEnter}>
                         <FormGroup>
-                            <Label>Proyecto</Label>
+                            <Label>Proyecto *</Label>
                             <Input type="select"
                                    onChange={e => this.onProjectChange(e.target.value)}>
                                 <option value="0"></option>
@@ -143,7 +144,7 @@ export default class ModalHours extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Tarea</Label>
+                            <Label>Tarea *</Label>
                             {
                                 this.state.taskIsLoading ?
                                     <Col className="text-center">
@@ -165,7 +166,7 @@ export default class ModalHours extends Component {
                         <FormGroup>
                             <Row>
                                 <Col lg={6}>
-                                    <Label>Cantidad de Horas</Label>
+                                    <Label>Cantidad de Horas *</Label>
                                     <TimePicker
                                         theme="classic"
                                         time={this.state.hoursModel.getHoursAsString()}
@@ -178,7 +179,7 @@ export default class ModalHours extends Component {
                                 </Col>
 
                                 <Col lg={6}>
-                                    <Label>Fecha</Label>
+                                    <Label>Fecha *</Label>
                                     <Input type="date"
                                            max={(new Date().toISOString().split("T")[0])}></Input>
                                 </Col>
@@ -186,7 +187,10 @@ export default class ModalHours extends Component {
 
                         </FormGroup>
                         <FormGroup>
-
+                            <Col className="col-datos-oblig">
+                                (*) para aquellos campos que sean requeridos obligatoriamente
+                                <hr/>
+                            </Col>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
@@ -194,6 +198,7 @@ export default class ModalHours extends Component {
                             </Col>
                         </FormGroup>
                     </ModalBody>
+
                 </Modal>
             </div>
         );
