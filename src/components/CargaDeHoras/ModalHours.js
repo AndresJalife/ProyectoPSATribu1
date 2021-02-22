@@ -219,6 +219,7 @@ export default class ModalHours extends Component {
                                         time={this.state.hoursModel.getHoursAsString()}
                                         timeMode="24"
                                         timeConfig={{
+                                            from: '0:15',
                                             step: 15,
                                             unit: 'minutes'
                                         }}
