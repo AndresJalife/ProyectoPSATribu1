@@ -13,6 +13,14 @@
     margin-top: 2%;
 }
 
+.parametro{
+    font-weight: bold;
+}
+
+.incorrect{
+    color: red;
+}
+
 #descripcion{
     margin-left: 35%;
     width: 30%;

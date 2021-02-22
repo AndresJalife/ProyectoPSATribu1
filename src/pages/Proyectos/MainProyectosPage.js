@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ProyectoCard from '../../components/Proyectos/ProyectoCard';
 import './MainProyectosPage.css';
 import { Button } from 'reactstrap';
-import {NavLink} from "react-router-dom";
 
 
 export default class MainProyectosPage extends Component
@@ -38,9 +37,9 @@ export default class MainProyectosPage extends Component
         return  (<div className='paginaProyectos'>
                     <div id='proyectosHeader'>
                         <h1>Proyectos</h1>
-                        <Button className='botonAgregarProyectoContainer'>
-                            <NavLink className='botonAgregarProyecto' to='/proyectos/nuevoProyecto'>Agregar Proyecto</NavLink>
-                        </Button>
+                        <a className='botonAgregarProyectoContainer' href='/proyectos/nuevoProyecto'>
+                            <Button>Agregar Proyecto</Button>
+                        </a>
                     </div>
                     <br />
                     <br />
