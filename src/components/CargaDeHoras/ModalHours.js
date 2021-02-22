@@ -44,11 +44,42 @@ export default class ModalHours extends Component {
     }
 
     saveHours() {
-        this.changeVisibility();
+
+        if (!this.isFormValid())
+            return;
+
+        let url = "https://squad6-backend.herokuapp.com/hours";
+
+        let data = {
+            file: 1,
+            idTask: this.state.hoursModel.idTask,
+            quantityHours: this.state.hoursModel.quantityHours,
+            quantityMinutes: this.state.hoursModel.quantityMinutes,
+            date: this.state.hoursModel.date
+        };
+
+        let self = this;
+
+        fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        })
+        .then(function(response) {
+            self.changeVisibility();
+        })
+        .catch(function(error) {
+
+        });
     }
 
     onTimeChange(newHours) {
-        this.state.hoursModel.setNewHours(newHours.hour, newHours.minute);
+        this.state.hoursModel.setNewHours(parseInt(newHours.hour), parseInt(newHours.minute));
 
         this.setState({
             hoursModel: this.state.hoursModel
@@ -56,15 +87,22 @@ export default class ModalHours extends Component {
     }
 
     onDateChange(newDate){
-        this.state.hoursModel.setNewDateTime(newDate);
+        var stringNewDate = newDate.replace(/-/gi, "");
 
-        this.setState({
-            hoursModel: this.state.hoursModel
-        })
+        if (isNaN(parseInt(stringNewDate))){
+            this.state.hoursModel.date = 0;
+            return;
+        }
+        this.state.hoursModel.date = parseInt(stringNewDate);
+    }
+
+    isFormValid(){
+        return this.state.hoursModel.completeData();
     }
 
     componentDidMount()
     {
+        //https://proyectopsa.herokuapp.com/proyectos/
         fetch('https://proyectopsa.herokuapp.com/proyectos/')
             .then(r => r.json())
             .then((projects) =>
@@ -121,6 +159,14 @@ export default class ModalHours extends Component {
         }
     }
 
+    onTaskChange(newIdTask){
+        this.state.hoursModel.setIdTask(parseInt(newIdTask));
+
+        this.setState({
+            hoursModel: this.state.hoursModel
+        })
+    }
+
     render(){
 
         return (
@@ -156,7 +202,8 @@ export default class ModalHours extends Component {
                                     </Col>
                                     :
                                     <Input type="select"
-                                           disabled={this.state.isTaskDisabled}>
+                                           disabled={this.state.isTaskDisabled}
+                                           onChange={e => this.onTaskChange(e.target.value)}>
                                         <option value="0"></option>
                                         {this.state.lstTasks.map((t) => <option key={t.codigo} value={t.codigo}>{t.nombre}</option>)}
                                     </Input>
@@ -181,7 +228,8 @@ export default class ModalHours extends Component {
                                 <Col lg={6}>
                                     <Label>Fecha *</Label>
                                     <Input type="date"
-                                           max={(new Date().toISOString().split("T")[0])}></Input>
+                                           max={(new Date().toISOString().split("T")[0])}
+                                           onChange={e => this.onDateChange(e.target.value)}></Input>
                                 </Col>
                             </Row>
 

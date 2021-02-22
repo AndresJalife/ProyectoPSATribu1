@@ -74,4 +74,13 @@ export default class HoursModel {
                     (newDateTime.getDate());
         this.dateAsDateTime = newDateTime;
     }
+
+    completeData(){
+        if ((this.idTask === 0) ||
+            ((this.quantityHours === 0) && (this.quantityMinutes === 0)) ||
+            (this.date === 0))
+            return false;
+
+        return true;
+    }
 }
