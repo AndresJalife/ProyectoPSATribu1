@@ -45,7 +45,7 @@ function App(props) {
             </Switch>
         </main>
 
-        <footer>
+        <footer id="footer">
             PSA 2021
         </footer>
     </div>

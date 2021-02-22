@@ -78,3 +78,9 @@
   width: 6%;
   margin-left: 41.5%;
 }
+
+#footer {
+  position:absolute;
+  bottom:0;
+  width:100%;
+}
