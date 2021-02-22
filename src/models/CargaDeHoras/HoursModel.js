@@ -17,7 +17,7 @@ export default class HoursModel {
         this.idProject = 0;
         this.idTask = 0;
         this.quantityHours = 0;
-        this.quantityMinutes = 0;
+        this.quantityMinutes = 15;
         this.date = 0;
         this.dateAsDateTime = 0;
         this.loadingDate = 0;
