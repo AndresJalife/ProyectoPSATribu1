@@ -44,10 +44,6 @@ function App(props) {
                 <Route exact path="/soporte" component={Soporte} />
             </Switch>
         </main>
-
-        <footer id="footer">
-            PSA 2021
-        </footer>
     </div>
   );
 }
