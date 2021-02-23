@@ -64,6 +64,7 @@ export default class ModalHours extends Component {
 
         let data = {
             file: this.state.hoursModel.file,
+            idProject: this.state.hoursModel.idProject,
             idTask: this.state.hoursModel.idTask,
             quantityHours: this.state.hoursModel.quantityHours,
             quantityMinutes: this.state.hoursModel.quantityMinutes,

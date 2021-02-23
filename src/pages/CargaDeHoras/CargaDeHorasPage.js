@@ -5,6 +5,7 @@ import {
 } from 'reactstrap';
 import ModalHours from '../../components/CargaDeHoras/ModalHours';
 import {Link} from "react-router-dom";
+import GridHours from "../../components/CargaDeHoras/GridHours";
 
 export default class CargaDeHorasPage extends Component {
 
@@ -28,23 +29,13 @@ export default class CargaDeHorasPage extends Component {
                    resource: resource
                 });
             }, (error) => {console.log(error);});
-
-        const file = id;
-        fetch("https://squad6-backend.herokuapp.com/hoursFile/" + file.toString())
-            .then(r => r.json())
-            .then((resource) =>
-            {
-                this.setState({
-                    resource: resource
-                });
-            }, (error) => {console.log(error);});
     }
 
     render() {
         return (
             <div style={{padding: 10 + 'px'}}>
                 <Row>
-                    <Col xl={4} lg={4}>
+                    <Col xl={12} lg={12}>
                         <Breadcrumb>
                             <BreadcrumbItem><Link to="/recursos">Recursos</Link></BreadcrumbItem>
                             <BreadcrumbItem active>{this.state.resource.Nombre} {this.state.resource.Apellido}</BreadcrumbItem>
@@ -80,19 +71,10 @@ export default class CargaDeHorasPage extends Component {
                         </Card>
                     </Col>
 
-                    <Col xl={4} lg={4}>
-                        <ButtonToolbar>
-                            <ModalHours file={this.state.resource.legajo}></ModalHours>
-                        </ButtonToolbar>
+                    <Col xl={8} lg={8}>
+                        <GridHours file={this.props.match.params.id}></GridHours>
                     </Col>
-                    <Col xl={4} lg={4}>
-                        <h2>Horas Cargadas</h2>
-                        {this.state.lstHours.length ? (
-                          null
-                        ) : (
-                          <h3>El recurso no posee horas cargadas.</h3>
-                        )}
-                    </Col>
+
                 </Row>
             </div>
         )
