@@ -33,17 +33,15 @@ export default class MainTareasPage extends Component
     {
         const id = this.props.match.params.id;
         return  (<div className='paginaProyectos'>
-                    <div id='proyectosHeader'>
-                        <h1>Tareas</h1>
-                        <a className='botonAgregarProyectoContainer' href={`/proyectos/${id}/nuevaTarea`}>
-                            <Button disabled={true}>Agregar Tarea</Button>
+                    <h1 id='tituloProyectos'>Tareas</h1>
+                    <br/>
+                    <div id='titlesContainer'>
+                        <p>Nombre Tarea</p>
+                        <p id="estadoTitle">Estado</p>
+                        <a className='botonAgregarProyectoContainer' href={`/ProyectoPSATribu1/proyectos/${id}/nuevaTarea`}>
+                            <Button>Agregar Tarea</Button>
                         </a>
                     </div>
-                    <br/>
-                    <div  id=''>
-
-                    </div>
-                    <br />
                     <br />
                     {this.state.tareas.map((t) => <TareaCard key={t.codigo} codigoProyecto={id} tarea={t} />)}
                 </div>);

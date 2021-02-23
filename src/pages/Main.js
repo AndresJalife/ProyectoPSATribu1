@@ -5,13 +5,13 @@ import {Link} from "react-router-dom";
 export default () => (
     <header>
         <nav>
-            <Link to='/'>Inicio</Link>
+            <Link to='/ProyectoPSATribu1/'>Inicio</Link>
             <br />
-            <Link to='/proyectos'>Proyectos</Link>
+            <Link to='/ProyectoPSATribu1/proyectos'>Proyectos</Link>
             <br />
-            <Link to='/recursos'>Recursos</Link>
+            <Link to='/ProyectoPSATribu1/recursos'>Recursos</Link>
             <br />
-            <Link to='/soporte'>Soporte</Link>
+            <Link to='/ProyectoPSATribu1/soporte'>Soporte</Link>
             <br />
         </nav>
     </header>

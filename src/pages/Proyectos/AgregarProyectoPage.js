@@ -62,7 +62,7 @@ class AgregarProyectoPage extends Component {
             .then(response => response.json())
             .then(function(json) {
                 if(json.codigo) {
-                    self.abrirModal("ÉXITO", `El proyecto se realizó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/proyectos/`));
+                    self.abrirModal("ÉXITO", `El proyecto se realizó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/ProyectoPSATribu1/proyectos/`));
                 } else {
                     self.abrirModal("ERROR", json.description, json.validation);
                 }
