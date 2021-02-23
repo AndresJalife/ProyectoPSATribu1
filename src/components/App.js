@@ -43,7 +43,7 @@ function App(props) {
                 <Route exact path="/proyectos/:id/tareas" component={MainTareasPage} />
                 <Route exact path="/" component={Main} />
                 <Route exact path="/recursos" component={RecursosPage} />
-                <Route exact path="/cargadehoras" component={CargaDeHorasPage} />
+                <Route exact path="/cargadehoras/:id" component={CargaDeHorasPage} />
                 <Route exact path="/soporte" component={Soporte} />
             </Switch>
         </main>

@@ -9,8 +9,6 @@ export default () => (
             <br />
             <Link to='/proyectos'>Proyectos</Link>
             <br />
-            <Link to='/cargadehoras'>Carga de horas</Link>
-            <br />
             <Link to='/recursos'>Recursos</Link>
             <br />
             <Link to='/soporte'>Soporte</Link>
