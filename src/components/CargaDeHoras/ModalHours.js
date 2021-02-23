@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { Alert, Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import TimePicker from 'react-times';
@@ -24,7 +24,9 @@ export default class ModalHours extends Component {
             lstProjects: [],
             lstTasks: [],
             isTaskDisabled: true,
-            taskIsLoading: false
+            taskIsLoading: false,
+            //alert: false
+            errorMessage:""
         };
 
         this.saveHours = this.saveHours.bind(this);
@@ -35,7 +37,9 @@ export default class ModalHours extends Component {
 
     changeVisibility() {
         this.setState({
-            isShow: !this.state.isShow
+            isShow: !this.state.isShow,
+            //alert: false
+            errorMessage: ""
         });
 
     }
@@ -48,8 +52,13 @@ export default class ModalHours extends Component {
 
     saveHours() {
 
-        if (!this.isFormValid())
+        if (!this.isFormValid()){
+            this.setState({
+                //alert: true
+                errorMessage: "Por favor, complete todos los campos obligatorios"
+            });
             return;
+        }
 
         let url = "https://squad6-backend.herokuapp.com/hours";
 
@@ -77,7 +86,10 @@ export default class ModalHours extends Component {
             self.changeVisibility();
         })
         .catch(function(error) {
-
+            this.setState({
+                //alert: true
+                errorMessage: "asdasd"
+            });
         });
     }
 
@@ -250,6 +262,12 @@ export default class ModalHours extends Component {
                                 <Button color="primary" onClick={this.saveHours}>Guardar</Button>
                             </Col>
                         </FormGroup>
+
+                        {this.state.errorMessage ? (
+                          <Alert id="alerta" color="danger"> {this.state.errorMessage} </Alert>
+                        ) : (
+                          null
+                        )}
                     </ModalBody>
 
                 </Modal>
