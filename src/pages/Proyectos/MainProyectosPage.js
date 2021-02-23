@@ -30,13 +30,15 @@ export default class MainProyectosPage extends Component
     render()
     {
         return  (<div className='paginaProyectos'>
-                    <div id='proyectosHeader'>
-                        <h1>Proyectos</h1>
+                    <h1 id='tituloProyectos'>Proyectos</h1>
+                    <br/>
+                    <div id='titlesContainer'>
+                        <p>Nombre Proyecto</p>
+                        <p id="estadoTitle">Estado</p>
                         <a className='botonAgregarProyectoContainer' href='/proyectos/nuevoProyecto'>
                             <Button>Agregar Proyecto</Button>
                         </a>
                     </div>
-                    <br />
                     <br />
                     {this.state.projects.map((p) => <ProyectoCard key={p.codigo} project={p} />)}
                 </div>);
