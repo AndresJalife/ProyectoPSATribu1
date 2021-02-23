@@ -220,6 +220,7 @@ export default class ModalHours extends Component {
                                         timeMode="24"
                                         timeConfig={{
                                             from: '0:15',
+                                            to: '23:45',
                                             step: 15,
                                             unit: 'minutes'
                                         }}
