@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/ProyectoPSATribu1/static/css/main.cdd313c5.chunk.css",
-    "main.js": "/ProyectoPSATribu1/static/js/main.fcfddb34.chunk.js",
-    "main.js.map": "/ProyectoPSATribu1/static/js/main.fcfddb34.chunk.js.map",
+    "main.css": "/ProyectoPSATribu1/static/css/main.426b36a2.chunk.css",
+    "main.js": "/ProyectoPSATribu1/static/js/main.4dcaafd6.chunk.js",
+    "main.js.map": "/ProyectoPSATribu1/static/js/main.4dcaafd6.chunk.js.map",
     "runtime-main.js": "/ProyectoPSATribu1/static/js/runtime-main.397ee436.js",
     "runtime-main.js.map": "/ProyectoPSATribu1/static/js/runtime-main.397ee436.js.map",
-    "static/css/2.1de2d5ef.chunk.css": "/ProyectoPSATribu1/static/css/2.1de2d5ef.chunk.css",
-    "static/js/2.8bec915d.chunk.js": "/ProyectoPSATribu1/static/js/2.8bec915d.chunk.js",
-    "static/js/2.8bec915d.chunk.js.map": "/ProyectoPSATribu1/static/js/2.8bec915d.chunk.js.map",
+    "static/css/2.5931a8ae.chunk.css": "/ProyectoPSATribu1/static/css/2.5931a8ae.chunk.css",
+    "static/js/2.2c4855fd.chunk.js": "/ProyectoPSATribu1/static/js/2.2c4855fd.chunk.js",
+    "static/js/2.2c4855fd.chunk.js.map": "/ProyectoPSATribu1/static/js/2.2c4855fd.chunk.js.map",
     "index.html": "/ProyectoPSATribu1/index.html",
-    "static/css/2.1de2d5ef.chunk.css.map": "/ProyectoPSATribu1/static/css/2.1de2d5ef.chunk.css.map",
-    "static/css/main.cdd313c5.chunk.css.map": "/ProyectoPSATribu1/static/css/main.cdd313c5.chunk.css.map",
-    "static/js/2.8bec915d.chunk.js.LICENSE.txt": "/ProyectoPSATribu1/static/js/2.8bec915d.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/ProyectoPSATribu1/static/media/logo.6ce24c58.svg"
+    "static/css/2.5931a8ae.chunk.css.map": "/ProyectoPSATribu1/static/css/2.5931a8ae.chunk.css.map",
+    "static/css/main.426b36a2.chunk.css.map": "/ProyectoPSATribu1/static/css/main.426b36a2.chunk.css.map",
+    "static/js/2.2c4855fd.chunk.js.LICENSE.txt": "/ProyectoPSATribu1/static/js/2.2c4855fd.chunk.js.LICENSE.txt",
+    "static/media/logo.a37528bb.svg": "/ProyectoPSATribu1/static/media/logo.a37528bb.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.397ee436.js",
-    "static/css/2.1de2d5ef.chunk.css",
-    "static/js/2.8bec915d.chunk.js",
-    "static/css/main.cdd313c5.chunk.css",
-    "static/js/main.fcfddb34.chunk.js"
+    "static/css/2.5931a8ae.chunk.css",
+    "static/js/2.2c4855fd.chunk.js",
+    "static/css/main.426b36a2.chunk.css",
+    "static/js/main.4dcaafd6.chunk.js"
   ]
 }
