@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import {Button, Table, Row, Col, Card, CardBody, Container} from 'reactstrap';
+import {Button, Table, Row, Col, Card, CardBody, Container, CardHeader} from 'reactstrap';
 import HoursModel from "../../models/CargaDeHoras/HoursModel";
 import { FaRegHandPointer } from 'react-icons/fa'
 import {Link} from "react-router-dom";
+import Loader from "react-loader-spinner";
 
 export default class RecursosPage extends Component {
 
@@ -10,6 +11,7 @@ export default class RecursosPage extends Component {
         super(props);
 
         this.state = {
+            isLoading: true,
             lstResources: []
         };
     }
@@ -21,6 +23,7 @@ export default class RecursosPage extends Component {
             .then((resources) =>
             {
                 this.setState({
+                    isLoading: false,
                     lstResources: resources
                 });
             }, (error) => {console.log(error);});
@@ -32,41 +35,58 @@ export default class RecursosPage extends Component {
                 <Row>
                     <Col xl={{size: 6, offset: 3}}>
                         <Card>
+                            <CardHeader tag="h2">Recursos</CardHeader>
+
                             <CardBody>
                                 <Container>
-                                    <Row>
-                                        <Col>
-                                            <Table striped>
-                                                <thead>
-                                                <tr>
-                                                    <th>Legajo</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Seleccionar</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
 
-                                                {this.state.lstResources.map((r) =>
-                                                    <tr key={r.legajo}>
-                                                        <td>{r.legajo}</td>
-                                                        <td>{r.Nombre}</td>
-                                                        <td>{r.Apellido}</td>
-                                                        <td>
-                                                            <Link to={`/cargadehoras/${r.legajo}`}>
-                                                                <button type="button" className="btn btn-sm btn-rounded ">
-                                                                    <FaRegHandPointer/>
-                                                                </button>
-                                                            </Link>
-
-                                                        </td>
+                                    {this.state.isLoading ?
+                                        <Row>
+                                            <Col className="text-center">
+                                                <Loader
+                                                    type="TailSpin"
+                                                    color="#00BFFF"
+                                                    height={50}
+                                                    width={50}></Loader>
+                                            </Col>
+                                        </Row>
+                                        :
+                                        <Row>
+                                            <Col>
+                                                <Table striped>
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Legajo</th>
+                                                        <th>Nombre</th>
+                                                        <th>Apellido</th>
+                                                        <th>Seleccionar</th>
                                                     </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                                )}
-                                                </tbody>
-                                            </Table>
-                                        </Col>
-                                    </Row>
+                                                    {this.state.lstResources.map((r) =>
+                                                        <tr key={r.legajo}>
+                                                            <td>{r.legajo}</td>
+                                                            <td>{r.Nombre}</td>
+                                                            <td>{r.Apellido}</td>
+                                                            <td>
+                                                                <Link to={`/cargadehoras/${r.legajo}`}>
+                                                                    <button type="button" className="btn btn-sm btn-rounded ">
+                                                                        <FaRegHandPointer/>
+                                                                    </button>
+                                                                </Link>
+
+                                                            </td>
+                                                        </tr>
+
+                                                    )}
+                                                    </tbody>
+                                                </Table>
+                                            </Col>
+                                        </Row>
+                                    }
+
+
                                 </Container>
                             </CardBody>
                         </Card>
