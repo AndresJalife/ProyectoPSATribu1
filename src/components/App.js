@@ -38,7 +38,7 @@ function App(props) {
         <main>
             <Switch>
                 <Route exact path="/proyectos" component={MainProyectosPage} />
-                <Route exact path="/proyectos/nuevoProyecto" component={AgregarProyectoPage}/>
+                <Route exact path="/nuevoProyecto" component={AgregarProyectoPage}/>
                 <Route exact path="/proyectos/:id" component={ProyectoPage} />
                 <Route exact path="/proyectos/:id/tareas" component={MainTareasPage} />
                 <Route exact path="/" component={Main} />
