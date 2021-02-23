@@ -12,6 +12,7 @@ import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
 import ProyectoPage from "../pages/Proyectos/ProyectoPage";
 import {Link, useHistory} from "react-router-dom";
 import MainTareasPage from "../pages/Proyectos/MainTareasPage";
+import { FaHome } from "react-icons/fa";
 
 function App(props) {
     const history = useHistory();
@@ -21,8 +22,8 @@ function App(props) {
         <header className="App-header-ppal">
             <div id='headerContainer' className="MuiToolbar-root MuiToolbar-root App-subheader-height MuiToolbar-gutters">
                 <div id='homeButton' onClick={() => history.push('')}>
-                    <Col xl={1} lg={1}> {/*????*/}
-                        HOME
+                    <Col xl={12} lg={12}> {/*????*/}
+                        <FaHome/> HOME
                     </Col>
                 </div>
                 <div id='companyName'>
