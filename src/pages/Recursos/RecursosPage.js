@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Button, Table, Row, Col, Card, CardBody, Container, CardHeader} from 'reactstrap';
+import {Button, Table, Row, Col, Card, CardBody, Container, CardHeader, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import HoursModel from "../../models/CargaDeHoras/HoursModel";
 import { FaRegHandPointer } from 'react-icons/fa'
 import {Link} from "react-router-dom";
@@ -32,6 +32,16 @@ export default class RecursosPage extends Component {
     render() {
         return (
             <div className="block" style={{padding: 10 + 'px'}}>
+
+                <Row>
+                    <Col xl={12} lg={12}>
+                        <Breadcrumb>
+                            <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>Recursos</BreadcrumbItem>
+                        </Breadcrumb>
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col xl={{size: 6, offset: 3}}>
                         <Card>

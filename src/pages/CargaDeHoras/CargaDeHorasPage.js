@@ -40,6 +40,7 @@ export default class CargaDeHorasPage extends Component {
                 <Row>
                     <Col xl={12} lg={12}>
                         <Breadcrumb>
+                            <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
                             <BreadcrumbItem><Link to="/recursos">Recursos</Link></BreadcrumbItem>
                             <BreadcrumbItem active>{this.state.resource.Nombre} {this.state.resource.Apellido}</BreadcrumbItem>
                         </Breadcrumb>
