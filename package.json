@@ -2,7 +2,7 @@
   "name": "proyectopsa",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://AndresJalife.github.io/ProyectoPSATribu1",
+  "homepage": "https://andresjalife.github.io/ProyectoPSATribu1/",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@react-navigation/native": "^5.9.2",
