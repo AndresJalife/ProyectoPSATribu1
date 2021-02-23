@@ -36,6 +36,10 @@ export default class MainTareasPage extends Component
                             <Button>Agregar Tarea</Button>
                         </a>
                     </div>
+                    <br/>
+                    <div  id=''>
+
+                    </div>
                     <br />
                     <br />
                     {this.state.projects.map((p) => <ProyectoCard key={p.codigo} project={p} />)}

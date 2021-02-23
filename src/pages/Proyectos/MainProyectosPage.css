@@ -1,29 +1,35 @@
 .paginaProyectos{
     padding:3%;
-    margin: 5%;
-    margin-left: 10%;
     height: 100%;
-    
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
+
   }
   #proyectosHeader{
     display: flex;
   }
   
   #tituloProyectos{
-    /* color:red; */
+    font-weight: bold;
   }
   
   .botonAgregarProyectoContainer{
-    margin-left: 75%;
+    margin-left: 38%;
+    width: 300px;
   }
   
   #proyectosContainer{
-    margin-top: 10%;
     border-style: solid;
     border-color: black;
     border-width: 1px;
     padding: 5%;
   } 
+
+  #titlesContainer{
+    display: flex;
+    margin-left: 10.5%;
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  #estadoTitle{
+    margin-left: 7%;
+  }
