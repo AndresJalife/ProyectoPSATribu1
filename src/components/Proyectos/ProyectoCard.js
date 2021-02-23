@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link, useHistory} from "react-router-dom"
+import {Link} from "react-router-dom"
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button, Col, Row, Container, Badge
@@ -7,11 +7,6 @@ import {
 
 export default function ProyectoCard (props)
 {
-    const history = useHistory();
-    const onClickHandler = () =>
-    {
-        history.push(`/proyectos/${props.project.id}`);
-    }
     const estadoString = props.project.estado.charAt(0).toUpperCase() + props.project.estado.slice(1);
     const estadoColor = "success";
     return (
@@ -32,7 +27,7 @@ export default function ProyectoCard (props)
                             <Col>
                             </Col>
                             <Col body className="text-center">
-                                <Link to={`/proyectos/${props.project.codigo}`}>
+                                <Link to={`/proyectos/${props.project.codigo}/tareas`}>
                                 <Button color="info">Ver Tareas</Button>
                                 </Link>
                             </Col>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ProyectoCard from '../../components/Proyectos/ProyectoCard';
 import './MainTareasPage.css';
 import { Button } from 'reactstrap';
+import TareaCard from "../../components/Proyectos/TareaCard";
 
 
 export default class MainTareasPage extends Component
@@ -17,7 +18,8 @@ export default class MainTareasPage extends Component
 
     componentDidMount()
     {
-        fetch('https://proyectopsa.herokuapp.com/proyectos/')
+        const id = this.props.match.params.id;
+        fetch(`https://proyectopsa.herokuapp.com/proyectos/${id}/tarea`)
             .then(r => r.json())
             .then((tareas) =>
             {
@@ -29,16 +31,17 @@ export default class MainTareasPage extends Component
 
     render()
     {
+        const id = this.props.match.params.id;
         return  (<div className='paginaProyectos'>
                     <div id='proyectosHeader'>
-                        <h1>Proyectos</h1>
-                        <a className='botonAgregarProyectoContainer' href='/proyectos/nuevoProyecto'>
-                            <Button>Agregar Tarea</Button>
+                        <h1>Tareas</h1>
+                        <a className='botonAgregarProyectoContainer' href={`/proyectos/${id}/nuevaTarea`}>
+                            <Button disabled={true}>Agregar Tarea</Button>
                         </a>
                     </div>
                     <br />
                     <br />
-                    {this.state.projects.map((p) => <ProyectoCard key={p.codigo} project={p} />)}
+                    {this.state.tareas.map((t) => <TareaCard key={t.codigo} codigoProyecto={id} tarea={t} />)}
                 </div>);
         
     }
