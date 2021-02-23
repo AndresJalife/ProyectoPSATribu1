@@ -36,7 +36,7 @@ export default class MainProyectosPage extends Component
                     <div id='titlesContainer'>
                         <p>Nombre Proyecto</p>
                         <p id="estadoTitle">Estado</p>
-                        <a className='botonAgregarProyectoContainer' href='/nuevoProyecto'>
+                        <a className='botonAgregarProyectoContainer' href='/ProyectoPSATribu1/nuevoProyecto'>
                             <Button>Agregar Proyecto</Button>
                         </a>
                     </div>
