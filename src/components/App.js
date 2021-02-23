@@ -21,7 +21,7 @@ function App(props) {
     <div className="App">
         <header className="App-header-ppal">
             <div id='headerContainer' className="MuiToolbar-root MuiToolbar-root App-subheader-height MuiToolbar-gutters">
-                <div id='homeButton' onClick={() => history.push('/ProyectoPSATribu1')}>
+                <div id='homeButton' onClick={() => history.push('/')}>
                     <Col xl={12} lg={12}> {/*????*/}
                         <FaHome/> HOME
                     </Col>
@@ -37,14 +37,14 @@ function App(props) {
 
         <main>
             <Switch>
-                <Route exact path="/ProyectoPSATribu1/proyectos" component={MainProyectosPage} />
-                <Route exact path="/ProyectoPSATribu1/proyectos/nuevoProyecto" component={AgregarProyectoPage}/>
-                <Route exact path="/ProyectoPSATribu1/proyectos/:id" component={ProyectoPage} />
-                <Route exact path="/ProyectoPSATribu1/proyectos/:id/tareas" component={MainTareasPage} />
-                <Route exact path="/ProyectoPSATribu1/" component={Main} />
-                <Route exact path="/ProyectoPSATribu1/recursos" component={RecursosPage} />
-                <Route exact path="/ProyectoPSATribu1/cargadehoras/:id" component={CargaDeHorasPage} />
-                <Route exact path="/ProyectoPSATribu1/soporte" component={Soporte} />
+                <Route exact path="/proyectos" component={MainProyectosPage} />
+                <Route exact path="/proyectos/nuevoProyecto" component={AgregarProyectoPage}/>
+                <Route exact path="/proyectos/:id" component={ProyectoPage} />
+                <Route exact path="/proyectos/:id/tareas" component={MainTareasPage} />
+                <Route exact path="/" component={Main} />
+                <Route exact path="/recursos" component={RecursosPage} />
+                <Route exact path="/cargadehoras/:id" component={CargaDeHorasPage} />
+                <Route exact path="/soporte" component={Soporte} />
             </Switch>
         </main>
     </div>

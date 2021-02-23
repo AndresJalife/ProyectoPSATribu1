@@ -38,7 +38,7 @@ export default class MainTareasPage extends Component
                     <div id='titlesContainer'>
                         <p>Nombre Tarea</p>
                         <p id="estadoTitle">Estado</p>
-                        <a className='botonAgregarProyectoContainer' href={`/ProyectoPSATribu1/proyectos/${id}/nuevaTarea`}>
+                        <a className='botonAgregarProyectoContainer' href={`/proyectos/${id}/nuevaTarea`}>
                             <Button>Agregar Tarea</Button>
                         </a>
                     </div>
