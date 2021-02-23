@@ -12,7 +12,8 @@ export default class CargaDeHorasPage extends Component {
         super(props);
 
         this.state = {
-            resource: { }
+            resource: { },
+            lstHours: []
         };
     }
 
@@ -25,6 +26,16 @@ export default class CargaDeHorasPage extends Component {
             {
                 this.setState({
                    resource: resource
+                });
+            }, (error) => {console.log(error);});
+
+        const file = id;
+        fetch("https://squad6-backend.herokuapp.com/hoursFile/" + file.toString())
+            .then(r => r.json())
+            .then((resource) =>
+            {
+                this.setState({
+                    resource: resource
                 });
             }, (error) => {console.log(error);});
     }
@@ -63,7 +74,7 @@ export default class CargaDeHorasPage extends Component {
 
                     <Col xl={8} lg={8}>
                         <ButtonToolbar>
-                            <ModalHours></ModalHours>
+                            <ModalHours file={this.state.resource.legajo}></ModalHours>
                         </ButtonToolbar>
                     </Col>
                 </Row>

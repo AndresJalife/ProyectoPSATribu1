@@ -15,9 +15,12 @@ export default class ModalHours extends Component {
     constructor(props){
         super(props);
 
+        var hours = new HoursModel();
+        hours.file = props.file;
+
         this.state = {
             isShow: false,
-            hoursModel: new HoursModel(),
+            hoursModel: hours,
             lstProjects: [],
             lstTasks: [],
             isTaskDisabled: true,
@@ -51,7 +54,7 @@ export default class ModalHours extends Component {
         let url = "https://squad6-backend.herokuapp.com/hours";
 
         let data = {
-            file: 1,
+            file: this.state.hoursModel.file,
             idTask: this.state.hoursModel.idTask,
             quantityHours: this.state.hoursModel.quantityHours,
             quantityMinutes: this.state.hoursModel.quantityMinutes,
