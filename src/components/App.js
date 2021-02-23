@@ -21,7 +21,7 @@ function App(props) {
     <div className="App">
         <header className="App-header-ppal">
             <div id='headerContainer' className="MuiToolbar-root MuiToolbar-root App-subheader-height MuiToolbar-gutters">
-                <div id='homeButton' onClick={() => history.push('')}>
+                <div id='homeButton' onClick={() => history.push('/ProyectoPSATribu1')}>
                     <Col xl={12} lg={12}> {/*????*/}
                         <FaHome/> HOME
                     </Col>
