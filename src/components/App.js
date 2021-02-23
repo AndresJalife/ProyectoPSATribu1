@@ -4,7 +4,7 @@ import React from "react";
 import CargaDeHorasPage from '../pages/CargaDeHoras/CargaDeHorasPage';
 import MainProyectosPage from '../pages/Proyectos/MainProyectosPage';
 import AgregarProyectoPage from '../pages/Proyectos/AgregarProyectoPage';
-import Recursos from './../pages/Recursos';
+import RecursosPage from './../pages/Recursos/RecursosPage';
 import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
@@ -42,7 +42,7 @@ function App(props) {
                 <Route exact path="/proyectos/:id" component={ProyectoPage} />
                 <Route exact path="/proyectos/:id/tareas" component={MainTareasPage} />
                 <Route exact path="/" component={Main} />
-                <Route exact path="/recursos" component={Recursos} />
+                <Route exact path="/recursos" component={RecursosPage} />
                 <Route exact path="/cargadehoras" component={CargaDeHorasPage} />
                 <Route exact path="/soporte" component={Soporte} />
             </Switch>
