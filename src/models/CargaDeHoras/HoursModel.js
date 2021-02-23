@@ -37,6 +37,19 @@ export default class HoursModel {
         this.nameTask = otherHours.nameTask;
     }
 
+    HoursModel(id, file, idProject, idTask, quantityHours, quantityMinutes, date, loadingDate, nameProject, nameTask){
+        this.id = id;
+        this.file = file;
+        this.idProject = idProject;
+        this.idTask = idTask;
+        this.quantityHours = quantityHours;
+        this.quantityMinutes = quantityMinutes;
+        this.date = date;
+        this.loadingDate = loadingDate;
+        this.nameProject = nameProject;
+        this.nameTask = nameTask;
+    }
+
     getIdProject(){
         return this.idProject;
     }
@@ -55,6 +68,16 @@ export default class HoursModel {
 
     getHoursAsString(){
         return this.quantityHours + ":" + this.quantityMinutes;
+    }
+
+    getDateAsString(){
+        let dateString = this.date.toString();
+
+        let year = dateString.substr(0,4),
+            mont = dateString.substr(4,2),
+            days = dateString.substr(6,2);
+
+        return `${days}/${mont}/${year}`;
     }
 
     setNewHours(hours, minutes){
