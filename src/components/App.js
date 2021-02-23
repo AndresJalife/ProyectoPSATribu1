@@ -11,6 +11,7 @@ import {Route, Switch} from "react-router";
 import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
 import ProyectoPage from "../pages/Proyectos/ProyectoPage";
 import {Link, useHistory} from "react-router-dom";
+import MainTareasPage from "../pages/Proyectos/MainTareasPage";
 
 function App(props) {
     const history = useHistory();
@@ -38,6 +39,7 @@ function App(props) {
                 <Route exact path="/proyectos" component={MainProyectosPage} />
                 <Route exact path="/proyectos/nuevoProyecto" component={AgregarProyectoPage}/>
                 <Route exact path="/proyectos/:id" component={ProyectoPage} />
+                <Route exact path="/proyectos/:id/tareas" component={MainTareasPage} />
                 <Route exact path="/" component={Main} />
                 <Route exact path="/recursos" component={Recursos} />
                 <Route exact path="/cargadehoras" component={CargaDeHorasPage} />
