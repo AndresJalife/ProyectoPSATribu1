@@ -27,7 +27,7 @@ export default function TareaCard (props)
                             <Col>
                             </Col>
                             <Col body className="text-center">
-                                <Link to={`/proyectos/${props.codigoProyecto}/tarea/${props.tarea.codigo}`}>
+                                <Link to={`/ProyectoPSATribu1/proyectos/${props.codigoProyecto}/tarea/${props.tarea.codigo}`}>
                                     <Button color="info">Ver Tarea</Button>
                                 </Link>
                             </Col>

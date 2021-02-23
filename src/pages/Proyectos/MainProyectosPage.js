@@ -29,13 +29,14 @@ export default class MainProyectosPage extends Component
 
     render()
     {
+        console.log(process.env.PUBLIC_URL)
         return  (<div className='paginaProyectos'>
                     <h1 id='tituloProyectos'>Proyectos</h1>
                     <br/>
                     <div id='titlesContainer'>
                         <p>Nombre Proyecto</p>
                         <p id="estadoTitle">Estado</p>
-                        <a className='botonAgregarProyectoContainer' href='/proyectos/nuevoProyecto'>
+                        <a className='botonAgregarProyectoContainer' href='/ProyectoPSATribu1/proyectos/nuevoProyecto'>
                             <Button>Agregar Proyecto</Button>
                         </a>
                     </div>
