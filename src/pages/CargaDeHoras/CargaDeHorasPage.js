@@ -6,6 +6,7 @@ import {
 import ModalHours from '../../components/CargaDeHoras/ModalHours';
 import {Link} from "react-router-dom";
 import GridHours from "../../components/CargaDeHoras/GridHours";
+import Loader from "react-loader-spinner";
 
 export default class CargaDeHorasPage extends Component {
 
@@ -14,6 +15,7 @@ export default class CargaDeHorasPage extends Component {
 
         this.state = {
             resource: { },
+            isLoading: true,
             lstHours: []
         };
     }
@@ -26,7 +28,8 @@ export default class CargaDeHorasPage extends Component {
             .then((resource) =>
             {
                 this.setState({
-                   resource: resource
+                    isLoading: false,
+                    resource: resource
                 });
             }, (error) => {console.log(error);});
     }
@@ -50,22 +53,37 @@ export default class CargaDeHorasPage extends Component {
 
                             <CardBody>
                                 <Container>
-                                    <Row>
-                                        <Col xl={4} lg={4}>
-                                            <CardTitle tag="h6">Legajo</CardTitle>
-                                            <CardText>{this.state.resource.legajo}</CardText>
-                                        </Col>
 
-                                        <Col xl={4} lg={4}>
-                                            <CardTitle tag="h6">Nombre</CardTitle>
-                                            <CardText>{this.state.resource.Nombre}</CardText>
-                                        </Col>
+                                    {this.state.isLoading ?
+                                        <Row>
+                                            <Col className="text-center">
+                                                <Loader
+                                                    type="TailSpin"
+                                                    color="#00BFFF"
+                                                    height={50}
+                                                    width={50}></Loader>
+                                            </Col>
+                                        </Row>
 
-                                        <Col xl={4} lg={4}>
-                                            <CardTitle tag="h6">Apellido</CardTitle>
-                                            <CardText>{this.state.resource.Apellido}</CardText>
-                                        </Col>
-                                    </Row>
+                                        :
+                                        <Row>
+                                            <Col xl={4} lg={4}>
+                                                <CardTitle tag="h6">Legajo</CardTitle>
+                                                <CardText>{this.state.resource.legajo}</CardText>
+                                            </Col>
+
+                                            <Col xl={4} lg={4}>
+                                                <CardTitle tag="h6">Nombre</CardTitle>
+                                                <CardText>{this.state.resource.Nombre}</CardText>
+                                            </Col>
+
+                                            <Col xl={4} lg={4}>
+                                                <CardTitle tag="h6">Apellido</CardTitle>
+                                                <CardText>{this.state.resource.Apellido}</CardText>
+                                            </Col>
+
+                                        </Row>
+                                    }
                                 </Container>
                             </CardBody>
                         </Card>
