@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Card, CardImg, CardText, CardBody, CardHeader, CardTitle,
+    Breadcrumb, BreadcrumbItem, Card, CardImg, CardText, CardBody, CardHeader, CardTitle,
     CardSubtitle, Button, Label, ButtonToolbar, Row, Col, Container, Badge
 } from 'reactstrap';
 import ModalHours from '../../components/CargaDeHoras/ModalHours';
@@ -44,8 +44,16 @@ export default class CargaDeHorasPage extends Component {
         return (
             <div style={{padding: 10 + 'px'}}>
                 <Row>
-
                     <Col xl={4} lg={4}>
+                        <Breadcrumb>
+                            <BreadcrumbItem><Link to="/recursos">Recursos</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>{this.state.resource.Nombre} {this.state.resource.Apellido}</BreadcrumbItem>
+                        </Breadcrumb>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col xl={4} lg={4}> 
                         <Card>
                             <CardHeader tag="h4">Datos Principales</CardHeader>
 
@@ -72,10 +80,18 @@ export default class CargaDeHorasPage extends Component {
                         </Card>
                     </Col>
 
-                    <Col xl={8} lg={8}>
+                    <Col xl={4} lg={4}>
                         <ButtonToolbar>
                             <ModalHours file={this.state.resource.legajo}></ModalHours>
                         </ButtonToolbar>
+                    </Col>
+                    <Col xl={4} lg={4}>
+                        <h2>Horas Cargadas</h2>
+                        {this.state.lstHours.length ? (
+                          null
+                        ) : (
+                          <h3>El recurso no posee horas cargadas.</h3>
+                        )}
                     </Col>
                 </Row>
             </div>
