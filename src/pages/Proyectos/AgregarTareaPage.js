@@ -177,7 +177,7 @@ class AgregarTareaPage extends Component {
                             <Input type="number" name="horas" id="horas" className='general' />
                         </FormGroup>
                         <FormGroup tag="fieldset">
-                            <Label className='parametro' id='priority'>Prioridad</Label>
+                            <Label className='parametro' id='priority'>Prioridad *</Label>
                             <FormGroup check>
                                 <Label check>
                                     <Input type="radio" name='radio2' id='baja'  />{' '}
