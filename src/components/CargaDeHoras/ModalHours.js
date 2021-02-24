@@ -31,7 +31,6 @@ export default class ModalHours extends Component {
             lstTasks: [],
             isTaskDisabled: true,
             taskIsLoading: false,
-            //alert: false
             errorMessage:""
         };
 
@@ -44,7 +43,6 @@ export default class ModalHours extends Component {
     changeVisibility() {
         this.setState({
             isShow: !this.state.isShow,
-            //alert: false
             errorMessage: ""
         });
 
@@ -60,7 +58,6 @@ export default class ModalHours extends Component {
 
         if (!this.isFormValid()){
             this.setState({
-                //alert: true
                 errorMessage: "Por favor, complete todos los campos obligatorios"
             });
             return;
@@ -93,6 +90,9 @@ export default class ModalHours extends Component {
         })
         .then(function(response) {
 
+            if(!response.ok)
+                throw new Error();
+
             swal({
                 text: "Se cargaron " + data.quantityHours + ":" + data.quantityMinutes + " horas del " + dateAsString + " con éxito.",
                 icon: "success"
@@ -103,8 +103,7 @@ export default class ModalHours extends Component {
         })
         .catch(function(error) {
             self.setState({
-                //alert: true
-                errorMessage: "Error"
+                errorMessage: "No se puede cargar más de 24 horas un mismo día"
             });
         });
     }
