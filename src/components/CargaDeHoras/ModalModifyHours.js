@@ -18,14 +18,14 @@ export default class ModalModifyHours extends Component {
 
     static propTypes = {
         hours: PropTypes.object.isRequired,
-        onReload: PropTypes.func.isRequired
+        onReload: PropTypes.func.isRequired,
     };
 
     constructor(props){
         super(props);
 
         let hoursAux = new HoursModel();
-        hoursAux.file = props.file;
+        hoursAux.file = props.hours.file;
 
         this.state = {
             isShow: false,
@@ -36,6 +36,12 @@ export default class ModalModifyHours extends Component {
             taskIsLoading: false,
             errorMessage:""
         };
+        //this.state.hoursModel.setIdProject(this.props.hours.idProject);
+        //this.state.hoursModel.setIdTask(this.props.hours.idTask);
+        this.state.hoursModel.setNewHours(this.props.hours.quantityHours, this.props.hours.quantityMinutes);
+        //this.state.hoursModel.date = this.props.hours.date;
+        //this.state.hoursModel.nameProject = "nombre por defecto";
+        //this.state.hoursModel.nameTask = "tarea por defecto";
 
         this.saveHoursById = this.saveHoursById.bind(this);
         this.changeVisibility = this.changeVisibility.bind(this);
@@ -61,31 +67,6 @@ export default class ModalModifyHours extends Component {
         }
     }
 
-    /*modifyHoursById(){
-        let url = 'https://squad6-backend.herokuapp.com/hours/' + this.props.hours.id;
-
-        swal({
-            title: "Eliminar la hora",
-            text: "¿Estás seguro que desea eliminar " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + "?",
-            icon: "warning",
-            dangerMode: "true",
-            buttons: ["Si", "No"]
-        }).then(answerIsNo=>{
-            if(!answerIsNo){
-
-                this.setState({isLoading: true});
-
-                fetch(url, {
-                    method: 'DELETE'}).then(() => {
-                    swal({text: "Se borraron " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
-                        icon: "success"});
-                    this.setState({isLoading: false});
-                    this.props.onReload();
-                })
-            }
-        });
-    }*/
-
     saveHoursById() {
 
         if (!this.isFormValid()){
@@ -95,15 +76,17 @@ export default class ModalModifyHours extends Component {
             return;
         }
 
-        let url = 'https://squad6-backend.herokuapp.com/hours/' + this.props.hours.id + '/changeIdTask';
+        let url = 'https://squad6-backend.herokuapp.com/hours/' + this.props.hours.id;
 
         let data = {
-            //file: this.state.hoursModel.file,
-            //idProject: this.state.hoursModel.idProject,
+            id: this.props.hours.id,
+            file: this.props.hours.file,
+            idProject: this.state.hoursModel.idProject,
             idTask: this.state.hoursModel.idTask,
-            //quantityHours: this.state.hoursModel.quantityHours,
-            //quantityMinutes: this.state.hoursModel.quantityMinutes,
-            //date: this.state.hoursModel.date
+            quantityHours: this.state.hoursModel.quantityHours,
+            quantityMinutes: this.state.hoursModel.quantityMinutes,
+            date: this.state.hoursModel.date,
+            loadingDate: this.props.hours.loadingDate
         };
 
         var dateAsString = this.state.hoursModel.getDateAsString();
@@ -112,7 +95,7 @@ export default class ModalModifyHours extends Component {
         let self = this;
 
         fetch(url, {
-            method: 'PATCH',
+            method: 'PUT',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
@@ -127,12 +110,11 @@ export default class ModalModifyHours extends Component {
                 throw new Error();
 
             swal({
-                text: "Se modifico la tarea de la hora correctamente.",
-                //text: "Se modificaron " + hoursAsString + " horas del " + dateAsString + " con éxito.",
+                text: "Se modificó la hora correctamente.",
                 icon: "success"
             }).then(() => {
                 self.changeVisibility();
-                //self.props.onReload(); no esta funcionando
+                self.props.onReload();
             });
         })
         .catch(function(error) {

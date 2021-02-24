@@ -99,7 +99,7 @@ export default class GridItemHours extends Component {
                         <td>{this.props.hours.quantityHours}</td>
                         <td>{this.props.hours.quantityMinutes}</td>
                         <td>
-                            <ModalModifyHours> hours={this.props.hours} onReload={this.props.onReload} </ModalModifyHours>
+                            <ModalModifyHours hours={this.props.hours} onReload={this.props.onReload}> </ModalModifyHours>
                         </td>
                         <td>
                             <button type="button" className="btn btn-sm btn-rounded" onClick = {this.deleteHoursById} style={{marginTop: "-7px", color: "red"}}>
