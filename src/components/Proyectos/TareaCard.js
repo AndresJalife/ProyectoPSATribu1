@@ -7,7 +7,7 @@ import {
 
 export default function TareaCard (props)
 {
-    // const estadoString = props.project.estado.charAt(0).toUpperCase() + props.project.estado.slice(1);
+    const estadoString = props.tarea.estado.charAt(0).toUpperCase() + props.tarea.estado.slice(1);
     const estadoColor = "success";
     return (
         <div>
