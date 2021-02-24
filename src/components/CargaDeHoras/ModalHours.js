@@ -43,9 +43,13 @@ export default class ModalHours extends Component {
     changeVisibility() {
         this.setState({
             isShow: !this.state.isShow,
-            errorMessage: ""
+            errorMessage: "",
+            isTaskDisabled: true
         });
-
+        
+        this.state.hoursModel.setIdProject(0);
+        this.state.hoursModel.setIdTask(0);
+        this.state.hoursModel.date = 0;
     }
 
     saveHoursWithEnter(e){
