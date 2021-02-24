@@ -38,7 +38,9 @@ export default class GridItemHours extends Component {
                 swal({text: "Se borraron " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
                     icon: "success"})
                 fetch(url, {
-                    method: 'DELETE'})
+                    method: 'DELETE'}).then(() => {
+                    this.props.onReload();
+                })
             }
         });
     }
