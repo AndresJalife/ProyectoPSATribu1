@@ -79,6 +79,7 @@ export default class ModalHours extends Component {
         };
 
         var dateAsString = this.state.hoursModel.getDateAsString();
+        var hoursAsString = this.state.hoursModel.getHoursAsString();
 
         let self = this;
 
@@ -98,7 +99,7 @@ export default class ModalHours extends Component {
                 throw new Error();
 
             swal({
-                text: "Se cargaron " + data.quantityHours + ":" + data.quantityMinutes + " horas del " + dateAsString + " con éxito.",
+                text: "Se cargaron " + hoursAsString + " horas del " + dateAsString + " con éxito.",
                 icon: "success"
             }).then(() => {
                 self.changeVisibility();

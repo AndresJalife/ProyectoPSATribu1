@@ -30,7 +30,7 @@ export default class GridItemHours extends Component {
 
         swal({
             title: "Eliminar la hora",
-            text: "¿Estás seguro que desea eliminar " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + "?",
+            text: "¿Estás seguro que desea eliminar " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + "?",
             icon: "warning",
             dangerMode: "true",
             buttons: ["Si", "No"]
@@ -41,7 +41,7 @@ export default class GridItemHours extends Component {
 
                 fetch(url, {
                     method: 'DELETE'}).then(() => {
-                    swal({text: "Se borraron " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
+                    swal({text: "Se borraron " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
                         icon: "success"});
                     this.setState({isLoading: false});
                     this.props.onReload();
