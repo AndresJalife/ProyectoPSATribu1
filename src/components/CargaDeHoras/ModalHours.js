@@ -10,6 +10,7 @@ import './ModalHours.css'
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import PropTypes from "prop-types";
+import swal from "sweetalert";
 
 export default class ModalHours extends Component {
 
@@ -76,6 +77,8 @@ export default class ModalHours extends Component {
             date: this.state.hoursModel.date
         };
 
+        var dateAsString = this.state.hoursModel.getDateAsString();
+
         let self = this;
 
         fetch(url, {
@@ -89,13 +92,19 @@ export default class ModalHours extends Component {
             body: JSON.stringify(data) // body data type must match "Content-Type" header
         })
         .then(function(response) {
-            self.changeVisibility();
-            self.props.onReload();
+
+            swal({
+                text: "Se cargaron " + data.quantityHours + ":" + data.quantityMinutes + " horas del " + dateAsString + " con éxito.",
+                icon: "success"
+            }).then(() => {
+                self.changeVisibility();
+                self.props.onReload();
+            });
         })
         .catch(function(error) {
-            this.setState({
+            self.setState({
                 //alert: true
-                errorMessage: "asdasd"
+                errorMessage: "Error"
             });
         });
     }

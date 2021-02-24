@@ -35,10 +35,14 @@ export default class GridItemHours extends Component {
             buttons: ["Si", "No"]
         }).then(answerIsNo=>{
             if(!answerIsNo){
-                swal({text: "Se borraron " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
-                    icon: "success"})
+
+                this.setState({isLoading: true});
+
                 fetch(url, {
                     method: 'DELETE'}).then(() => {
+                    swal({text: "Se borraron " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
+                        icon: "success"});
+                    this.setState({isLoading: false});
                     this.props.onReload();
                 })
             }
