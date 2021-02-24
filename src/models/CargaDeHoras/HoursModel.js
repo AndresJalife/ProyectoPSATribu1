@@ -67,6 +67,14 @@ export default class HoursModel {
     }
 
     getHoursAsString(){
+        if (this.quantityMinutes == 0){
+            this.quantityMinutes = "00";
+        }
+
+        if (this.quantityHours < 10){
+            this.quantityHours = "0"+this.quantityHours;
+        }
+
         return this.quantityHours + ":" + this.quantityMinutes;
     }
 
