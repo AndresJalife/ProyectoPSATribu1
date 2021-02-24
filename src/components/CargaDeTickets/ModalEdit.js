@@ -14,8 +14,7 @@ export default class ModalTickets extends Component {
 
         this.state = {
             isShow: false,
-            type: "consulta",
-            priority: "1",
+            ticket_id: 4
         };
 
         this.saveTicket = this.saveTicket.bind(this);
@@ -27,6 +26,7 @@ export default class ModalTickets extends Component {
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
         this.handleTaskChange = this.handleTaskChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
+        this.handleStatusChange = this.handleStatusChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
@@ -47,14 +47,13 @@ export default class ModalTickets extends Component {
 
     saveTicket() {
         this.changeVisibility();
-        var url = 'https://aninfo-soporte.herokuapp.com/create_ticket';
+        var url = 'https://aninfo-soporte.herokuapp.com/edit_ticket';
         var data = {
-            "type" : this.state.type,
+            "ticket_id": this.state.ticket_id,
             "description": this.state.description,
-            "task": this.state.task,
+            "task_id": this.state.task,
             "priority": this.state.priority,
-            "resource_id": this.state.resource_id,
-            "name": this.state.name
+            "status": this.state.status
         };
         console.log(data)
         fetch(url, {
@@ -84,14 +83,11 @@ export default class ModalTickets extends Component {
         this.setState({description: event.target.value});
         console.log(event.target.value)
     }
-    handleNameChange(event) {
-        this.setState({name: event.target.value});
+    handleStatusChange(event) {
+        this.setState({status: event.target.value});
         console.log(event.target.value)
     }
-    handleResourceChange(event) {
-        this.setState({resource: event.target.value});
-        console.log(event.target.value)
-    }
+
 
     handleSubmit(event) {
         //alert('A name was submitted: ' + this.state.value);
@@ -101,19 +97,15 @@ export default class ModalTickets extends Component {
 
         return (
             <div>
-                <Button color="primary" onClick={this.changeVisibility}>Crear Ticket</Button>
+                <Button color="primary" onClick={this.changeVisibility}>Editar Ticket</Button>
 
                 <Modal isOpen={this.state.isShow}
                        toggle={this.changeVisibility}
                        onKeyPress={this.saveTicketWithEnter}>
 
-                    <ModalHeader toggle={this.changeVisibility}>Crear Ticket</ModalHeader>
+                    <ModalHeader toggle={this.changeVisibility}>Editar Ticket</ModalHeader>
 
                     <ModalBody>
-                        <FormGroup>
-                            <Label>Nombre</Label>
-                            <Input type="text" value={this.state.value} onChange={this.handleDescriptionChange}></Input>
-                        </FormGroup>
                         <FormGroup>
                             <Label>Tarea</Label>
                             <Input type="select" value={this.state.value} onChange={this.handleTaskChange}>
@@ -122,27 +114,22 @@ export default class ModalTickets extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Recurso</Label>
-                            <Input type="select" value={this.state.value} onChange={this.handleTaskChange}>
-                                <option value="1">Martin</option>
-                                <option value="2">Nicolas</option>
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Tipo</Label>
-                            <Input type="select" value={this.state.type} onChange={this.handleTypeChange}>
-                                <option value="consulta">Consulta</option>
-                                <option value="error">Error</option>
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
                             <Label>Descripcion</Label>
-                            <Input type="text" value={this.state.value} onChange={this.handleDescriptionChange}></Input>
+                            <Input type="text" value={this.state.description} onChange={this.handleDescriptionChange}></Input>
 
                         </FormGroup>
                         <FormGroup>
                             <Label>Prioridad</Label>
                             <Input type="select" value={this.state.priority} onChange={this.handlePriorityChange}>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Status</Label>
+                            <Input type="select" value={this.state.status} onChange={this.handleStatusChange}>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>

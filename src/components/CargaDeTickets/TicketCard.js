@@ -8,17 +8,20 @@ export default function TicketCard (props)
         <div>
             <Row>
                 <Col>
-                    Ticket {props.item.id}
+                    Ticket {props.item.name}
                 </Col>
                 <Col>
                     <Row>
-                        Proyecto: {props.item.project_id}
+                        Proyecto: {props.item['project name']}
                     </Row>
                     <Row>
                         Estado: {props.item.status}
                     </Row>
                     <Row>
                         Prioridad: {props.item.priority}
+                    </Row>
+                    <Row>
+                        Fecha Limite: {props.item['limit date']}
                     </Row>
                 </Col>
             </Row>
