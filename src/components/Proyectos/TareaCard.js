@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import {Link} from "react-router-dom"
 import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Col, Row, Container, Badge
+    Card, CardText, CardBody,
+    CardTitle, Button, Col, Row, Container, Badge
 } from 'reactstrap';
 
 export default function TareaCard (props)
 {
-    const estadoString = props.project.estado.charAt(0).toUpperCase() + props.project.estado.slice(1);
+    // const estadoString = props.project.estado.charAt(0).toUpperCase() + props.project.estado.slice(1);
     const estadoColor = "success";
     return (
         <div>
@@ -19,7 +19,7 @@ export default function TareaCard (props)
                                 <CardTitle tag="h3">{props.tarea.nombre}</CardTitle>
                             </Col>
                             <Col>
-                                <h4><Badge color={estadoColor}>{estadoString}</Badge></h4>
+                                <h4><Badge color={estadoColor}>Iniciado{/*estadoString*/}</Badge></h4>
                             </Col>
                             <Col>
                                 <CardText>{props.tarea.descripcion}</CardText>
@@ -27,7 +27,7 @@ export default function TareaCard (props)
                             <Col>
                             </Col>
                             <Col body className="text-center">
-                                <Link to={`/proyectos/${props.codigoProyecto}/tarea/${props.tarea.codigo}`}>
+                                <Link to={`/proyectos/${props.codigoProyecto}/tareas/${props.tarea.codigo}`}>
                                     <Button color="info">Ver Tarea</Button>
                                 </Link>
                             </Col>

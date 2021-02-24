@@ -61,7 +61,7 @@ class AgregarTareaPage extends Component {
             .then(response => response.json())
             .then(function(json) {
                 if(json.codigo) {
-                    self.abrirModal("ÉXITO", `La tarea se generó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/proyectos/${this.id}/tareas`));
+                    self.abrirModal("ÉXITO", `La tarea se generó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/proyectos/${self.id}/tareas`));
                 } else {
                     self.abrirModal("ERROR DE LA REQUEST", json.description + json.validation, () => {});
                 }
@@ -171,10 +171,6 @@ class AgregarTareaPage extends Component {
                                     Finalizado
                                 </Label>
                             </FormGroup>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label className='parametro' for="horas">Horas</Label>
-                            <Input type="number" name="horas" id="horas" className='general' />
                         </FormGroup>
                         <FormGroup tag="fieldset">
                             <Label className='parametro' id='priority'>Prioridad *</Label>

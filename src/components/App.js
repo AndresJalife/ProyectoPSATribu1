@@ -4,6 +4,7 @@ import CargaDeHorasPage from '../pages/CargaDeHoras/CargaDeHorasPage';
 import MainProyectosPage from '../pages/Proyectos/MainProyectosPage';
 import AgregarProyectoPage from '../pages/Proyectos/AgregarProyectoPage';
 import RecursosPage from './../pages/Recursos/RecursosPage';
+import TareaPage from '../pages/Proyectos/TareaPage';
 import Soporte from './../pages/Soporte';
 import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
@@ -39,6 +40,7 @@ function App(props) {
                 <Route exact path="/proyectos" component={MainProyectosPage} />
                 <Route exact path="/nuevoProyecto" component={AgregarProyectoPage}/>
                 <Route exact path="/proyectos/:id/tareas" component={MainTareasPage} />
+                <Route exact path="/proyectos/:id/tareas/:idtarea" component={TareaPage} />
                 <Route exact path="/" component={Main} />
                 <Route exact path="/recursos" component={RecursosPage} />
                 <Route exact path="/cargadehoras/:id" component={CargaDeHorasPage} />
