@@ -75,7 +75,7 @@ export default class HoursModel {
         }
 
         if (hoursAsString < 10){
-            hoursAsString = "0"+hourString;
+            hoursAsString = "0"+hoursAsString;
         }
 
         return hoursAsString + ":" + minutesAsString;
