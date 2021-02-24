@@ -2,3 +2,29 @@
     width: 6%;
     margin-left: 47%;
 }
+
+#titlesContainer2{
+    display: flex;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 13%;
+}
+
+#estadoTitle2{
+    margin-left: 8%;
+}
+
+#proyectoName{
+    margin-right: 90%;
+    font-size: 30px;
+}
+
+#subheader{
+    
+}
+
+#tituloProyectos2{
+    margin-top: 0.5%;
+    display: inline-flex;
+    font-weight: bold;
+}

@@ -32,11 +32,15 @@ export default class MainTareasPage extends Component
     {
         const id = this.props.match.params.id;
         return  (<div className='paginaProyectos'>
-                    <h1 id='tituloProyectos'>Tareas</h1>
+                    <div id="subheader"> 
+                        <h1 id="proyectoName">Proyecto: {}</h1>
+                        <h2 id='tituloProyectos2'>Tareas</h2>
+                    </div>
+                    
                     <br/>
-                    <div id='titlesContainer'>
+                    <div id='titlesContainer2'>
                         <p>Nombre Tarea</p>
-                        <p id="estadoTitle">Estado</p>
+                        <p id="estadoTitle2">Estado</p>
                         <NavLink to={`/proyectos/${id}/nuevaTarea`} className="botonAgregarProyectoContainer">Agregar Tarea</NavLink>
                     </div>
                     <br />
