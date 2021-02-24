@@ -6,6 +6,7 @@ import MainProyectosPage from '../pages/Proyectos/MainProyectosPage';
 import AgregarProyectoPage from '../pages/Proyectos/AgregarProyectoPage';
 import Recursos from './../pages/Recursos';
 import Soporte from './../pages/Soporte';
+import TicketDetail from './../pages/Soporte/DetalleTicket';
 import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
 import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
@@ -31,6 +32,8 @@ function App(props) {
                 <Route exact path="/cargadehoras" component={CargaDeHorasPage} />
                 <Route exact path="/soporte" component={Soporte} />
                 <Route exact path="/proyectos/nuevoProyecto" component={AgregarProyectoPage}/>
+                <Route path="/soporte/ticket_detail" component={TicketDetail} />
+
             </Switch>
         </main>
 

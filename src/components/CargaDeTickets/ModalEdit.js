@@ -11,10 +11,9 @@ export default class ModalTickets extends Component {
 
     constructor(props){
         super(props);
-
         this.state = {
             isShow: false,
-            ticket_id: 4
+            ticket_original_data: props.data
         };
 
         this.saveTicket = this.saveTicket.bind(this);
@@ -55,7 +54,6 @@ export default class ModalTickets extends Component {
             "priority": this.state.priority,
             "status": this.state.status
         };
-        console.log(data)
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -107,20 +105,12 @@ export default class ModalTickets extends Component {
 
                     <ModalBody>
                         <FormGroup>
-                            <Label>Tarea</Label>
-                            <Input type="select" value={this.state.value} onChange={this.handleTaskChange}>
-                                <option value="grapefruit">Grapefruit</option>
-                                <option value="grapefruittt">Grapefruittttttt</option>
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
                             <Label>Descripcion</Label>
-                            <Input type="text" value={this.state.description} onChange={this.handleDescriptionChange}></Input>
-
+                            <Input type="text" value={this.state.ticket_original_data.description} onChange={this.handleDescriptionChange}></Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Prioridad</Label>
-                            <Input type="select" value={this.state.priority} onChange={this.handlePriorityChange}>
+                            <Label>Prioridad </Label>
+                            <Input type="select" value={this.state.ticket_original_data.priority} onChange={this.handlePriorityChange}>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -128,16 +118,22 @@ export default class ModalTickets extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Status</Label>
-                            <Input type="select" value={this.state.status} onChange={this.handleStatusChange}>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
+                            <Label>Status </Label>
+                            <Input type="select" value={this.state.ticket_original_data.status} onChange={this.handleStatusChange}>
+                                <option value="en progreso soporte">en progreso soporte</option>
+                                <option value="escalado en ingeneria">escalado en ingeneria</option>
+                                <option value="esperando respuesta del cliente">esperando respuesta del cliente</option>
+                                <option value="resuelto">resuelto</option>
                             </Input>
                         </FormGroup>
                         <FormGroup>
-
+                            <Label>Recurso</Label>
+                                <Input type="select" value={this.state.ticket_original_data.priority} onChange={this.handlePriorityChange}>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </Input>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>

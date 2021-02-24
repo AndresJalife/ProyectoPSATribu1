@@ -3,7 +3,6 @@ import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
 import {NavLink} from "react-router-dom";
 import TicketCard from "../components/CargaDeTickets/TicketCard";
 import ModalTickets from '../components/CargaDeTickets/ModalTickets';
-import ModalEdit from '../components/CargaDeTickets/ModalEdit';
 
 
 export default class Soporte extends Component {
@@ -46,13 +45,6 @@ export default class Soporte extends Component {
                             <Col>
                                 <ButtonToolbar>
                                     <ModalTickets></ModalTickets>
-                                </ButtonToolbar>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <ButtonToolbar>
-                                    <ModalEdit  ></ModalEdit>
                                 </ButtonToolbar>
                             </Col>
                         </Row>

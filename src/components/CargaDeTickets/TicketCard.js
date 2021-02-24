@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {ButtonToolbar, Col, Row} from "reactstrap";
 import ModalTickets from "./ModalTickets";
+import {Link} from "react-router-dom";
 
 export default function TicketCard (props)
 {
@@ -8,7 +9,7 @@ export default function TicketCard (props)
         <div>
             <Row>
                 <Col>
-                    Ticket {props.item.name}
+                    <Link to={`/soporte/ticket_detail/${props.item.id}`}>Ticket {props.item.name}</Link>
                 </Col>
                 <Col>
                     <Row>
