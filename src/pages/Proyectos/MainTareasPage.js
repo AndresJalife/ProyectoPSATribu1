@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import ProyectoCard from '../../components/Proyectos/ProyectoCard';
 import './MainTareasPage.css';
-import { Button } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 import TareaCard from "../../components/Proyectos/TareaCard";
 
 
@@ -38,9 +37,7 @@ export default class MainTareasPage extends Component
                     <div id='titlesContainer'>
                         <p>Nombre Tarea</p>
                         <p id="estadoTitle">Estado</p>
-                        <a className='botonAgregarProyectoContainer' href={`/ProyectoPSATribu1/proyectos/${id}/nuevaTarea`}>
-                            <Button>Agregar Tarea</Button>
-                        </a>
+                        <NavLink to={`/proyectos/${id}/nuevaTarea`} className="botonAgregarProyectoContainer">Agregar Tarea</NavLink>
                     </div>
                     <br />
                     {this.state.tareas.map((t) => <TareaCard key={t.codigo} codigoProyecto={id} tarea={t} />)}
