@@ -70,6 +70,7 @@ class AgregarTareaPage extends Component {
                 self.abrirModal("ERROR DEL FETCH", error.message)
             });
     }
+    
     componentDidMount(){
         this.id = this.props.match.params.id;
     }
