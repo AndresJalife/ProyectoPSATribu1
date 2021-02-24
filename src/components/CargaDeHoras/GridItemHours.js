@@ -32,6 +32,7 @@ export default class GridItemHours extends Component {
             title: "Eliminar la hora",
             text: "¿Estás seguro que desea eliminar " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + "?",
             icon: "warning",
+            dangerMode: "true",
             buttons: ["Si", "No"]
         }).then(answerIsNo=>{
             if(!answerIsNo){
