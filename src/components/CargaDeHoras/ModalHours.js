@@ -9,13 +9,18 @@ import 'react-times/css/classic/default.css';
 import './ModalHours.css'
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import PropTypes from "prop-types";
 
 export default class ModalHours extends Component {
+
+    static propTypes = {
+        onReload: PropTypes.func.isRequired
+    };
 
     constructor(props){
         super(props);
 
-        var hours = new HoursModel();
+        let hours = new HoursModel();
         hours.file = props.file;
 
         this.state = {
@@ -85,6 +90,7 @@ export default class ModalHours extends Component {
         })
         .then(function(response) {
             self.changeVisibility();
+            self.props.onReload();
         })
         .catch(function(error) {
             this.setState({
