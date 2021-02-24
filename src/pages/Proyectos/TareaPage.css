@@ -1,0 +1,90 @@
+#paginaTareas{
+    overflow-x: hidden;
+}
+
+#subheaderTarea{
+    margin-top: 1%;
+}
+
+#cardsContainer{
+    margin-top: 3%;
+}
+
+#cardRecursos{
+    height: 205px;
+}
+#recursosText{
+    margin-top: 2%;
+}
+
+#recursosButton{
+    margin-top: 4%;
+}
+
+.card{
+    margin: 0.5%; 
+}
+
+.cardsLeft{
+    margin-left: 2%;
+}
+.cardsRight{
+    margin-right: 2%;
+}
+
+#cardGeneral{
+    margin-right: 2%;
+    margin-left: 40%;
+    width: 60vw;
+    margin-bottom: 5%;
+} 
+
+#infoCodigos{
+    display:flex;
+    margin-left: 7%;
+}
+
+#cardFechas{
+    margin-bottom: 1%;
+}
+
+#cardPrioridad{
+    margin-bottom: 2%;
+}
+
+.cardText{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+#boton{
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 4%;
+}
+
+.iniciado, .alta{
+    color:#a51616;
+}
+
+.en, .proceso, .media{
+    color: #b8b820;
+}
+
+.finalizado, .baja{
+    color: #156415;
+}
+
+.media{
+    margin-left: 47%;
+}
+
+.cardTitle{
+    font-weight: bold;
+}
+
+#closebtn{
+    background-color: transparent;
+    color: black;
+}

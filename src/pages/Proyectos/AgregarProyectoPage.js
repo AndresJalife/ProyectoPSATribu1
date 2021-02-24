@@ -63,15 +63,15 @@ class AgregarProyectoPage extends Component {
                 if(json.codigo) {
                     self.abrirModal("ÉXITO", `El proyecto se generó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/proyectos/`));
                 } else {
-                    self.abrirModal("ERROR", json.description, json.validation);
+                    self.abrirModal("ERROR", json.description +  json.validation, () => {});
                 }
             })
             .catch(function(error) {
-                self.abrirModal("ERROR", error.message)
+                self.abrirModal("ERROR", error.message, () => {})
             });
     }
 
-    abrirModal(header, body, onClose=null){
+    abrirModal(header, body, onClose){
         this.setState({
             modalHeader: header,
             modalBody: body,
