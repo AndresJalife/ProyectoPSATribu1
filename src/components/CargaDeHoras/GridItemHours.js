@@ -24,8 +24,8 @@ export default class GridItemHours extends Component {
 
     }
 
-    deleteHoursById(id){
-        let url = 'https://squad6-backend.herokuapp.com/hours/' + id;
+    deleteHoursById(){
+        let url = 'https://squad6-backend.herokuapp.com/hours/' + this.props.hours.id;
 
         fetch(url, {
             method: 'DELETE'})
@@ -85,7 +85,7 @@ export default class GridItemHours extends Component {
                             </button>
                         </td>
                         <td>
-                            <button type="button" className="btn btn-sm btn-rounded" onClick = {this.deleteHoursById(this.props.hours.id)} style={{marginTop: "-7px", color: "red"}}>
+                            <button type="button" className="btn btn-sm btn-rounded" onClick = {this.deleteHoursById} style={{marginTop: "-7px", color: "red"}}>
                                 <FaTrashAlt/>
                             </button>
                         </td>
