@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 import {Link} from "react-router-dom";
 import Loader from "react-loader-spinner";
+import swal from "sweetalert";
 
 export default class GridItemHours extends Component {
     static propTypes = {
@@ -27,8 +28,19 @@ export default class GridItemHours extends Component {
     deleteHoursById(){
         let url = 'https://squad6-backend.herokuapp.com/hours/' + this.props.hours.id;
 
-        fetch(url, {
-            method: 'DELETE'})
+        swal({
+            title: "Eliminar la hora",
+            text: "¿Estás seguro que desea eliminar " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + "?",
+            icon: "warning",
+            buttons: ["Si", "No"]
+        }).then(answerIsNo=>{
+            if(!answerIsNo){
+                swal({text: "Se borraron " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
+                    icon: "success"})
+                fetch(url, {
+                    method: 'DELETE'})
+            }
+        });
     }
 
     componentDidMount() {
