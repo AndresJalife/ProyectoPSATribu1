@@ -6,6 +6,7 @@ import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 import {Link} from "react-router-dom";
 import Loader from "react-loader-spinner";
 import swal from "sweetalert";
+import ModalModifyHours from "./ModalModifyHours";
 
 export default class GridItemHours extends Component {
     static propTypes = {
@@ -49,7 +50,7 @@ export default class GridItemHours extends Component {
             }
         });
     }
-
+    
     componentDidMount() {
 
         let url = 'https://proyectopsa.herokuapp.com/proyectos/' +
@@ -98,9 +99,7 @@ export default class GridItemHours extends Component {
                         <td>{this.props.hours.quantityHours}</td>
                         <td>{this.props.hours.quantityMinutes}</td>
                         <td>
-                            <button type="button" className="btn btn-sm btn-rounded " style={{marginTop: "-7px", color: "blue"}}>
-                                <FaPencilAlt/>
-                            </button>
+                            <ModalModifyHours> hours={this.props.hours} onReload={this.props.onReload} </ModalModifyHours>
                         </td>
                         <td>
                             <button type="button" className="btn btn-sm btn-rounded" onClick = {this.deleteHoursById} style={{marginTop: "-7px", color: "red"}}>
