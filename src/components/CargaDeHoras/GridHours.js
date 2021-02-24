@@ -4,6 +4,7 @@ import HoursModel from "../../models/CargaDeHoras/HoursModel";
 import GridItemHours from "./GridItemHours";
 import ModalHours from "./ModalHours";
 import Loader from "react-loader-spinner";
+import PropTypes from "prop-types";
 
 export default class GridHours extends Component {
 
@@ -14,10 +15,42 @@ export default class GridHours extends Component {
             isLoading: true,
             lstHours: []
         };
+
+        this.onReloadGrid = this.onReloadGrid.bind(this);
     }
 
     componentDidMount() {
 
+        fetch('https://squad6-backend.herokuapp.com/hoursFile/' + this.props.file.toString())
+            .then(r => r.json())
+            .then((hoursByFile) =>
+            {
+                let lstHoursModel = [];
+
+                hoursByFile.forEach(x => {
+                    let model = new HoursModel();
+
+                    model.id = x.id;
+                    model.file = x.file;
+                    model.idProject = x.idProject;
+                    model.idTask = x.idTask;
+                    model.quantityHours = x.quantityHours;
+                    model.quantityMinutes = x.quantityMinutes;
+                    model.date = x.date;
+                    model.loadingDate = x.loadingDate;
+
+                    lstHoursModel.push(model);
+                });
+
+                lstHoursModel.sort((a, b) => a.date < b.date ? 1 : -1);
+                this.setState({
+                    isLoading: false,
+                    lstHours: lstHoursModel
+                });
+            }, (error) => {console.log(error);});
+    }
+
+    onReloadGrid(){
         fetch('https://squad6-backend.herokuapp.com/hoursFile/' + this.props.file.toString())
             .then(r => r.json())
             .then((hoursByFile) =>
@@ -58,7 +91,7 @@ export default class GridHours extends Component {
                         </Col>
 
                         <Col xl={2}>
-                            <ModalHours file={this.props.file}></ModalHours>
+                            <ModalHours file={this.props.file} onReload={this.onReloadGrid}></ModalHours>
                         </Col>
                     </CardHeader>
 
@@ -90,7 +123,7 @@ export default class GridHours extends Component {
 
                                         <tbody>
                                         {this.state.lstHours.map((h) =>
-                                            <GridItemHours key={h.id} hours={h}></GridItemHours>
+                                            <GridItemHours key={h.id} hours={h} onReload={this.onReloadGrid}></GridItemHours>
                                         )}
                                         </tbody>
                                     </Table>

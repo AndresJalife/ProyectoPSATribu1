@@ -9,10 +9,11 @@ import swal from "sweetalert";
 
 export default class GridItemHours extends Component {
     static propTypes = {
-        hours: PropTypes.object.isRequired
+        hours: PropTypes.object.isRequired,
+        onReload: PropTypes.func.isRequired
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -22,7 +23,6 @@ export default class GridItemHours extends Component {
         };
 
         this.deleteHoursById = this.deleteHoursById.bind(this);
-
     }
 
     deleteHoursById(){
@@ -32,13 +32,20 @@ export default class GridItemHours extends Component {
             title: "Eliminar la hora",
             text: "¿Estás seguro que desea eliminar " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + "?",
             icon: "warning",
+            dangerMode: "true",
             buttons: ["Si", "No"]
         }).then(answerIsNo=>{
             if(!answerIsNo){
-                swal({text: "Se borraron " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
-                    icon: "success"})
+
+                this.setState({isLoading: true});
+
                 fetch(url, {
-                    method: 'DELETE'})
+                    method: 'DELETE'}).then(() => {
+                    swal({text: "Se borraron " + this.props.hours.quantityHours + ":" + this.props.hours.quantityMinutes + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
+                        icon: "success"});
+                    this.setState({isLoading: false});
+                    this.props.onReload();
+                })
             }
         });
     }
@@ -48,7 +55,6 @@ export default class GridItemHours extends Component {
         let url = 'https://proyectopsa.herokuapp.com/proyectos/' +
                    this.props.hours.idProject.toString() + '/tarea/' +
                    this.props.hours.idTask.toString();
-
 
         fetch(url)
             .then(r => r.json())
