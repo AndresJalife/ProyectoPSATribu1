@@ -6,6 +6,7 @@ import AgregarProyectoPage from '../pages/Proyectos/AgregarProyectoPage';
 import RecursosPage from './../pages/Recursos/RecursosPage';
 import TareaPage from '../pages/Proyectos/TareaPage';
 import Soporte from './../pages/Soporte';
+import TicketDetail from './../pages/Soporte/DetalleTicket';
 import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
 import { Col } from 'reactstrap';
@@ -45,6 +46,7 @@ function App(props) {
                 <Route exact path="/recursos" component={RecursosPage} />
                 <Route exact path="/cargadehoras/:id" component={CargaDeHorasPage} />
                 <Route exact path="/soporte" component={Soporte} />
+                <Route path="/soporte/ticket_detail" component={TicketDetail} />
                 <Route exact path="/proyectos/:id/nuevaTarea" component={AgregarTareaPage} />
             </Switch>
         </main>
