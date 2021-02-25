@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 import {Link} from "react-router-dom";
 import Loader from "react-loader-spinner";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import ModalModifyHours from "./ModalModifyHours";
 
 export default class GridItemHours extends Component {
@@ -29,20 +29,23 @@ export default class GridItemHours extends Component {
     deleteHoursById(){
         let url = 'https://squad6-backend.herokuapp.com/hours/' + this.props.hours.id;
 
-        swal({
-            title: "Eliminar la hora",
+        swal.fire({
+            title: 'Eliminar la hora',
             text: "¿Estás seguro que desea eliminar " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + "?",
-            icon: "warning",
-            dangerMode: "true",
-            buttons: ["Si", "No"]
-        }).then(answerIsNo=>{
-            if(!answerIsNo){
-
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            dangerMode: 'true',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then(answer=>{
+            if(answer.isConfirmed){
                 this.setState({isLoading: true});
-
                 fetch(url, {
                     method: 'DELETE'}).then(() => {
-                    swal({text: "Se borraron " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
+                    swal.fire({
+                        title: "Se borraron " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + " con éxito." ,
                         icon: "success"});
                     this.setState({isLoading: false});
                     this.props.onReload();

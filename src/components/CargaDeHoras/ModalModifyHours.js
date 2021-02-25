@@ -10,7 +10,7 @@ import './ModalHours.css'
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import PropTypes from "prop-types";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 
 import { FaPencilAlt } from "react-icons/fa";
 
@@ -109,7 +109,7 @@ export default class ModalModifyHours extends Component {
             if(!response.ok)
                 throw new Error();
 
-            swal({
+            swal.fire({
                 text: "Se modificó la hora correctamente.",
                 icon: "success"
             }).then(() => {
