@@ -23,6 +23,7 @@ class TareaPage extends Component {
             estado: "",
             codigoRecurso: "",
             fechaFin: "",
+            recursosXhoras: [],
         }
     }
 
@@ -51,21 +52,34 @@ class TareaPage extends Component {
                 let codigoRecurso = document.getElementById("codigoRecurso").value;
                 if (!self.validateInputText(codigoRecurso, "codigoRecursoLabel")) return;
 
-                if (!self.validateRecurso(codigoRecurso)) {
-                    // self.setState({
-                    // })
-                    //TODO: validar que exista un recurso con ese código
-                    // si es valido asignarselo mediante el endpoint del squad6
-                    // si es invalido, pedirlo devuelta.
-                }
-
-                self.patch({
-
-                }, "https://..." /*pasarle la url del endpoint del squad6 para patch*/);
-
-                this.setState({modal:false});
+                self.validateRecursoAndAct(codigoRecurso);
             }
         )
+    }
+
+    validateRecursoAndAct(codigoRecurso){
+        let self = this;
+        fetch(`https://squad6-backend.herokuapp.com/resources/${codigoRecurso}`)
+            .then(r => r.json())
+            .then(function(json) {
+                if(json.Nombre) {
+                    self.props.history.push("/cargadehoras/" + codigoRecurso)
+                    this.setState({modal:false});
+                } else {
+                    console.log(json)
+                    self.setState({
+                        errorMessage: "ERROR: " + json.description +  json.validation + " Verificar que sea un recurso válido",
+                        errorModal: true,
+            
+                    })
+                }
+            })
+            .catch(function(error) {
+                self.setState({
+                    errorMessage: "ERROR: " + error.message,
+                    errorModal: true,
+                })
+            });
     }
 
     modificarPrioridad(){
@@ -107,7 +121,7 @@ class TareaPage extends Component {
                     self.patch({
                         "prioridad":prioridad
                     });
-    
+                    
                     self.setState({modal:false});
 
             }
@@ -190,10 +204,9 @@ class TareaPage extends Component {
     
     patch(data, url){
         if (url == null) {
-            url = `https://proyectopsa.herokuapp.com/proyectos/${this.state.tarea.nombreProyecto}/tarea/${this.state.tarea.codigo}`;
+            url = `https://proyectopsa.herokuapp.com/proyectos/${this.state.tarea.proyectoID}/tarea/${this.state.tarea.codigo}`;
         }
         let self = this;
-        console.log(url);
         fetch(url, {
             method: 'PATCH', 
             mode: 'cors', 
@@ -270,6 +283,39 @@ class TareaPage extends Component {
         this.tareaID = this.props.match.params.idtarea;
         this.proyectoID = this.props.match.params.id;
 
+        this.obtenerTareas();
+        this.obtenerRecursosPorTarea();
+    }
+
+    obtenerRecursosPorTarea(){
+        let self = this;
+        fetch(`https://squad6-backend.herokuapp.com/hours`)
+            .then(r => r.json())
+            .then((horas) => {
+                self.obtenerHorasDeTarea(horas)
+            })
+    }
+
+    obtenerHorasDeTarea(horas){
+        for(let hora in horas){
+            if(horas[hora].idProject == this.proyectoID && horas[hora].idTask == this.tareaID){
+                
+                fetch(`https://squad6-backend.herokuapp.com/resources/${horas[hora].file}`)
+                    .then(r => r.json())
+                    .then((recurso) => {
+                        this.setState({
+                            recursosXhoras: [...this.state.recursosXhoras, {
+                                nombre: recurso.Nombre + " " + recurso.Apellido,
+                                codigo: horas[hora].file,
+                                horas: horas[hora].quantityHours +  horas[hora].quantityMinutes == 0 ? "" : ":" + horas[hora].quantityMinutes
+                            }]
+                        })
+                    })
+            }
+        }
+    }
+
+    obtenerTareas(){
         fetch(`https://proyectopsa.herokuapp.com/proyectos/${this.proyectoID}/tarea/${this.tareaID}`)
             .then(r => r.json())
             .then((tarea) =>
@@ -283,6 +329,14 @@ class TareaPage extends Component {
                     codigoRecurso: trueTarea.codigoRecurso,
                 });
             }, (error) => {console.log(error);});
+    }
+
+    noResources(){
+        if(this.state.recursosXhoras.length == 0){
+            return <div id="sinAsignados">
+                No hay recursos asignados a esta tarea.
+            </div>                          
+        }
     }
 
     render() {
@@ -317,21 +371,33 @@ class TareaPage extends Component {
                     </Row>
                     <Row>
                         <Col sm="6">
-                            <div id='cardRecursos' className='card cardsLeft'>
+                            <div id='cardRecursos' className='card cardsLeft cardsTop'>
                                 <Card body>
-                                <CardTitle className="cardTitle" tag="h5">Recursos</CardTitle>
-                                <CardText id="recursosText"><b>Código Recurso:</b> {this.state.codigoRecurso == null ? "Ningún recurso asignado" : tarea.codigoRecurso}</CardText>
-                                <Button id="recursosButton" onClick={() => this.asignarRecurso()}>Asignar Recurso</Button>
+                                <CardTitle className="cardTitle" tag="h5">Horas Asignadas A Recursos</CardTitle>
+                                <div id ="recursosConHoras">
+                                    {this.noResources()}
+                                    {this.state.recursosXhoras.map((p) => {
+                                        console.log(p)
+                                        return (<div className="recursosHoras">
+                                                    <p id="codigoRecursoCard"><b>Código Recurso:</b> {p.codigo} <b>Nombre Recurso:</b> {p.nombre} <b>Horas asignadas:</b> {p.horas}</p>
+                                                </div>
+                                        )})}
+                                </div> 
+                                
+                                {/* <CardText id="recursosText"><b>Código Recurso:</b> {this.state.codigoRecurso == null ? "Ningún recurso asignado" : tarea.codigoRecurso}</CardText> */}
+                                <Button id="recursosButton" onClick={() => this.asignarRecurso()}>Asignar Horas a Recurso</Button>
                                 </Card>
                             </div>
                         </Col>
                         <Col sm="6">
-                            <div id='cardFechas' className='card cardsRight'>
+                            <div id='cardFechas' className='card cardsRight cardsTop'>
                                 <Card body>
                                 <CardTitle tag="h5" className="cardTitle">Fechas</CardTitle>
-                                <CardText><b>Fecha Inicial:</b> {tarea.fechaInicio}</CardText>
-                                <CardText><b>Fecha Final:</b> {this.state.fechaFin == null ? "No hay fecha final" : this.state.fechaFin}</CardText>
-                                <Button onClick={() => this.modificarFechaFinal()}>Modificar Fecha Final </Button>
+                                <div id="fechasTareas">
+                                    <CardText><b>Fecha Inicial:</b> {tarea.fechaInicio}</CardText>
+                                    <CardText><b>Fecha Final:</b> {this.state.fechaFin == null ? "No hay fecha final" : this.state.fechaFin}</CardText>
+                                </div>
+                                <Button id="fechaButton" onClick={() => this.modificarFechaFinal()}>Modificar Fecha Final </Button>
                                 </Card>
                             </div>
                         </Col>
