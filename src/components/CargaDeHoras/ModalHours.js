@@ -99,11 +99,24 @@ export default class ModalHours extends Component {
                 throw new Error();
 
             swal.fire({
-                text: "Se cargaron " + hoursAsString + " horas del " + dateAsString + " con éxito.",
-                icon: "success"
-            }).then(() => {
-                self.changeVisibility();
-                self.props.onReload();
+                title: 'Cargar horas',
+                text: "¿Estás seguro que desea agregar " + hoursAsString + " horas del " + dateAsString + "?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                dangerMode: 'true',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then(answer=>{
+                if(answer.isConfirmed){
+                    self.changeVisibility();
+                    self.props.onReload();
+                    swal.fire({
+                        title: "Se agregaron " + hoursAsString + " horas del " + dateAsString + ".",
+                        icon: "success"
+                    })
+                }
             });
         })
         .catch(function(error) {
@@ -273,7 +286,7 @@ export default class ModalHours extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Col className="col-datos-oblig">
-                                (*) para aquellos campos que sean requeridos obligatoriamente
+                                (*) Campos obligatorios
                                 <hr/>
                             </Col>
                         </FormGroup>
