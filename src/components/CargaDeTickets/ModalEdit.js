@@ -13,7 +13,8 @@ export default class ModalTickets extends Component {
         super(props);
         this.state = {
             isShow: false,
-            ticket_original_data: props.data
+            ticket_original_data: props.data,
+            resources: ['nombre y apellido 1', 'nombre y apellido 2']
         };
 
         this.saveTicket = this.saveTicket.bind(this);
@@ -91,6 +92,19 @@ export default class ModalTickets extends Component {
         //alert('A name was submitted: ' + this.state.value);
         //event.preventDefault();
       }
+
+      resources_to_code(){
+        return this.state.resources.map(function (mark, i) {
+        return <option
+        key={mark}
+        value={mark}>
+        {mark}
+    </option>
+
+
+        });
+      }
+
     render(){
 
         return (
@@ -106,11 +120,11 @@ export default class ModalTickets extends Component {
                     <ModalBody>
                         <FormGroup>
                             <Label>Descripcion</Label>
-                            <Input type="text" value={this.state.ticket_original_data.description} onChange={this.handleDescriptionChange}></Input>
+                            <Input type="text" value={this.state.description} onChange={this.handleDescriptionChange}></Input>
                         </FormGroup>
                         <FormGroup>
                             <Label>Prioridad </Label>
-                            <Input type="select" value={this.state.ticket_original_data.priority} onChange={this.handlePriorityChange}>
+                            <Input type="select" value={this.state.priority} onChange={this.handlePriorityChange}>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -119,7 +133,7 @@ export default class ModalTickets extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Status </Label>
-                            <Input type="select" value={this.state.ticket_original_data.status} onChange={this.handleStatusChange}>
+                            <Input type="select" value={this.state.status} onChange={this.handleStatusChange}>
                                 <option value="en progreso soporte">en progreso soporte</option>
                                 <option value="escalado en ingeneria">escalado en ingeneria</option>
                                 <option value="esperando respuesta del cliente">esperando respuesta del cliente</option>
@@ -128,11 +142,8 @@ export default class ModalTickets extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Recurso</Label>
-                                <Input type="select" value={this.state.ticket_original_data.priority} onChange={this.handlePriorityChange}>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                <Input type="select" value={this.state.priority} onChange={this.handlePriorityChange} >
+                                    {this.state.resources.map(t => '<option value='+'"'+t+'"'+'>'+t+'</option>')}
                                 </Input>
                         </FormGroup>
                         <FormGroup check row>

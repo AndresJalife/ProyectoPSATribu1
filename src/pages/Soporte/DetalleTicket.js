@@ -38,7 +38,18 @@ export default class TicketDetail extends Component {
             creation_date: ticket["creation date"],
             limit_date:  ticket["limit date"],
         });
-            this.modal_edit.setState({ticket_original_data: this.state});
+            this.modal_edit.setState({
+                id: ticket["id"],
+                name: ticket["name"],
+                description: ticket["description"],
+                status: ticket["status"],
+                priority: ticket["priority"],
+                type: ticket["type"],
+                project_name: ticket["project name"],
+                task_name: ticket["task name"],
+                task_description: ticket["description"],
+                creation_date: ticket["creation date"],
+                limit_date:  ticket["limit date"],});
     }));
 
     }
@@ -47,7 +58,7 @@ export default class TicketDetail extends Component {
     render() {
         return (
             <div>
-                AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa
+                Detalle de ticket
                 <Row>
                     <Col>
                         <ButtonToolbar>
@@ -57,7 +68,7 @@ export default class TicketDetail extends Component {
                 </Row>
                 <Row>
                     <Col>
-                       Ticket {this.state.name}
+                       {this.state.name}
                     </Col>
                     <Col>
                         <Row>
