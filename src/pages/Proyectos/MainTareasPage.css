@@ -15,7 +15,8 @@
 }
 
 #proyectoName{
-    margin-right: 90%;
+    /* margin-right:70%; */
+    left:0;
     font-size: 30px;
 }
 
@@ -27,4 +28,6 @@
     margin-top: 0.5%;
     display: inline-flex;
     font-weight: bold;
+    font-size: 25px;
+    margin-right: 80%;
 }

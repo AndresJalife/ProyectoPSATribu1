@@ -11,7 +11,8 @@ export default class MainTareasPage extends Component
     {
         super(props);
         this.state = {
-            tareas: []
+            tareas: [],
+            nombreProyecto: ""
         }
     }
 
@@ -25,7 +26,19 @@ export default class MainTareasPage extends Component
                 this.setState({
                     tareas: tareas
                 });
-            }, (error) => {console.log(error);});
+            }, (error) => {console.log(error)}
+        );
+
+        fetch(`https://proyectopsa.herokuapp.com/proyectos/${id}`)
+            .then(r => r.json())
+            .then((proyecto) =>
+            {   
+                console.log(proyecto)
+                this.setState({
+                    nombreProyecto: proyecto.proyecto.nombre
+                });
+            }, (error) => {console.log(error);}
+        );
     }
 
     render()
@@ -33,8 +46,10 @@ export default class MainTareasPage extends Component
         const id = this.props.match.params.id;
         return  (<div className='paginaProyectos'>
                     <div id="subheader"> 
-                        <h1 id="proyectoName">Proyecto: {}</h1>
-                        <h2 id='tituloProyectos2'>Tareas</h2>
+                        <h1 id="proyectoName"><b>Proyecto:</b> {this.state.nombreProyecto}</h1>
+                        <h2 id='tituloProyectos2'>Tareas del proyecto:</h2>
+                        <br/>
+                        
                     </div>
                     
                     <br/>
