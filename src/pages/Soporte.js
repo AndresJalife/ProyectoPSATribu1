@@ -17,7 +17,6 @@ export default class Soporte extends Component {
 
     componentDidMount() {
         var url = 'https://aninfo-soporte.herokuapp.com/tickets_main_data';
-        var url_2 = 'https://aninfo-soporte.herokuapp.com/1/tickets';
         var data = {};
 
         fetch(url, {
@@ -30,6 +29,7 @@ export default class Soporte extends Component {
         }).then(response => response.json().then(data => this.setState({
             tickets: data
         })));
+
     }
 
 

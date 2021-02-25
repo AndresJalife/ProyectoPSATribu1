@@ -59,9 +59,9 @@ export default class ModalTickets extends Component {
         this.changeVisibility();
         var url = 'https://aninfo-soporte.herokuapp.com/edit_ticket';
         var data = {
-            "ticket_id": this.state.ticket_id,
+            "ticket_id": this.state.id,
             "description": this.state.description,
-            "task_id": this.state.task,
+            "task_id": this.state.task_id,
             "priority": this.state.priority,
             "status": this.state.status,
             "resource_id": this.state.resource_id,
@@ -75,6 +75,7 @@ export default class ModalTickets extends Component {
             },
             mode:'cors'
         })
+        console.log(data)
 
     }
 
