@@ -64,8 +64,7 @@ export default class ModalTickets extends Component {
             "task_id": this.state.task_id,
             "priority": this.state.priority,
             "status": this.state.status,
-            "resource_id": this.state.resource_id,
-            "resource_name": this.state.resource_name
+            "resource_id": this.state.resource_id
         };
         fetch(url, {
             method: 'POST',

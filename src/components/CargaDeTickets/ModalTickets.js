@@ -35,7 +35,7 @@ export default class ModalTickets extends Component {
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleResourceChange = this.handleResourceChange.bind(this);
-
+        this.handleNameChange = this.handleNameChange.bind(this)
     }
 
     changeVisibility() {
@@ -61,7 +61,8 @@ export default class ModalTickets extends Component {
             "task_id": this.state.task_id,
             "priority": this.state.priority,
             "resource_id": this.state.resource_id,
-            "name": this.state.name
+            "name": this.state.name,
+            "id": Math.floor(Math.random() * (10000 - 0 + 1)) + 0
         };
         console.log(data)
         fetch(url, {
