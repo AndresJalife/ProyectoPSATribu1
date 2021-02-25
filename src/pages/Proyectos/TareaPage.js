@@ -66,7 +66,6 @@ class TareaPage extends Component {
                     self.props.history.push("/cargadehoras/" + codigoRecurso)
                     this.setState({modal:false});
                 } else {
-                    console.log(json)
                     self.setState({
                         errorMessage: "ERROR: " + json.description +  json.validation + " Verificar que sea un recurso válido",
                         errorModal: true,
@@ -303,11 +302,12 @@ class TareaPage extends Component {
                 fetch(`https://squad6-backend.herokuapp.com/resources/${horas[hora].file}`)
                     .then(r => r.json())
                     .then((recurso) => {
+
                         this.setState({
                             recursosXhoras: [...this.state.recursosXhoras, {
                                 nombre: recurso.Nombre + " " + recurso.Apellido,
                                 codigo: horas[hora].file,
-                                horas: horas[hora].quantityHours +  horas[hora].quantityMinutes == 0 ? "" : ":" + horas[hora].quantityMinutes
+                                horas: horas[hora].quantityHours +  (horas[hora].quantityMinutes == 0 ? "" : ":" + horas[hora].quantityMinutes)
                             }]
                         })
                     })
@@ -377,7 +377,6 @@ class TareaPage extends Component {
                                 <div id ="recursosConHoras">
                                     {this.noResources()}
                                     {this.state.recursosXhoras.map((p) => {
-                                        console.log(p)
                                         return (<div className="recursosHoras">
                                                     <p id="codigoRecursoCard"><b>Código Recurso:</b> {p.codigo}&nbsp;&nbsp;&nbsp;&nbsp;<b>Nombre Recurso:</b> {p.nombre}&nbsp;&nbsp;&nbsp;&nbsp; <b>Horas asignadas:</b> {p.horas}</p>
                                                 </div>
