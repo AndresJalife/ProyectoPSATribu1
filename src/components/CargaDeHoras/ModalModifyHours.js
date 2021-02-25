@@ -150,6 +150,9 @@ export default class ModalModifyHours extends Component {
             return;
         }
         this.state.hoursModel.date = parseInt(stringNewDate);
+        this.setState({ 
+            hoursModel: this.state.hoursModel
+        })
     }
 
     isFormValid(){
