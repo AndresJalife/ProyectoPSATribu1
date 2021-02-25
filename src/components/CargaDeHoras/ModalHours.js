@@ -10,7 +10,7 @@ import './ModalHours.css'
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import PropTypes from "prop-types";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 
 export default class ModalHours extends Component {
 
@@ -98,12 +98,25 @@ export default class ModalHours extends Component {
             if(!response.ok)
                 throw new Error();
 
-            swal({
-                text: "Se cargaron " + hoursAsString + " horas del " + dateAsString + " con éxito.",
-                icon: "success"
-            }).then(() => {
-                self.changeVisibility();
-                self.props.onReload();
+            swal.fire({
+                title: 'Cargar horas',
+                text: "¿Está seguro que desea agregar " + hoursAsString + " horas del " + dateAsString + "?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                dangerMode: 'true',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then(answer=>{
+                if(answer.isConfirmed){
+                    self.changeVisibility();
+                    self.props.onReload();
+                    swal.fire({
+                        title: "Se agregaron " + hoursAsString + " horas del " + dateAsString + ".",
+                        icon: "success"
+                    })
+                }
             });
         })
         .catch(function(error) {
@@ -273,7 +286,7 @@ export default class ModalHours extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Col className="col-datos-oblig">
-                                (*) para aquellos campos que sean requeridos obligatoriamente
+                                (*) Campos obligatorios
                                 <hr/>
                             </Col>
                         </FormGroup>
