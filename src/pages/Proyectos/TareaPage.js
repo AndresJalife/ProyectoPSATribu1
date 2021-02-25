@@ -379,7 +379,7 @@ class TareaPage extends Component {
                                     {this.state.recursosXhoras.map((p) => {
                                         console.log(p)
                                         return (<div className="recursosHoras">
-                                                    <p id="codigoRecursoCard"><b>Código Recurso:</b> {p.codigo} <b>Nombre Recurso:</b> {p.nombre} <b>Horas asignadas:</b> {p.horas}</p>
+                                                    <p id="codigoRecursoCard"><b>Código Recurso:</b> {p.codigo}&nbsp;&nbsp;&nbsp;&nbsp;<b>Nombre Recurso:</b> {p.nombre}&nbsp;&nbsp;&nbsp;&nbsp; <b>Horas asignadas:</b> {p.horas}</p>
                                                 </div>
                                         )})}
                                 </div> 
