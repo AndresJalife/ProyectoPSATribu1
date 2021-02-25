@@ -89,48 +89,48 @@ export default class ModalModifyHours extends Component {
 
         let self = this;
 
-        fetch(url, {
-            method: 'PUT',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data) // body data type must match "Content-Type" header
-        })
-        .then(function(response) {
-
-           
-            if(!response.ok)
-                throw new Error();
-
-            swal.fire({
-                title: 'Modificar horas',
-                text: 
+        swal.fire({
+            title: 'Modificar horas',
+            text:
                 "¿Está seguro que desea modificar estas horas?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                dangerMode: 'true',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then(answer=>{
-                if(answer.isConfirmed){
-                    self.changeVisibility();
-                    self.props.onReload();
-                    swal.fire({
-                        title: "Se modificaron las horas correctamente.",
-                        icon: "success"
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            dangerMode: 'true',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then(answer=>{
+            if(answer.isConfirmed){
+
+                fetch(url, {
+                    method: 'PUT',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow',
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify(data) // body data type must match "Content-Type" header
+                })
+                    .then(function(response) {
+                        if(!response.ok)
+                            throw new Error();
+
+                        self.changeVisibility();
+                        self.props.onReload();
+                        swal.fire({
+                            title: "Se modificaron las horas correctamente.",
+                            icon: "success"
+                        })
                     })
-                }
-            });
-        })
-        .catch(function(error) {
-            self.setState({
-                errorMessage: "No se puede cargar más de 24 horas un mismo día"
-            });
+                    .catch(function(error) {
+                        self.setState({
+                            errorMessage: "No se puede cargar más de 24 horas un mismo día"
+                        });
+                    });
+
+            }
         });
     }
 

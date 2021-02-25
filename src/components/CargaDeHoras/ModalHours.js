@@ -83,46 +83,48 @@ export default class ModalHours extends Component {
 
         let self = this;
 
-        fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data) // body data type must match "Content-Type" header
-        })
-        .then(function(response) {
+        swal.fire({
+            title: 'Cargar horas',
+            text: "¿Está seguro que desea agregar " + hoursAsString + " horas del " + dateAsString + "?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            dangerMode: 'true',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then(answer=>{
+            if(answer.isConfirmed){
 
-            if(!response.ok)
-                throw new Error();
 
-            swal.fire({
-                title: 'Cargar horas',
-                text: "¿Está seguro que desea agregar " + hoursAsString + " horas del " + dateAsString + "?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                dangerMode: 'true',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then(answer=>{
-                if(answer.isConfirmed){
-                    self.changeVisibility();
-                    self.props.onReload();
-                    swal.fire({
-                        title: "Se agregaron " + hoursAsString + " horas del " + dateAsString + ".",
-                        icon: "success"
+                fetch(url, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow',
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify(data) // body data type must match "Content-Type" header
+                })
+                    .then(function(response) {
+
+                        if(!response.ok)
+                            throw new Error();
+
+                        self.changeVisibility();
+                        self.props.onReload();
+                        swal.fire({
+                            title: "Se agregaron " + hoursAsString + " horas del " + dateAsString + ".",
+                            icon: "success"
+                        })
                     })
-                }
-            });
-        })
-        .catch(function(error) {
-            self.setState({
-                errorMessage: "No se puede cargar más de 24 horas un mismo día"
-            });
+                    .catch(function(error) {
+                        self.setState({
+                            errorMessage: "No se puede cargar más de 24 horas un mismo día"
+                        });
+                    });
+            }
         });
     }
 
