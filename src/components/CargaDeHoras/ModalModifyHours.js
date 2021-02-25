@@ -32,33 +32,28 @@ export default class ModalModifyHours extends Component {
             hoursModel: hoursAux,
             lstProjects: [],
             lstTasks: [],
-            isTaskDisabled: true,
+            isTaskDisabled: false,
             taskIsLoading: false,
             errorMessage:""
         };
-        //this.state.hoursModel.setIdProject(this.props.hours.idProject);
-        //this.state.hoursModel.setIdTask(this.props.hours.idTask);
+
+        this.state.hoursModel.setIdProject(this.props.hours.idProject);
+        this.state.hoursModel.setIdTask(this.props.hours.idTask);
         this.state.hoursModel.setNewHours(this.props.hours.quantityHours, this.props.hours.quantityMinutes);
-        //this.state.hoursModel.date = this.props.hours.date;
-        //this.state.hoursModel.nameProject = "nombre por defecto";
-        //this.state.hoursModel.nameTask = "tarea por defecto";
+        this.state.hoursModel.date = this.props.hours.date;
 
         this.saveHoursById = this.saveHoursById.bind(this);
         this.changeVisibility = this.changeVisibility.bind(this);
-
         this.saveHoursWithEnter = this.saveHoursWithEnter.bind(this);
+        this.getListTasks = this.getListTasks.bind(this);
+        this.getListTasks();
     }
 
     changeVisibility() {
         this.setState({
             isShow: !this.state.isShow,
             errorMessage: "",
-            isTaskDisabled: true
         });
-        
-        this.state.hoursModel.setIdProject(0);
-        this.state.hoursModel.setIdTask(0);
-        this.state.hoursModel.date = 0;
     }
 
     saveHoursWithEnter(e){
@@ -106,15 +101,30 @@ export default class ModalModifyHours extends Component {
         })
         .then(function(response) {
 
+           
             if(!response.ok)
                 throw new Error();
 
             swal.fire({
-                text: "Se modificó la hora correctamente.",
-                icon: "success"
-            }).then(() => {
-                self.changeVisibility();
-                self.props.onReload();
+                title: 'Modificar horas',
+                text: 
+                "¿Está seguro que desea modificar estas horas?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                dangerMode: 'true',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then(answer=>{
+                if(answer.isConfirmed){
+                    self.changeVisibility();
+                    self.props.onReload();
+                    swal.fire({
+                        title: "Se modificaron las horas correctamente.",
+                        icon: "success"
+                    })
+                }
             });
         })
         .catch(function(error) {
@@ -159,7 +169,7 @@ export default class ModalModifyHours extends Component {
             }, (error) => {console.log(error);});
     }
 
-    async getListTasks(){
+    getListTasks(){
 
         let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
 
@@ -168,7 +178,10 @@ export default class ModalModifyHours extends Component {
             .then((tasks) =>
             {
                 this.setState({
-                    lstTasks: tasks
+                    hoursModel: this.state.hoursModel,
+                    lstTasks: tasks,
+                    isTaskDisabled: false,
+                    taskIsLoading: false
                 });
             }, (error) => {console.log(error);});
     }
@@ -178,7 +191,7 @@ export default class ModalModifyHours extends Component {
         this.setState({taskIsLoading: true});
 
         this.state.hoursModel.setIdProject(newIdProject);
-
+        this.state.hoursModel.setIdTask(0);
         let shouldTaskDisabled = (newIdProject == 0);
 
         if (shouldTaskDisabled){
@@ -188,20 +201,9 @@ export default class ModalModifyHours extends Component {
                 isTaskDisabled: shouldTaskDisabled,
                 taskIsLoading: false
             });
+            
         } else {
-            let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
-
-            fetch(urlTask)
-                .then(r => r.json())
-                .then((tasks) =>
-                {
-                    this.setState({
-                        hoursModel: this.state.hoursModel,
-                        lstTasks: tasks,
-                        isTaskDisabled: false,
-                        taskIsLoading: false
-                    });
-                }, (error) => {console.log(error);});
+            this.getListTasks();
         }
     }
 
@@ -232,7 +234,8 @@ export default class ModalModifyHours extends Component {
                         <FormGroup>
                             <Label>Proyecto *</Label>
                             <Input type="select"
-                                   onChange={e => this.onProjectChange(e.target.value)}>
+                                   onChange={e => this.onProjectChange(e.target.value)}
+                                   value={this.state.hoursModel.idProject.toString()}>
                                 <option value="0"></option>
                                 {this.state.lstProjects.map((p) => <option key={p.codigo} value={p.codigo}>{p.nombre}</option>)}
                             </Input>
@@ -251,7 +254,8 @@ export default class ModalModifyHours extends Component {
                                     :
                                     <Input type="select"
                                            disabled={this.state.isTaskDisabled}
-                                           onChange={e => this.onTaskChange(e.target.value)}>
+                                           onChange={e => this.onTaskChange(e.target.value)} 
+                                           value={this.state.hoursModel.idTask.toString()}>
                                         <option value="0"></option>
                                         {this.state.lstTasks.map((t) => <option key={t.codigo} value={t.codigo}>{t.nombre}</option>)}
                                     </Input>
@@ -272,14 +276,19 @@ export default class ModalModifyHours extends Component {
                                             step: 15,
                                             unit: 'minutes'
                                         }}
-                                        onTimeChange={this.onTimeChange.bind(this)}/>
+                                        onTimeChange={this.onTimeChange.bind(this)}
+                                        />
                                 </Col>
 
                                 <Col lg={6}>
                                     <Label>Fecha *</Label>
                                     <Input type="date"
                                            max={(new Date().toISOString().split("T")[0])}
-                                           onChange={e => this.onDateChange(e.target.value)}></Input>
+                                           onChange={e => this.onDateChange(e.target.value)}
+                                           value={
+                                            this.state.hoursModel.date.toString().substr(0,4) + "-" + 
+                                            this.state.hoursModel.date.toString().substr(4,2) + "-" + 
+                                            this.state.hoursModel.date.toString().substr(6,2)}></Input>
                                 </Col>
                             </Row>
 
