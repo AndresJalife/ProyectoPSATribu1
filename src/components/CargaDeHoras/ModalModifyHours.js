@@ -12,29 +12,38 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import PropTypes from "prop-types";
 import swal from "sweetalert2";
 
-export default class ModalHours extends Component {
+import { FaPencilAlt } from "react-icons/fa";
+
+export default class ModalModifyHours extends Component {
 
     static propTypes = {
-        onReload: PropTypes.func.isRequired
+        hours: PropTypes.object.isRequired,
+        onReload: PropTypes.func.isRequired,
     };
 
     constructor(props){
         super(props);
 
-        let hours = new HoursModel();
-        hours.file = props.file;
+        let hoursAux = new HoursModel();
+        hoursAux.file = props.hours.file;
 
         this.state = {
             isShow: false,
-            hoursModel: hours,
+            hoursModel: hoursAux,
             lstProjects: [],
             lstTasks: [],
             isTaskDisabled: true,
             taskIsLoading: false,
             errorMessage:""
         };
+        //this.state.hoursModel.setIdProject(this.props.hours.idProject);
+        //this.state.hoursModel.setIdTask(this.props.hours.idTask);
+        this.state.hoursModel.setNewHours(this.props.hours.quantityHours, this.props.hours.quantityMinutes);
+        //this.state.hoursModel.date = this.props.hours.date;
+        //this.state.hoursModel.nameProject = "nombre por defecto";
+        //this.state.hoursModel.nameTask = "tarea por defecto";
 
-        this.saveHours = this.saveHours.bind(this);
+        this.saveHoursById = this.saveHoursById.bind(this);
         this.changeVisibility = this.changeVisibility.bind(this);
 
         this.saveHoursWithEnter = this.saveHoursWithEnter.bind(this);
@@ -58,7 +67,7 @@ export default class ModalHours extends Component {
         }
     }
 
-    saveHours() {
+    saveHoursById() {
 
         if (!this.isFormValid()){
             this.setState({
@@ -67,15 +76,17 @@ export default class ModalHours extends Component {
             return;
         }
 
-        let url = "https://squad6-backend.herokuapp.com/hours";
+        let url = 'https://squad6-backend.herokuapp.com/hours/' + this.props.hours.id;
 
         let data = {
-            file: this.state.hoursModel.file,
+            id: this.props.hours.id,
+            file: this.props.hours.file,
             idProject: this.state.hoursModel.idProject,
             idTask: this.state.hoursModel.idTask,
             quantityHours: this.state.hoursModel.quantityHours,
             quantityMinutes: this.state.hoursModel.quantityMinutes,
-            date: this.state.hoursModel.date
+            date: this.state.hoursModel.date,
+            loadingDate: this.props.hours.loadingDate
         };
 
         var dateAsString = this.state.hoursModel.getDateAsString();
@@ -84,7 +95,7 @@ export default class ModalHours extends Component {
         let self = this;
 
         fetch(url, {
-            method: 'POST',
+            method: 'PUT',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
@@ -99,24 +110,11 @@ export default class ModalHours extends Component {
                 throw new Error();
 
             swal.fire({
-                title: 'Cargar horas',
-                text: "¿Está seguro que desea agregar " + hoursAsString + " horas del " + dateAsString + "?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                dangerMode: 'true',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then(answer=>{
-                if(answer.isConfirmed){
-                    self.changeVisibility();
-                    self.props.onReload();
-                    swal.fire({
-                        title: "Se agregaron " + hoursAsString + " horas del " + dateAsString + ".",
-                        icon: "success"
-                    })
-                }
+                text: "Se modificó la hora correctamente.",
+                icon: "success"
+            }).then(() => {
+                self.changeVisibility();
+                self.props.onReload();
             });
         })
         .catch(function(error) {
@@ -220,13 +218,15 @@ export default class ModalHours extends Component {
         return (
             <div>
 
-                <Button color="primary" onClick={this.changeVisibility}>Nueva</Button>
+                <button type="button" className="btn btn-sm btn-rounded " onClick = {this.changeVisibility} style={{marginTop: "-7px", color: "blue"}}>
+                                <FaPencilAlt/>
+                            </button>
 
                 <Modal isOpen={this.state.isShow}
                        toggle={this.changeVisibility}
                        onKeyPress={this.saveHoursWithEnter}>
 
-                    <ModalHeader toggle={this.changeVisibility}>Carga de Horas</ModalHeader>
+                    <ModalHeader toggle={this.changeVisibility}>Modificar hora cargada</ModalHeader>
 
                     <ModalBody onKeyPress={this.saveHoursWithEnter}>
                         <FormGroup>
@@ -286,13 +286,13 @@ export default class ModalHours extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Col className="col-datos-oblig">
-                                (*) Campos obligatorios
+                                (*) para aquellos campos que sean requeridos obligatoriamente
                                 <hr/>
                             </Col>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
-                                <Button color="primary" onClick={this.saveHours}>Guardar</Button>
+                                <Button color="primary" onClick={this.saveHoursById}>Guardar</Button>
                             </Col>
                         </FormGroup>
 

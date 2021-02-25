@@ -1,3 +1,12 @@
 .time_picker_container {
     zoom: 90%;
 }
+
+.col-datos-oblig{
+    zoom: 80%;
+    text-align: center;
+}
+
+#alerta{
+    margin-top: 10px;
+}

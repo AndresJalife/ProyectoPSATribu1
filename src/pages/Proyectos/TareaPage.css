@@ -1,0 +1,113 @@
+#paginaTareas{
+    overflow-x: hidden;
+}
+
+#subheaderTarea{
+    margin-top: 1%;
+}
+
+#cardsContainer{
+    margin-top: 3%;
+}
+
+#recursosText{
+    margin-top: 2%;
+}
+
+#recursosButton{
+    position: absolute;
+    margin-top: 2%;
+    margin-left: 0%;
+    margin-top: 30%;
+    width: 670px;
+    height: 40px;
+}
+
+#sinAsignados{
+    margin-top: 8%;
+}
+
+.card{
+    margin: 0.5%; 
+}
+
+.cardsTop{
+    height: 20vw;
+}
+
+.cardsLeft{
+    margin-left: 2%;
+}
+.cardsRight{
+    margin-right: 2%;
+}
+
+#cardGeneral{
+    margin-right: 2%;
+    margin-left: 40%;
+    width: 60vw;
+    margin-bottom: 5%;
+} 
+
+#infoCodigos{
+    display:flex;
+    margin-left: 7%;
+}
+
+#cardFechas{
+    margin-bottom: 1%;
+}
+
+#cardPrioridad{
+    margin-bottom: 2%;
+}
+
+.cardText{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+#boton{
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 4%;
+}
+#fechasTareas{
+    margin-top: 7%;
+}
+#fechaButton{
+    margin-top: 10%;
+}
+
+#recursosConHoras{
+    margin-top: 2%;
+    overflow-y: auto;
+    
+}
+
+.iniciado, .alta{
+    color:#a51616;
+}
+
+.en, .proceso, .media{
+    color: #b8b820;
+}
+
+.finalizado, .baja{
+    color: #156415;
+}
+
+.media{
+    margin-left: 47%;
+}
+
+.cardTitle{
+    font-weight: bold;
+}
+
+#closebtn{
+    background-color: transparent;
+    color: black;
+}
+

@@ -14,7 +14,7 @@ export default class ModalTickets extends Component {
         this.state = {
             isShow: false,
             ticket_original_data: props.data,
-            resources: ['nombre y apellido 1', 'nombre y apellido 2']
+            resources: [{name: 'nombre y apellido 1', code: 1}, {name: 'nombre y apellido 2', code: 2}]
         };
 
         this.saveTicket = this.saveTicket.bind(this);
@@ -93,18 +93,6 @@ export default class ModalTickets extends Component {
         //event.preventDefault();
       }
 
-      resources_to_code(){
-        return this.state.resources.map(function (mark, i) {
-        return <option
-        key={mark}
-        value={mark}>
-        {mark}
-    </option>
-
-
-        });
-      }
-
     render(){
 
         return (
@@ -143,8 +131,7 @@ export default class ModalTickets extends Component {
                         <FormGroup>
                             <Label>Recurso</Label>
                                 <Input type="select" value={this.state.priority} onChange={this.handlePriorityChange} >
-                                    {this.state.resources.map(t => '<option value='+'"'+t+'"'+'>'+t+'</option>')}
-                                </Input>
+                                    {this.state.resources.map((p) => <option key={p.code} value={p.name}>{p.name}</option>)}                                </Input>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>

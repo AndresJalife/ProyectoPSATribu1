@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ProyectoCard from '../../components/Proyectos/ProyectoCard';
 import './MainProyectosPage.css';
 import { Button } from 'reactstrap';
-import {NavLink} from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 
 export default class MainProyectosPage extends Component
@@ -16,32 +16,30 @@ export default class MainProyectosPage extends Component
         }
     }
 
-    agregarProyecto()
+    componentDidMount()
     {
-        
-    }
-
-    async componentDidMount()
-    {
-        const projects = (await fetch('https://proyectopsa.herokuapp.com/proyectos/')).json();
-        // const project = (await fetch('https://proyectopsa.herokuapp.com/proyectos/3')).json();
-        this.setState({
-            projects: [projects]
-        });
+        fetch('https://proyectopsa.herokuapp.com/proyectos/')
+            .then(r => r.json())
+            .then((projects) =>
+            {
+                this.setState({
+                    projects: projects
+                });
+            }, (error) => {console.log(error);});
     }
 
     render()
     {
         return  (<div className='paginaProyectos'>
-                    <div id='proyectosHeader'>
-                        <p id='tituloProyectos'>Proyectos</p>
-                        <Button className='botonAgregarProyectoContainer'>
-                            <NavLink className='botonAgregarProyecto' to='/proyectos/nuevoProyecto'>Agregar Proyecto</NavLink>
-                        </Button>
+                    <h1 id='tituloProyectos'>Proyectos</h1>
+                    <br/>
+                    <div id='titlesContainer'>
+                        <p>Nombre Proyecto</p>
+                        <p id="estadoTitle">Estado</p>
+                        <NavLink to="/nuevoProyecto" className="botonAgregarProyectoContainer">Agregar Proyecto</NavLink>
                     </div>
-                    <div id='proyectosContainer'>
-                                {this.state.projects.map((p) => <ProyectoCard project={p} />)}
-                    </div>
+                    <br />
+                    {this.state.projects.map((p) => <ProyectoCard key={p.codigo} project={p} />)}
                 </div>);
         
     }

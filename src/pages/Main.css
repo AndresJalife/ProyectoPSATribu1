@@ -1,0 +1,7 @@
+.col-link-inicial:hover {
+    box-shadow: 0 2px 30px #d8dde5;
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+    opacity: 1;
+    cursor: pointer;
+}
