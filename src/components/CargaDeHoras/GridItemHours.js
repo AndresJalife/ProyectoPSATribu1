@@ -31,7 +31,7 @@ export default class GridItemHours extends Component {
 
         swal.fire({
             title: 'Eliminar la hora',
-            text: "¿Estás seguro que desea eliminar " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + "?",
+            text: "¿Está seguro que desea eliminar " + this.props.hours.getHoursAsString() + " horas del " + this.props.hours.getDateAsString() + "?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

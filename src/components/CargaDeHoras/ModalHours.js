@@ -100,7 +100,7 @@ export default class ModalHours extends Component {
 
             swal.fire({
                 title: 'Cargar horas',
-                text: "¿Estás seguro que desea agregar " + hoursAsString + " horas del " + dateAsString + "?",
+                text: "¿Está seguro que desea agregar " + hoursAsString + " horas del " + dateAsString + "?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
