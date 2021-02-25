@@ -37,6 +37,8 @@ export default class TicketDetail extends Component {
             task_description: ticket["description"],
             creation_date: ticket["creation date"],
             limit_date:  ticket["limit date"],
+            resource_id: ticket["resource id"],
+            resource_name: ticket["resource name"]
         });
             this.modal_edit.setState({
                 id: ticket["id"],
@@ -49,7 +51,10 @@ export default class TicketDetail extends Component {
                 task_name: ticket["task name"],
                 task_description: ticket["description"],
                 creation_date: ticket["creation date"],
-                limit_date:  ticket["limit date"],});
+                limit_date:  ticket["limit date"],
+                resource_id: ticket["resource id"],
+                resource_name: ticket["resource name"]});
+
     }));
 
     }

@@ -14,7 +14,7 @@ export default class ModalTickets extends Component {
         this.state = {
             isShow: false,
             ticket_original_data: props.data,
-            resources: [{name: 'nombre y apellido 1', code: 1}, {name: 'nombre y apellido 2', code: 2}]
+            resources: [{}]
         };
 
         this.saveTicket = this.saveTicket.bind(this);
@@ -28,7 +28,17 @@ export default class ModalTickets extends Component {
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
         this.handleStatusChange = this.handleStatusChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleResourceChange = this.handleResourceChange.bind(this);
 
+    }
+    componentDidMount() {
+        var url = 'https://squad6-backend.herokuapp.com/resources';
+
+        fetch(url, {
+            method: 'GET'
+        }).then(response => response.json().then(data => this.setState({
+            resources: data
+        })));
     }
 
     changeVisibility() {
@@ -53,7 +63,9 @@ export default class ModalTickets extends Component {
             "description": this.state.description,
             "task_id": this.state.task,
             "priority": this.state.priority,
-            "status": this.state.status
+            "status": this.state.status,
+            "resource_id": this.state.resource_id,
+            "resource_name": this.state.resource_name
         };
         fetch(url, {
             method: 'POST',
@@ -86,12 +98,16 @@ export default class ModalTickets extends Component {
         this.setState({status: event.target.value});
         console.log(event.target.value)
     }
+    handleResourceChange(event) {
+        this.setState({resource_id: event.target.value});
+        console.log(event.target.value)
+    }
 
 
     handleSubmit(event) {
         //alert('A name was submitted: ' + this.state.value);
         //event.preventDefault();
-      }
+    }
 
     render(){
 
@@ -130,8 +146,8 @@ export default class ModalTickets extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Recurso</Label>
-                                <Input type="select" value={this.state.priority} onChange={this.handlePriorityChange} >
-                                    {this.state.resources.map((p) => <option key={p.code} value={p.name}>{p.name}</option>)}                                </Input>
+                                <Input type="select" value={this.state.resource_id} onChange={this.handleResourceChange} >
+                                    {this.state.resources.map((p) => <option key={p.legajo} value={p.legajo}>{p.Nombre} {p.Apellido}</option>)}                                </Input>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
