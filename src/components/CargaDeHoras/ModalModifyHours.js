@@ -126,8 +126,12 @@ export default class ModalModifyHours extends Component {
                             title: "Se modificaron las horas correctamente.",
                             icon: "success"
                         })
+                    })
+                    .catch(function(error) {
+                        self.setState({
+                            errorMessage: "No se puede cargar más de 24 horas un mismo día"
+                        });
                     });
-
             }
         });
     }
