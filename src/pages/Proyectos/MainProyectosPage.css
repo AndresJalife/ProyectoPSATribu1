@@ -15,20 +15,15 @@
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d;
-  margin-left: 44%;
-  width: 150px;
-  height: 40px;
   font-weight: 400;
   text-align: center;
   vertical-align: middle;
   -webkit-user-select: none;
   user-select: none;
   border: 1px solid transparent;
-  font-size: 1rem;
   border-radius: .25rem;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  padding:0;
-  padding-top: 6px;
+  padding:6px;
 }
 
 .botonAgregarProyectoContainer:hover{

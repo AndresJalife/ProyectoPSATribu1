@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Row, Card, CardBody, CardTitle, CardText, Button,  Col } from 'reactstrap';
 import {Form, FormGroup, Label, Input } from 'reactstrap';
+import {Link} from "react-router-dom";
 import './TareaPage.css';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 
@@ -347,6 +348,12 @@ class TareaPage extends Component {
         const closeBtn = <Button id="closebtn" onClick={() => self.setState({errorModal:false})}> X </Button>
         return (
             <div id='paginaTareas'>
+                <Breadcrumb>
+                    <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link to={`/proyectos/`}>Proyectos</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link to={`/proyectos/${tarea.codigoProyecto}/tareas/`}>Tareas</Link></BreadcrumbItem>
+                    <BreadcrumbItem>Tarea {tarea.codigo}</BreadcrumbItem>
+                </Breadcrumb>
                 <div id='subheaderTarea'>
                     <br/>
                     <h1>{tarea.nombre}</h1>
@@ -373,7 +380,7 @@ class TareaPage extends Component {
                         <Col sm="6">
                             <div id='cardRecursos' className='card cardsLeft cardsTop'>
                                 <Card body>
-                                <CardTitle className="cardTitle" tag="h5">Horas Asignadas A Recursos</CardTitle>
+                                <CardTitle className="cardTitle" tag="h5">Recursos asignados</CardTitle>
                                 <div id ="recursosConHoras">
                                     {this.noResources()}
                                     {this.state.recursosXhoras.map((p) => {
@@ -384,7 +391,7 @@ class TareaPage extends Component {
                                 </div> 
                                 
                                 {/* <CardText id="recursosText"><b>Código Recurso:</b> {this.state.codigoRecurso == null ? "Ningún recurso asignado" : tarea.codigoRecurso}</CardText> */}
-                                <Button id="recursosButton" onClick={() => this.asignarRecurso()}>Asignar Horas a Recurso</Button>
+                                <Button id="recursosButton" onClick={() => this.asignarRecurso()}>Asignar Recurso</Button>
                                 </Card>
                             </div>
                         </Col>
