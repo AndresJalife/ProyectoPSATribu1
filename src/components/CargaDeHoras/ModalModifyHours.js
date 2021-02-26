@@ -117,17 +117,15 @@ export default class ModalModifyHours extends Component {
                         if(!response.ok)
                             throw new Error();
 
+                        self.props.hours.idTask = self.state.hoursModel.idTask;
+                        self.props.hours.idProject = self.state.hoursModel.idProject;
+
                         self.changeVisibility();
                         self.props.onReload();
                         swal.fire({
                             title: "Se modificaron las horas correctamente.",
                             icon: "success"
                         })
-                    })
-                    .catch(function(error) {
-                        self.setState({
-                            errorMessage: "No se puede cargar más de 24 horas un mismo día"
-                        });
                     });
 
             }

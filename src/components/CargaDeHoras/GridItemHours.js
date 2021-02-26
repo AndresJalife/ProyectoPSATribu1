@@ -24,6 +24,7 @@ export default class GridItemHours extends Component {
         };
 
         this.deleteHoursById = this.deleteHoursById.bind(this);
+        this.reloadItem = this.reloadItem.bind(this);
     }
 
     deleteHoursById(){
@@ -81,6 +82,34 @@ export default class GridItemHours extends Component {
             }, (error) => {console.log(error);});
     }
 
+    reloadItem(){
+
+        this.props.onReload();
+
+        let url = 'https://proyectopsa.herokuapp.com/proyectos/' +
+            this.props.hours.idProject.toString() + '/tarea/' +
+            this.props.hours.idTask.toString();
+
+        fetch(url)
+            .then(r => r.json())
+            .then((taskByProject) =>
+            {
+
+                let nameTask = "-",
+                    nameProject = "-";
+
+                if (taskByProject.tarea != null){
+                    nameTask = taskByProject.tarea.nombre;
+                    nameProject = taskByProject.tarea.nombreProyecto;
+                }
+                this.setState({
+                    isLoading: false,
+                    nameProject: nameProject,
+                    nameTask: nameTask
+                });
+            }, (error) => {console.log(error);});
+    }
+
     render(){
         return (
 
@@ -102,7 +131,7 @@ export default class GridItemHours extends Component {
                         <td>{this.props.hours.quantityHours}</td>
                         <td>{this.props.hours.quantityMinutes}</td>
                         <td>
-                            <ModalModifyHours hours={this.props.hours} onReload={this.props.onReload}> </ModalModifyHours>
+                            <ModalModifyHours hours={this.props.hours} onReload={this.reloadItem}> </ModalModifyHours>
                         </td>
                         <td>
                             <button type="button" className="btn btn-sm btn-rounded" onClick = {this.deleteHoursById} style={{marginTop: "-7px", color: "red"}}>
