@@ -32,10 +32,10 @@ export default class TicketDetail extends Component {
             status: ticket["status"],
             priority: ticket["priority"],
             type: ticket["type"],
-            project_name: ticket["project name"],
+            //TODO: multiple tasks
             task_name: ticket["task name"],
-            task_description: ticket["description"],
             task_id: ticket["task id"],
+
             creation_date: ticket["creation date"],
             limit_date:  ticket["limit date"],
             resource_id: ticket["resource id"],
@@ -48,10 +48,10 @@ export default class TicketDetail extends Component {
                 status: ticket["status"],
                 priority: ticket["priority"],
                 type: ticket["type"],
-                project_name: ticket["project name"],
+                //TODO: multiple tasks
                 task_name: ticket["task name"],
-                task_description: ticket["description"],
                 task_id: ticket["task id"],
+
                 creation_date: ticket["creation date"],
                 limit_date:  ticket["limit date"],
                 resource_id: ticket["resource id"],
@@ -79,9 +79,6 @@ export default class TicketDetail extends Component {
                     </Col>
                     <Col>
                         <Row>
-                            Proyecto: {this.state.project_name}
-                        </Row>
-                        <Row>
                             Estado: {this.state.status}
                         </Row>
                         <Row>
@@ -94,10 +91,8 @@ export default class TicketDetail extends Component {
                             Tipo: {this.state.type}
                         </Row>
                         <Row>
-                            Tarea: {this.state.task_name}
-                        </Row>
-                        <Row>
-                            Descripcion de tarea: {this.state.task_description}
+                            Tareas: {this.state.task_name}
+                            //TODO: multiples tasks
                         </Row>
                         <Row>
                             Fecha Creacion: {this.state.creation_date}

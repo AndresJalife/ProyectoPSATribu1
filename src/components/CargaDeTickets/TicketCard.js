@@ -13,9 +13,6 @@ export default function TicketCard (props)
                 </Col>
                 <Col>
                     <Row>
-                        Proyecto: {props.item['project name']}
-                    </Row>
-                    <Row>
                         Estado: {props.item.status}
                     </Row>
                     <Row>

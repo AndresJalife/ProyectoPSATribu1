@@ -25,6 +25,7 @@ export default class ModalTickets extends Component {
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
         this.handleTaskChange = this.handleTaskChange.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
         this.handleStatusChange = this.handleStatusChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,6 +40,16 @@ export default class ModalTickets extends Component {
         }).then(response => response.json().then(data => this.setState({
             resources: data
         })));
+        var url_tasks = 'https://aninfo-soporte.herokuapp.com/tasks';
+        fetch(url_tasks, {
+            method: 'GET'
+        }).then(response => response.json().then(data => {
+            this.setState({tasks: data});
+            if (data.length > 0){
+                this.state.task_id = data[0].codigo
+            }
+        }
+        ))
     }
 
     changeVisibility() {
@@ -60,7 +71,9 @@ export default class ModalTickets extends Component {
         var url = 'https://aninfo-soporte.herokuapp.com/edit_ticket';
         var data = {
             "ticket_id": this.state.id,
+            "name": this.state.name,
             "description": this.state.description,
+            //TODO: multiple tasks
             "task_id": this.state.task_id,
             "priority": this.state.priority,
             "status": this.state.status,
@@ -80,6 +93,10 @@ export default class ModalTickets extends Component {
 
     handleTypeChange(event) {
         this.setState({type: event.target.value});
+        console.log(event.target.value)
+    }
+    handleNameChange(event) {
+        this.setState({name: event.target.value});
         console.log(event.target.value)
     }
     handleTaskChange(event) {
@@ -122,6 +139,10 @@ export default class ModalTickets extends Component {
                     <ModalHeader toggle={this.changeVisibility}>Editar Ticket</ModalHeader>
 
                     <ModalBody>
+                        <FormGroup>
+                            <Label>Nombre</Label>
+                            <Input type="text" value={this.state.name} onChange={this.handleNameChange}></Input>
+                        </FormGroup>
                         <FormGroup>
                             <Label>Descripcion</Label>
                             <Input type="text" value={this.state.description} onChange={this.handleDescriptionChange}></Input>
