@@ -15,9 +15,7 @@ export default class ModalTickets extends Component {
         this.state = {
             isShow: false,
             resources: [{}],
-            tasks: [{}],
             description: "",
-            task_id: null,
             type: "consulta",
             priority: 1,
             resource_id: null,

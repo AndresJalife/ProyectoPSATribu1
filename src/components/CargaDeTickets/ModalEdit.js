@@ -24,7 +24,8 @@ export default class ModalTickets extends Component {
 
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
-        this.handleTaskChange = this.handleTaskChange.bind(this);
+
+        //this.handleTaskChange = this.handleTaskChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
         this.handleStatusChange = this.handleStatusChange.bind(this)
@@ -74,7 +75,7 @@ export default class ModalTickets extends Component {
             "name": this.state.name,
             "description": this.state.description,
             //TODO: multiple tasks
-            "task_id": this.state.task_id,
+            //"task_ids": this.state.task_ids,
             "priority": this.state.priority,
             "status": this.state.status,
             "resource_id": this.state.resource_id
@@ -99,10 +100,10 @@ export default class ModalTickets extends Component {
         this.setState({name: event.target.value});
         console.log(event.target.value)
     }
-    handleTaskChange(event) {
-        this.setState({task: event.target.value});
-        console.log(event.target.value)
-    }
+    //handleTaskChange(event) {
+    //    this.setState({task: event.target.value});
+    //    console.log(event.target.value)
+    //}
     handlePriorityChange(event) {
         this.setState({priority: event.target.value});
         console.log(event.target.value)

@@ -33,9 +33,8 @@ export default class TicketDetail extends Component {
             priority: ticket["priority"],
             type: ticket["type"],
             //TODO: multiple tasks
-            task_name: ticket["task name"],
-            task_id: ticket["task id"],
-
+            //task_name: ticket["task name"],
+            //task_id: ticket["task id"],
             creation_date: ticket["creation date"],
             limit_date:  ticket["limit date"],
             resource_id: ticket["resource id"],
@@ -49,16 +48,13 @@ export default class TicketDetail extends Component {
                 priority: ticket["priority"],
                 type: ticket["type"],
                 //TODO: multiple tasks
-                task_name: ticket["task name"],
-                task_id: ticket["task id"],
-
+                //task_name: ticket["task name"],
+                //task_id: ticket["task id"],
                 creation_date: ticket["creation date"],
                 limit_date:  ticket["limit date"],
                 resource_id: ticket["resource id"],
                 resource_name: ticket["resource name"]});
-
     }));
-
     }
 
 
@@ -89,10 +85,6 @@ export default class TicketDetail extends Component {
                         </Row>
                         <Row>
                             Tipo: {this.state.type}
-                        </Row>
-                        <Row>
-                            Tareas: {this.state.task_name}
-                            //TODO: multiples tasks
                         </Row>
                         <Row>
                             Fecha Creacion: {this.state.creation_date}
