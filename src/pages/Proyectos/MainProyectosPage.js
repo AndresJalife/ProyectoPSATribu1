@@ -3,7 +3,7 @@ import {Button, Table, Row, Col, Card, CardBody, Container, CardHeader, Breadcru
 import './MainProyectosPage.css';
 import {Link} from "react-router-dom";
 import Loader from "react-loader-spinner";
-import Modal from "../../components/Proyectos/ModalAgregarProyecto";
+import ModalAgregarProyecto from "../../components/Proyectos/ModalAgregarProyecto";
 
 
 export default class MainProyectosPage extends Component
@@ -19,14 +19,29 @@ export default class MainProyectosPage extends Component
 
     componentDidMount()
     {
+        this.loadProyectos();
+    }
+
+    loadProyectos(){
         fetch('https://proyectopsa.herokuapp.com/proyectos/')
-            .then(r => r.json())
-            .then((projects) =>
-            {
-                this.setState({
-                    projects: projects
-                });
-            }, (error) => {console.log(error);});
+        .then(r => r.json())
+        .then((projects) =>
+        {
+            this.setState({
+                projects: projects
+            });
+        }, (error) => {console.log(error);});
+    }
+
+    getBadgeColor(estado){
+        switch (estado){
+            case "Iniciado":
+                return "danger"
+            case "Finalizado":
+                return "success"
+            case "En proceso":
+                return "warning"
+        }
     }
 
     render()
@@ -67,16 +82,17 @@ export default class MainProyectosPage extends Component
                                                     <tr>
                                                         <th>Nombre</th>
                                                         <th>Estado</th>
-                                                        <th><Modal></Modal></th>
+                                                        <th><ModalAgregarProyecto onClose={() => this.loadProyectos()}></ModalAgregarProyecto></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     
                                                     {this.state.projects.map((r) =>{
                                                         const estadoString = r.estado.charAt(0).toUpperCase() + r.estado.slice(1);
+                                                        let badgeColor = this.getBadgeColor(estadoString);
                                                         return <tr key={r.legajo}>
                                                             <td>{r.nombre}</td>
-                                                            <td><Badge color={"success"}>{estadoString}</Badge></td>
+                                                            <td><Badge color={badgeColor}>{estadoString}</Badge></td>
                                                             <td>
                                                                 <Link to={`/proyectos/${r.codigo}/tareas`}>
                                                                     <Button color="info">Ver Tareas</Button>

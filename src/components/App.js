@@ -2,7 +2,6 @@ import './App.css';
 import React from "react";
 import CargaDeHorasPage from '../pages/CargaDeHoras/CargaDeHorasPage';
 import MainProyectosPage from '../pages/Proyectos/MainProyectosPage';
-import AgregarProyectoPage from '../pages/Proyectos/AgregarProyectoPage';
 import RecursosPage from './../pages/Recursos/RecursosPage';
 import TareaPage from '../pages/Proyectos/TareaPage';
 import Soporte from './../pages/Soporte';
@@ -39,7 +38,6 @@ function App(props) {
         <main>
             <Switch>
                 <Route exact path="/proyectos" component={MainProyectosPage} />
-                <Route exact path="/nuevoProyecto" component={AgregarProyectoPage}/>
                 <Route exact path="/proyectos/:id/tareas" component={MainTareasPage} />
                 <Route exact path="/proyectos/:id/tareas/:idtarea" component={TareaPage} />
                 <Route exact path="/" component={Main} />
