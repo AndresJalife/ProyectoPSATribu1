@@ -267,7 +267,7 @@ class TareaPage extends Component {
         this.proyectoID = this.props.match.params.id;
 
         this.obtenerTareas();
-        this.obtenerRecursosPorTarea();
+        //this.obtenerRecursosPorTarea();
     }
 
     obtenerRecursosPorTarea(){
