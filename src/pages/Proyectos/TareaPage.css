@@ -10,6 +10,12 @@
     margin-top: 3%;
 }
 
+.eliminar{
+    margin-right: auto;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
 #recursosText{
     margin-top: 2%;
 }
@@ -51,7 +57,11 @@
 
 #infoCodigos{
     display:flex;
-    margin-left: 7%;
+    margin-left: 13%;
+}
+
+#descripcionTareaPatch{
+    height: 12vw;
 }
 
 #cardFechas{

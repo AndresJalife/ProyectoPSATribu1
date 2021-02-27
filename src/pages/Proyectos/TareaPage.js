@@ -322,6 +322,7 @@ class TareaPage extends Component {
             .then((tarea) =>
             {
                 let trueTarea = tarea['tarea'];
+                console.log(trueTarea)
                 this.setState({
                     tarea: trueTarea,
                     prioridad: trueTarea.prioridad,
@@ -340,6 +341,48 @@ class TareaPage extends Component {
         }
     }
 
+    eliminarTarea(){
+
+    }
+
+    editarNombreODescripcion(){
+        let self = this;
+        let content = (
+            <div>
+                <Form>
+                    <FormGroup>
+                        <Label for="nombreTarea" >Nombre Tarea:</Label>
+                        <Input type="string" name="nombreTarea" id="nombreTareaPatch" defaultValue={self.state.tarea.nombre}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="descripcion" >Descripción:</Label>
+                        <Input type="textarea" name="descripcion" id="descripcionTareaPatch" className='general' defaultValue={self.state.tarea.descripcion}/>
+                    </FormGroup>
+                </Form>
+            </div>
+        );
+
+        this.abrirModal(
+            "Editar Atributos Generales",
+            content,
+            () => {
+                let descripcion = document.getElementById("descripcionTareaPatch").value;
+                let nombre = document.getElementById("nombreTareaPatch").value
+                
+                self.patch({
+                    "nombre":nombre,
+                    "descripcion":descripcion
+                });
+                setTimeout(() => {
+                    self.obtenerTareas();
+                self.obtenerRecursosPorTarea();
+                }, 1000)
+                
+                self.setState({modal:false});
+            }
+        )
+    }
+
     render() {
         const tarea = this.state.tarea;
         let self = this;
@@ -356,7 +399,7 @@ class TareaPage extends Component {
                 </Breadcrumb>
                 <div id='subheaderTarea'>
                     <br/>
-                    <h1>{tarea.nombre}</h1>
+                    <h1 id="taskName">{this.state.tarea.nombre}</h1>
                 </div>
                 <div id='cardsContainer'> 
                     <Row>
@@ -365,13 +408,13 @@ class TareaPage extends Component {
                                 <Card body>
                                 <CardTitle className="cardTitle" tag="h5">General</CardTitle>
                             
-                                <CardText><b>Descripción:</b> {tarea.descripcion}</CardText>
+                                <CardText><b>Descripción:</b> {this.state.tarea.descripcion}</CardText>
                                 <div id='infoCodigos'>
                                     <p className='cardText'><b>Código Tarea:</b> {tarea.codigo}.</p>
                                     <p className='cardText'><b>Código Proyecto:</b> {tarea.codigoProyecto}.</p>
                                     <p className='cardText'><b>Nombre Proyecto:</b> {tarea.nombreProyecto}</p>
                                 </div>
-                                
+                                <Button color="secondary" onClick={() => this.editarNombreODescripcion()}>Editar</Button>
                                 </Card>
                             </div>
                         </Col>
@@ -427,6 +470,7 @@ class TareaPage extends Component {
                         </Col>
                     </Row>
                 </div>
+                
                 <div id="modals">
                     <Modal isOpen={this.state.modal} toggle={toggleModal}>
                         <ModalHeader toggle={toggleModal}>{this.state.modalHeader}</ModalHeader>
@@ -447,6 +491,7 @@ class TareaPage extends Component {
                         </Button>
                     </Modal>
                 </div>
+                <Button color="danger" onClick={() => this.eliminarTarea()} className="eliminar">Eliminar Tarea</Button>
             </div>
         )
     }
