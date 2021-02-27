@@ -87,6 +87,9 @@ export default class TicketDetail extends Component {
                             Tipo: {this.state.type}
                         </Row>
                         <Row>
+                            Recurso trabajando: {this.state.resource_name}
+                        </Row>
+                        <Row>
                             Fecha Creacion: {this.state.creation_date}
                         </Row>
                         <Row>
