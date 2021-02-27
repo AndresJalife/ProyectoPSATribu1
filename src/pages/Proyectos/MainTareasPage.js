@@ -12,7 +12,8 @@ export default class MainTareasPage extends Component
         super(props);
         this.state = {
             tareas: [],
-            nombreProyecto: ""
+            nombreProyecto: "",
+            isLoading: true,
         }
     }
 
@@ -24,7 +25,8 @@ export default class MainTareasPage extends Component
             .then((tareas) =>
             {
                 this.setState({
-                    tareas: tareas
+                    tareas: tareas,
+                    isLoading: false
                 });
             }, (error) => {console.log(error)}
         );

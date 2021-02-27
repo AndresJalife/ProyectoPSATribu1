@@ -13,7 +13,8 @@ export default class MainProyectosPage extends Component
     {
         super(props);
         this.state = {
-            projects: []
+            projects: [],
+            isLoading: true
         }
     }
 
@@ -24,7 +25,8 @@ export default class MainProyectosPage extends Component
             .then((projects) =>
             {
                 this.setState({
-                    projects: projects
+                    projects: projects,
+                    isLoading: false
                 });
             }, (error) => {console.log(error);});
     }
