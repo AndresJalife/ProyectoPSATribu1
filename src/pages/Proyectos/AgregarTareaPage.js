@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
-import './AgregarProyectoPage.css';
+// import './AgregarProyectoPage.css';
 
 class AgregarTareaPage extends Component {
 

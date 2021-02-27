@@ -3,6 +3,7 @@ import {Button, Table, Row, Col, Card, CardBody, Container, CardHeader, Breadcru
 import './MainProyectosPage.css';
 import {Link} from "react-router-dom";
 import Loader from "react-loader-spinner";
+import Modal from "../../components/Proyectos/ModalAgregarProyecto";
 
 
 export default class MainProyectosPage extends Component
@@ -66,7 +67,7 @@ export default class MainProyectosPage extends Component
                                                     <tr>
                                                         <th>Nombre</th>
                                                         <th>Estado</th>
-                                                        <th><Link to={"/nuevoProyecto"} className="botonAgregarProyectoContainer">Agregar Proyecto</Link></th>
+                                                        <th><Modal></Modal></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
