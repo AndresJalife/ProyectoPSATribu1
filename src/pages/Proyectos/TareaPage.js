@@ -6,6 +6,7 @@ import './TareaPage.css';
 import { Modal, ModalHeader, ModalBody, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
+import ModalAsignarRecurso from "../../components/Proyectos/ModalAsignarRecurso";
 
 
 class TareaPage extends Component {
@@ -24,7 +25,7 @@ class TareaPage extends Component {
             estado: "",
             codigoRecurso: "",
             fechaFin: "",
-            recursosXhoras: [],
+            recurso: null,
         }
     }
 
@@ -36,12 +37,22 @@ class TareaPage extends Component {
 
     asignarRecurso(){
         let self = this;
+        const onClick = (legajo) => {
+            if (!self.validateInputText(legajo, "codigoRecursoLabel")) return;
+
+            self.patch({
+                codigoRecurso: legajo
+            }).then(r => self.obtenerTareas());
+
+            this.setState({
+                modal: false,
+            });
+        };
         let content = (
             <div>
                 <Form>
                     <FormGroup>
-                        <Label for="codigoRecurso" id="codigoRecursoLabel">Código Recurso:</Label>
-                        <Input type="number" name="codigoRecurso" id="codigoRecurso" />
+                        <ModalAsignarRecurso onClick={onClick} />
                     </FormGroup>
                 </Form>
             </div>
@@ -49,37 +60,8 @@ class TareaPage extends Component {
         this.abrirModal(
             "Asignar Recurso",
             content,
-            () => {
-                let codigoRecurso = document.getElementById("codigoRecurso").value;
-                if (!self.validateInputText(codigoRecurso, "codigoRecursoLabel")) return;
-
-                self.validateRecursoAndAct(codigoRecurso);
-            }
+            null
         )
-    }
-
-    validateRecursoAndAct(codigoRecurso){
-        let self = this;
-        fetch(`https://squad6-backend.herokuapp.com/resources/${codigoRecurso}`)
-            .then(r => r.json())
-            .then(function(json) {
-                if(json.Nombre) {
-                    self.props.history.push("/cargadehoras/" + codigoRecurso)
-                    this.setState({modal:false});
-                } else {
-                    self.setState({
-                        errorMessage: "ERROR: " + json.description +  json.validation + " Verificar que sea un recurso válido",
-                        errorModal: true,
-            
-                    })
-                }
-            })
-            .catch(function(error) {
-                self.setState({
-                    errorMessage: "ERROR: " + error.message,
-                    errorModal: true,
-                })
-            });
     }
 
     modificarPrioridad(){
@@ -207,7 +189,7 @@ class TareaPage extends Component {
             url = `https://proyectopsa.herokuapp.com/proyectos/${this.state.tarea.proyectoID}/tarea/${this.state.tarea.codigo}`;
         }
         let self = this;
-        fetch(url, {
+        return fetch(url, {
             method: 'PATCH', 
             mode: 'cors', 
             headers: {
@@ -232,6 +214,7 @@ class TareaPage extends Component {
                     errorMessage : error.message,
                     errorModal: true,
                 })
+              console.log(error);
           });
     }
 
@@ -317,27 +300,47 @@ class TareaPage extends Component {
     }
 
     obtenerTareas(){
+        let self = this;
         fetch(`https://proyectopsa.herokuapp.com/proyectos/${this.proyectoID}/tarea/${this.tareaID}`)
             .then(r => r.json())
             .then((tarea) =>
             {
                 let trueTarea = tarea['tarea'];
-                this.setState({
+                self.setState({
                     tarea: trueTarea,
                     prioridad: trueTarea.prioridad,
                     estado: trueTarea.estado,
                     fechaFin: trueTarea.fechaFin,
                     codigoRecurso: trueTarea.codigoRecurso,
                 });
+                if (trueTarea.codigoRecurso)
+                {
+                    fetch(`https://squad6-backend.herokuapp.com/resources/${trueTarea.codigoRecurso}`)
+                        .then(r => r.json())
+                        .then((r) =>
+                        {
+                            self.setState({
+                                recurso: r
+                            });
+                        }, (error) => {console.log(error);});
+                }
             }, (error) => {console.log(error);});
     }
 
     noResources(){
-        if(this.state.recursosXhoras.length == 0){
+        if(!this.state.codigoRecurso)
+        {
             return <div id="sinAsignados">
                 No hay recursos asignados a esta tarea.
             </div>                          
         }
+    }
+
+    showResources()
+    {
+        return (this.state.codigoRecurso && this.state.recurso && <div className="recursosHoras">
+            <p id="codigoRecursoCard"><b>Código Recurso:</b> {this.state.recurso.legajo}&nbsp;&nbsp;&nbsp;&nbsp;<b>Nombre Recurso:</b> {this.state.recurso.Nombre + " " + this.state.recurso.Apellido}&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </div>);
     }
 
     render() {
@@ -383,11 +386,7 @@ class TareaPage extends Component {
                                 <CardTitle className="cardTitle" tag="h5">Recursos asignados</CardTitle>
                                 <div id ="recursosConHoras">
                                     {this.noResources()}
-                                    {this.state.recursosXhoras.map((p) => {
-                                        return (<div className="recursosHoras">
-                                                    <p id="codigoRecursoCard"><b>Código Recurso:</b> {p.codigo}&nbsp;&nbsp;&nbsp;&nbsp;<b>Nombre Recurso:</b> {p.nombre}&nbsp;&nbsp;&nbsp;&nbsp; <b>Horas asignadas:</b> {p.horas}</p>
-                                                </div>
-                                        )})}
+                                    {this.showResources()}
                                 </div> 
                                 
                                 {/* <CardText id="recursosText"><b>Código Recurso:</b> {this.state.codigoRecurso == null ? "Ningún recurso asignado" : tarea.codigoRecurso}</CardText> */}
@@ -433,9 +432,9 @@ class TareaPage extends Component {
                         <ModalBody>
                             {this.state.modalBody}
                         </ModalBody>
-                        <Button onClick={this.state.acceptModalButton} id="boton">
+                        {this.state.acceptModalButton && <Button onClick={this.state.acceptModalButton} id="boton">
                             Aceptar
-                        </Button>
+                        </Button>}
                     </Modal>
                     <Modal isOpen={this.state.errorModal} toggle={toggleErrorModal}>
                         <ModalHeader toggle={toggleModal} close={closeBtn}>ERROR</ModalHeader>
