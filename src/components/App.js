@@ -12,7 +12,6 @@ import { Col } from 'reactstrap';
 import { useHistory} from "react-router-dom";
 import MainTareasPage from "../pages/Proyectos/MainTareasPage";
 import { FaHome } from "react-icons/fa";
-import AgregarTareaPage from '../pages/Proyectos/AgregarTareaPage';
 
 function App(props) {
     const history = useHistory();
@@ -32,7 +31,6 @@ function App(props) {
                     </Col>
                 </div>
             </div>
-            
         </header>
 
         <main>
@@ -45,7 +43,6 @@ function App(props) {
                 <Route exact path="/cargadehoras/:id" component={CargaDeHorasPage} />
                 <Route exact path="/soporte" component={Soporte} />
                 <Route path="/soporte/ticket_detail" component={TicketDetail} />
-                <Route exact path="/proyectos/:id/nuevaTarea" component={AgregarTareaPage} />
             </Switch>
         </main>
     </div>
