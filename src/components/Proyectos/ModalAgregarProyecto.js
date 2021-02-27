@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Alert, Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
-// import './AgregarProyectoPage.css';
 import './Modal.css';
 
 class ModalAgregarProyecto extends Component {
@@ -21,7 +20,7 @@ class ModalAgregarProyecto extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
+        history: PropTypes.object.isRequired,
     };
 
     crearProyecto(){
@@ -62,6 +61,7 @@ class ModalAgregarProyecto extends Component {
             .then(function(json) {
                 if(json.codigo) {
                     self.setState({modalTotal:false});
+                    self.props.onClose();
                     self.abrirModal("ÉXITO", `El proyecto se generó exitosamente con código: ${json.codigo}`, () => {});
                 } else {
                     self.abrirModal("ERROR", json.description +  json.validation, () => {});

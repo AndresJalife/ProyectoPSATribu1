@@ -3,6 +3,7 @@ import './MainTareasPage.css';
 import {Button, Table, Row, Col, Card, CardBody, Container, CardHeader, Breadcrumb, BreadcrumbItem, Badge   } from 'reactstrap';
 import {Link} from "react-router-dom";
 import Loader from "react-loader-spinner";
+import ModalAgregarTarea from '../../components/Proyectos/ModalAgregarTarea';
 
 export default class MainTareasPage extends Component
 {
@@ -19,6 +20,10 @@ export default class MainTareasPage extends Component
 
     componentDidMount()
     {
+        this.loadTareas();
+    }
+
+    loadTareas(){
         const id = this.props.match.params.id;
         fetch(`https://proyectopsa.herokuapp.com/proyectos/${id}/tarea`)
             .then(r => r.json())
@@ -94,7 +99,7 @@ export default class MainTareasPage extends Component
                                                             <tr>
                                                                 <th>Nombre</th>
                                                                 <th>Estado</th>
-                                                                <th><Link to={`/proyectos/${id}/nuevaTarea`} className="botonAgregarProyectoContainer">Agregar Tarea</Link></th>
+                                                                <th><ModalAgregarTarea onClose={() => this.loadTareas()}></ModalAgregarTarea></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
