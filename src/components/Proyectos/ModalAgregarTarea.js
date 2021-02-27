@@ -33,6 +33,7 @@ class ModalAgregarTarea extends Component {
         let prioridad = this.obtenerRadio("baja", "media", "alta");
 
         if (!this.validateRequiredEntries(nombreTarea, fechaInicio, prioridad)) return;
+        if (fechaFin != '' && fechaInicio > fechaFin) return;
 
         let estado = this.obtenerRadio("iniciado", "enProceso", "finalizado", "en proceso");
 
@@ -101,9 +102,9 @@ class ModalAgregarTarea extends Component {
         let prioridadClassList = document.getElementById("priority").classList;
 
         
-        valid = this.validate(nombreTarea, nombreClassList);
-        valid = this.validate(fechaInicio, fechaClassList);
-        valid = this.validatePriority(prioridadClassList);
+        valid &= this.validate(nombreTarea, nombreClassList);
+        valid &= this.validate(fechaInicio, fechaClassList);
+        valid &= this.validatePriority(prioridadClassList);
         
         return valid;
     }

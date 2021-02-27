@@ -34,6 +34,7 @@ class ModalAgregarProyecto extends Component {
         let presupuesto = document.getElementById("presupuesto").value;
 
         if (!this.validateRequiredEntries(nombreProyecto, fechaInicio, descripcion)) return;
+        if (fechaFin != '' && fechaInicio > fechaFin) return;
 
         let estado = this.obtenerEstado();
 
@@ -93,9 +94,9 @@ class ModalAgregarProyecto extends Component {
         let fechaClassList = document.getElementById("startDate").classList;
         let descClassList = document.getElementById("desc").classList;
         
-        valid = this.validate(nombreProyecto, nombreClassList);
-        valid = this.validate(fechaInicio, fechaClassList);
-        valid = this.validate(descripcion, descClassList);
+        valid &= this.validate(nombreProyecto, nombreClassList);
+        valid &= this.validate(fechaInicio, fechaClassList);
+        valid &= this.validate(descripcion, descClassList);
         return valid;
     }
 
@@ -154,11 +155,11 @@ class ModalAgregarProyecto extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label className='parametro' for="horas">Horas</Label>
-                            <Input type="number" name="horas" id="horas" className='general' />
+                            <Input type="number" name="horas" id="horas" className='general' min={0} />
                         </FormGroup>
                         <FormGroup>
                             <Label className='parametro' for="presupuesto" >Presupuesto</Label>
-                            <Input type="number" name="presupuesto" id="presupuesto" className='general' />
+                            <Input type="number" name="presupuesto" id="presupuesto" className='general' min={0} />
                         </FormGroup>
                         <FormGroup>
                             <Label className='parametro' for="descripcion" id='desc'>Descripción *</Label>
