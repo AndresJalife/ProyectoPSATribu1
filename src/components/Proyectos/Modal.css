@@ -2,8 +2,13 @@
     color:red;
 }
 
-.radio{
+.radio, .radio2{
     margin: 8%;
+}
+
+.radio2{
+    margin-left: 12%;
+    margin-right: 11%;
 }
 
 .parametro{

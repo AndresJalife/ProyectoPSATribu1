@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 import './Modal.css';
 
-class ModalAgregarProyecto extends Component {
+class ModalAgregarTarea extends Component {
 
     constructor() {
         super();
@@ -23,27 +23,25 @@ class ModalAgregarProyecto extends Component {
         history: PropTypes.object.isRequired,
     };
 
-    crearProyecto(){
-        let url = "https://proyectopsa.herokuapp.com/proyectos/";
+    crearTarea(){
+        let url = `https://proyectopsa.herokuapp.com/proyectos/${this.id}/tarea/`;
 
-        let nombreProyecto = document.getElementById("nombreProyecto").value;
+        let nombreTarea = document.getElementById("nombreTarea").value;
         let fechaInicio = document.getElementById("fechaInicio").value;
         let descripcion = document.getElementById("descripcion").value;
         let fechaFin = document.getElementById("fechaFin").value;
-        let horas = document.getElementById("horas").value;
-        let presupuesto = document.getElementById("presupuesto").value;
+        let prioridad = this.obtenerRadio("baja", "media", "alta");
 
-        if (!this.validateRequiredEntries(nombreProyecto, fechaInicio, descripcion)) return;
+        if (!this.validateRequiredEntries(nombreTarea, fechaInicio, prioridad)) return;
 
-        let estado = this.obtenerEstado();
+        let estado = this.obtenerRadio("iniciado", "enProceso", "finalizado", "en proceso");
 
         let data = {
-            "nombre": nombreProyecto,
+            "nombre": nombreTarea,
             "fechaInicio": fechaInicio,
+            "prioridad": prioridad,
             "fechaFin": fechaFin == '' ? undefined : fechaFin,
             "estado": estado == null ? undefined : estado ,
-            "horas": horas == "" ? undefined : parseInt(horas) ,
-            "presupuesto": presupuesto == '' ? undefined : parseInt(presupuesto),
             "descripcion": descripcion
         };
         
@@ -62,14 +60,17 @@ class ModalAgregarProyecto extends Component {
                 if(json.codigo) {
                     self.setState({modalTotal:false});
                     self.props.onClose();
-                    self.abrirModal("ÉXITO", `El proyecto se generó exitosamente con código: ${json.codigo}`, () => {});
+                    self.abrirModal("ÉXITO", `La tarea se generó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/proyectos/${self.id}/tareas`));
                 } else {
-                    self.abrirModal("ERROR", json.description +  json.validation, () => {});
+                    self.abrirModal("ERROR DE LA REQUEST", json.description + json.validation, () => {});
                 }
             })
             .catch(function(error) {
-                self.abrirModal("ERROR", error.message, () => {})
+                self.abrirModal("ERROR DEL FETCH", error.message)
             });
+    }
+    componentDidMount(){
+        this.id = this.props.match.params.id;
     }
 
     abrirModal(header, body, onClose){
@@ -81,36 +82,59 @@ class ModalAgregarProyecto extends Component {
         })
     }
 
+    obtenerRadio(radio1, radio2, radio3, differ=null){
+        if (document.getElementById(radio1).checked) return radio1;
+        if (document.getElementById(radio2).checked) return differ == null ? radio2 : differ;
+        if (document.getElementById(radio3).checked) return radio3;
+    }
+
     obtenerEstado(){
         if (document.getElementById("iniciado").checked) return 'iniciado';
         if (document.getElementById("enProceso").checked) return 'en proceso';
         if (document.getElementById("finalizado").checked) return 'finalizado';
     }
 
-    validateRequiredEntries(nombreProyecto, fechaInicio, descripcion){
+    validateRequiredEntries(nombreTarea, fechaInicio, prioridad){
         let valid = true;
         let nombreClassList = document.getElementById("nombre").classList;
         let fechaClassList = document.getElementById("startDate").classList;
-        let descClassList = document.getElementById("desc").classList;
+        let prioridadClassList = document.getElementById("priority").classList;
+
         
-        valid = this.validate(nombreProyecto, nombreClassList);
+        valid = this.validate(nombreTarea, nombreClassList);
         valid = this.validate(fechaInicio, fechaClassList);
-        valid = this.validate(descripcion, descClassList);
+        valid = this.validatePriority(prioridadClassList);
+        
         return valid;
     }
 
-    validate(element, classList){
-        let valid = true;
+    validatePriority(classList){
 
-        if (element == ''){
+        let baja = document.getElementById("baja");
+        let media = document.getElementById("media");
+        let alta = document.getElementById("alta");
+
+        if (!baja.checked && !media.checked && !alta.checked){
             classList.add("incorrect");
-            valid = false;
+            return false
         } else {
             classList.remove("incorrect");
         }
 
-        return valid;
-    }   
+        return true
+    }
+
+    validate(element, classList){
+
+        if (element == ''){
+            classList.add("incorrect");
+            return false;
+        } else {
+            classList.remove("incorrect");
+        }
+
+        return true;
+    }
 
     render() {
         let self = this;
@@ -118,14 +142,14 @@ class ModalAgregarProyecto extends Component {
         const toggleModalError = () => self.setState({modal: !self.state.modal});
         return (
             <div>
-                <Button color="secondary" onClick={toggleModal}>Agregar Proyecto</Button>
+                <Button color="secondary" onClick={toggleModal}>Agregar Tarea</Button>
 
                 <Modal isOpen={this.state.modalTotal} toggle={toggleModal}>
-                    <ModalHeader id="header" toggle={toggleModal}>Nuevo Proyecto</ModalHeader>
+                    <ModalHeader id="header" toggle={toggleModal}>Nueva Tarea</ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label className='parametro' for="nombreProyecto" id='nombre'>Nombre Proyecto *</Label>
-                            <Input type="string" name="nombreProyecto" id="nombreProyecto" className='general' maxLength="256" required />
+                            <Label className='parametro' for="nombreTarea" id='nombre'>Nombre Tarea *</Label>
+                            <Input type="string" name="nombreTarea" id="nombreTarea" className='general' maxLength="256" required />
                         </FormGroup>
                         <FormGroup>
                             <Label className='parametro' for="fechaInicio" id='startDate'>Fecha Inicio *</Label>
@@ -137,34 +161,43 @@ class ModalAgregarProyecto extends Component {
                         </FormGroup>
                         <FormGroup tag="fieldset">
                             <Label className='parametro'>Estado</Label>
-                            <FormGroup check>
-                                <Label check className="radio">
+                                <FormGroup>
+                                <Label className="radio" check>
                                     <Input type="radio" name='radio' id='iniciado'  />{' '}
                                     Iniciado
                                 </Label>
-                                <Label check className="radio">
+                                <Label className="radio" check>
                                     <Input type="radio" name='radio' id='enProceso' />{' '}
                                     En Proceso
                                 </Label>
-                                <Label check className="radio">
+                                <Label className="radio" check>
                                     <Input type="radio" name='radio' id='finalizado'  />{' '}
                                     Finalizado
                                 </Label>
-                            </FormGroup>
+                                </FormGroup>
+                        </FormGroup>
+                        <FormGroup tag="fieldset">
+                            <Label className='parametro' id='priority'>Prioridad *</Label>
+                                <FormGroup>
+                                <Label className="radio2" check>
+                                    <Input type="radio" name='radio2' id='baja'  />{' '}
+                                    Baja
+                                </Label>
+                                <Label className="radio2" check>
+                                    <Input type="radio" name='radio2' id='media' />{' '}
+                                    Media
+                                </Label>
+                                <Label className="radio2" check>
+                                    <Input type="radio" name='radio2' id='alta'  />{' '}
+                                    Alta
+                                </Label>
+                                </FormGroup>
                         </FormGroup>
                         <FormGroup>
-                            <Label className='parametro' for="horas">Horas</Label>
-                            <Input type="number" name="horas" id="horas" className='general' />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label className='parametro' for="presupuesto" >Presupuesto</Label>
-                            <Input type="number" name="presupuesto" id="presupuesto" className='general' />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label className='parametro' for="descripcion" id='desc'>Descripción *</Label>
+                            <Label className='parametro' for="descripcion" id='desc'>Descripción </Label>
                             <Input type="textarea" name="descripcion" id="descripcion" className='general' maxLength="256" required />
                         </FormGroup>
-                        <Button onClick={() => this.crearProyecto()}>Crear Proyecto</Button>
+                        <Button onClick={() => this.crearTarea()}>Crear Tarea</Button>
                         <label id='requisitosLabel'>(*) para aquellos campos que sean requeridos obligatoriamente</label>
                     </ModalBody>
                 </Modal>
@@ -179,4 +212,4 @@ class ModalAgregarProyecto extends Component {
     }
 }
 
-export default withRouter(ModalAgregarProyecto);    
+export default withRouter(ModalAgregarTarea);    
