@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Row, Card, CardBody, CardTitle, CardText, Button,  Col } from 'reactstrap';
 import {Form, FormGroup, Label, Input } from 'reactstrap';
+import {Link} from "react-router-dom";
 import './TareaPage.css';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
+import ModalAsignarRecurso from "../../components/Proyectos/ModalAsignarRecurso";
 
 
 class TareaPage extends Component {
@@ -23,7 +25,7 @@ class TareaPage extends Component {
             estado: "",
             codigoRecurso: "",
             fechaFin: "",
-            recursosXhoras: [],
+            recurso: null,
         }
     }
 
@@ -35,12 +37,23 @@ class TareaPage extends Component {
 
     asignarRecurso(){
         let self = this;
+        const onClick = (legajo) => {
+            if (!self.validateInputText(legajo, "codigoRecursoLabel")) return;
+
+
+            self.patch({
+                codigoRecurso: legajo
+            }).then(r => self.obtenerTareas());
+
+            this.setState({
+                modal: false,
+            });
+        };
         let content = (
             <div>
                 <Form>
                     <FormGroup>
-                        <Label for="codigoRecurso" id="codigoRecursoLabel">Código Recurso:</Label>
-                        <Input type="number" name="codigoRecurso" id="codigoRecurso" />
+                        <ModalAsignarRecurso onClick={onClick} />
                     </FormGroup>
                 </Form>
             </div>
@@ -48,37 +61,8 @@ class TareaPage extends Component {
         this.abrirModal(
             "Asignar Recurso",
             content,
-            () => {
-                let codigoRecurso = document.getElementById("codigoRecurso").value;
-                if (!self.validateInputText(codigoRecurso, "codigoRecursoLabel")) return;
-
-                self.validateRecursoAndAct(codigoRecurso);
-            }
+            null
         )
-    }
-
-    validateRecursoAndAct(codigoRecurso){
-        let self = this;
-        fetch(`https://squad6-backend.herokuapp.com/resources/${codigoRecurso}`)
-            .then(r => r.json())
-            .then(function(json) {
-                if(json.Nombre) {
-                    self.props.history.push("/cargadehoras/" + codigoRecurso)
-                    this.setState({modal:false});
-                } else {
-                    self.setState({
-                        errorMessage: "ERROR: " + json.description +  json.validation + " Verificar que sea un recurso válido",
-                        errorModal: true,
-            
-                    })
-                }
-            })
-            .catch(function(error) {
-                self.setState({
-                    errorMessage: "ERROR: " + error.message,
-                    errorModal: true,
-                })
-            });
     }
 
     modificarPrioridad(){
@@ -206,7 +190,7 @@ class TareaPage extends Component {
             url = `https://proyectopsa.herokuapp.com/proyectos/${this.state.tarea.proyectoID}/tarea/${this.state.tarea.codigo}`;
         }
         let self = this;
-        fetch(url, {
+        return fetch(url, {
             method: 'PATCH', 
             mode: 'cors', 
             headers: {
@@ -231,6 +215,7 @@ class TareaPage extends Component {
                     errorMessage : error.message,
                     errorModal: true,
                 })
+              console.log(error);
           });
     }
 
@@ -283,7 +268,7 @@ class TareaPage extends Component {
         this.proyectoID = this.props.match.params.id;
 
         this.obtenerTareas();
-        this.obtenerRecursosPorTarea();
+        //this.obtenerRecursosPorTarea();
     }
 
     obtenerRecursosPorTarea(){
@@ -316,6 +301,7 @@ class TareaPage extends Component {
     }
 
     obtenerTareas(){
+        let self = this;
         fetch(`https://proyectopsa.herokuapp.com/proyectos/${this.proyectoID}/tarea/${this.tareaID}`)
             .then(r => r.json())
             .then((tarea) =>
@@ -328,15 +314,146 @@ class TareaPage extends Component {
                     fechaFin: trueTarea.fechaFin,
                     codigoRecurso: trueTarea.codigoRecurso,
                 });
+                if (trueTarea.codigoRecurso)
+                {
+                    fetch(`https://squad6-backend.herokuapp.com/resources/${trueTarea.codigoRecurso}`)
+                        .then(r => r.json())
+                        .then((r) =>
+                        {
+                            self.setState({
+                                recurso: r
+                            });
+                        }, (error) => {console.log(error);});
+                }
             }, (error) => {console.log(error);});
     }
 
     noResources(){
-        if(this.state.recursosXhoras.length == 0){
+        if(!this.state.codigoRecurso)
+        {
             return <div id="sinAsignados">
                 No hay recursos asignados a esta tarea.
             </div>                          
         }
+    }
+
+    showResources() {
+        return (this.state.codigoRecurso && this.state.recurso && <div className="recursosHoras">
+            <p id="codigoRecursoCard"><b>Código Recurso:</b> {this.state.recurso.legajo}&nbsp;&nbsp;&nbsp;&nbsp;<b>Nombre
+                Recurso:</b> {this.state.recurso.Nombre + " " + this.state.recurso.Apellido}&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </div>);
+    }
+
+    eliminarTarea(){
+        
+        let confirmar = () => {
+            // if(this.state.codigoRecurso != ""){
+            //     this.deleteHorasRecurso();
+            // }
+            this.selfDelete();
+        }
+
+        let content = <div>
+            <p>Tenga en cuenta que se eliminaran todas las horas asignadas a esta tarea.</p>
+            <div id="confirmButtons">
+                <Button className="botoneh" onClick={confirmar}>Confirmar</Button>
+                <Button className="botoneh" onClick={() => this.setState({modal:false})}>Cancelar</Button>
+            </div>
+            
+        </div>
+
+        this.abrirModal(
+            "Esta seguro que desea eliminar esta tarea?",
+            content,
+            null
+        )
+    }
+
+    selfDelete(){
+        let self=this;
+        let url = `https://proyectopsa.herokuapp.com/proyectos/${this.state.tarea.codigoProyecto}/tarea/${this.state.tarea.codigo}`
+        fetch(url, {
+            method: 'DELETE', 
+            mode: 'cors', 
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+            .then(r => {
+                self.props.history.push(`/proyectos/${this.state.tarea.codigoProyecto}/tareas`)
+            })
+    }
+
+    deleteHora(hora){
+        console.log(hora)
+        let url = `https://squad6-backend.herokuapp.com/hours/${hora.id}`
+        fetch(url, {
+            method: 'DELETE', 
+            mode: 'cors', 
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+    }
+
+    deleteHorasRecurso(){
+        let horasDelRecurso = []
+        fetch("https://squad6-backend.herokuapp.com/hours")
+            .then(r => r.json())
+            .then(hours => {
+                for (let index in hours){
+                    let hour = hours[index];
+                    if (!hour.file == this.state.codigoRecurso) continue;
+                    if (hour.idProject == this.state.tarea.codigoProyecto && hour.idTask == this.state.tarea.codigo){
+                        horasDelRecurso.push(hour);
+                    }
+                }
+            }, (error) => {console.log(error);})
+            .then(r => {
+                for (let index = 0 ; index < horasDelRecurso.length; index ++){
+                    this.deleteHora(horasDelRecurso[index]);
+                }
+            })
+
+        return horasDelRecurso;
+    }
+
+    editarNombreODescripcion(){
+        let self = this;
+        let content = (
+            <div>
+                <Form>
+                    <FormGroup>
+                        <Label for="nombreTarea" >Nombre Tarea:</Label>
+                        <Input type="string" name="nombreTarea" id="nombreTareaPatch" defaultValue={self.state.tarea.nombre}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="descripcion" >Descripción:</Label>
+                        <Input type="textarea" name="descripcion" id="descripcionTareaPatch" className='general' defaultValue={self.state.tarea.descripcion}/>
+                    </FormGroup>
+                </Form>
+            </div>
+        );
+
+        this.abrirModal(
+            "Editar Atributos Generales",
+            content,
+            () => {
+                let descripcion = document.getElementById("descripcionTareaPatch").value;
+                let nombre = document.getElementById("nombreTareaPatch").value
+                
+                self.patch({
+                    "nombre":nombre,
+                    "descripcion":descripcion
+                });
+                setTimeout(() => {
+                    self.obtenerTareas();
+                self.obtenerRecursosPorTarea();
+                }, 1000)
+                
+                self.setState({modal:false});
+            }
+        )
     }
 
     render() {
@@ -347,9 +464,15 @@ class TareaPage extends Component {
         const closeBtn = <Button id="closebtn" onClick={() => self.setState({errorModal:false})}> X </Button>
         return (
             <div id='paginaTareas'>
+                <Breadcrumb>
+                    <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link to={`/proyectos/`}>Proyectos</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link to={`/proyectos/${tarea.codigoProyecto}/tareas/`}>Tareas</Link></BreadcrumbItem>
+                    <BreadcrumbItem>Tarea {tarea.codigo}</BreadcrumbItem>
+                </Breadcrumb>
                 <div id='subheaderTarea'>
                     <br/>
-                    <h1>{tarea.nombre}</h1>
+                    <h1 id="taskName">{this.state.tarea.nombre}</h1>
                 </div>
                 <div id='cardsContainer'> 
                     <Row>
@@ -358,13 +481,13 @@ class TareaPage extends Component {
                                 <Card body>
                                 <CardTitle className="cardTitle" tag="h5">General</CardTitle>
                             
-                                <CardText><b>Descripción:</b> {tarea.descripcion}</CardText>
+                                <CardText><b>Descripción:</b> {this.state.tarea.descripcion}</CardText>
                                 <div id='infoCodigos'>
                                     <p className='cardText'><b>Código Tarea:</b> {tarea.codigo}.</p>
                                     <p className='cardText'><b>Código Proyecto:</b> {tarea.codigoProyecto}.</p>
                                     <p className='cardText'><b>Nombre Proyecto:</b> {tarea.nombreProyecto}</p>
                                 </div>
-                                
+                                <Button color="secondary" onClick={() => this.editarNombreODescripcion()}>Editar</Button>
                                 </Card>
                             </div>
                         </Col>
@@ -373,18 +496,14 @@ class TareaPage extends Component {
                         <Col sm="6">
                             <div id='cardRecursos' className='card cardsLeft cardsTop'>
                                 <Card body>
-                                <CardTitle className="cardTitle" tag="h5">Horas Asignadas A Recursos</CardTitle>
+                                <CardTitle className="cardTitle" tag="h5">Recursos asignados</CardTitle>
                                 <div id ="recursosConHoras">
                                     {this.noResources()}
-                                    {this.state.recursosXhoras.map((p) => {
-                                        return (<div className="recursosHoras">
-                                                    <p id="codigoRecursoCard"><b>Código Recurso:</b> {p.codigo}&nbsp;&nbsp;&nbsp;&nbsp;<b>Nombre Recurso:</b> {p.nombre}&nbsp;&nbsp;&nbsp;&nbsp; <b>Horas asignadas:</b> {p.horas}</p>
-                                                </div>
-                                        )})}
+                                    {this.showResources()}
                                 </div> 
                                 
                                 {/* <CardText id="recursosText"><b>Código Recurso:</b> {this.state.codigoRecurso == null ? "Ningún recurso asignado" : tarea.codigoRecurso}</CardText> */}
-                                <Button id="recursosButton" onClick={() => this.asignarRecurso()}>Asignar Horas a Recurso</Button>
+                                <Button id="recursosButton" onClick={() => this.asignarRecurso()}>Asignar Recurso</Button>
                                 </Card>
                             </div>
                         </Col>
@@ -420,15 +539,16 @@ class TareaPage extends Component {
                         </Col>
                     </Row>
                 </div>
+                
                 <div id="modals">
                     <Modal isOpen={this.state.modal} toggle={toggleModal}>
                         <ModalHeader toggle={toggleModal}>{this.state.modalHeader}</ModalHeader>
                         <ModalBody>
                             {this.state.modalBody}
                         </ModalBody>
-                        <Button onClick={this.state.acceptModalButton} id="boton">
+                        {this.state.acceptModalButton && <Button onClick={this.state.acceptModalButton} id="boton">
                             Aceptar
-                        </Button>
+                        </Button>}
                     </Modal>
                     <Modal isOpen={this.state.errorModal} toggle={toggleErrorModal}>
                         <ModalHeader toggle={toggleModal} close={closeBtn}>ERROR</ModalHeader>
@@ -440,6 +560,7 @@ class TareaPage extends Component {
                         </Button>
                     </Modal>
                 </div>
+                <Button color="danger" onClick={() => this.eliminarTarea()} className="eliminar">Eliminar Tarea</Button>
             </div>
         )
     }

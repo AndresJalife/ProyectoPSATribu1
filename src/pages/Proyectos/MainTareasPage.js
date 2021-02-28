@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './MainTareasPage.css';
-import { NavLink } from 'react-router-dom';
-import TareaCard from "../../components/Proyectos/TareaCard";
-
+import {Button, Table, Row, Col, Card, CardBody, Container, CardHeader, Breadcrumb, BreadcrumbItem, Badge   } from 'reactstrap';
+import {Link} from "react-router-dom";
+import Loader from "react-loader-spinner";
+import ModalAgregarTarea from '../../components/Proyectos/ModalAgregarTarea';
 
 export default class MainTareasPage extends Component
 {
@@ -12,19 +13,25 @@ export default class MainTareasPage extends Component
         super(props);
         this.state = {
             tareas: [],
-            nombreProyecto: ""
+            nombreProyecto: "",
+            isLoading: true,
         }
     }
 
     componentDidMount()
     {
+        this.loadTareas();
+    }
+
+    loadTareas(){
         const id = this.props.match.params.id;
         fetch(`https://proyectopsa.herokuapp.com/proyectos/${id}/tarea`)
             .then(r => r.json())
             .then((tareas) =>
             {
                 this.setState({
-                    tareas: tareas
+                    tareas: tareas,
+                    isLoading: false
                 });
             }, (error) => {console.log(error)}
         );
@@ -41,26 +48,87 @@ export default class MainTareasPage extends Component
         );
     }
 
+    getBadgeColor(estado){
+        switch (estado){
+            case "Iniciado":
+                return "danger"
+            case "Finalizado":
+                return "success"
+            case "En proceso":
+                return "warning"
+        }
+    }
+
     render()
     {
         const id = this.props.match.params.id;
-        return  (<div className='paginaProyectos'>
-                    <div id="subheader"> 
-                        <h1 id="proyectoName"><b>Proyecto:</b> {this.state.nombreProyecto}</h1>
-                        <h2 id='tituloProyectos2'>Tareas del proyecto:</h2>
-                        <br/>
-                        
-                    </div>
-                    
-                    <br/>
-                    <div id='titlesContainer2'>
-                        <p>Nombre Tarea</p>
-                        <p id="estadoTitle2">Estado</p>
-                        <NavLink to={`/proyectos/${id}/nuevaTarea`} className="botonAgregarProyectoContainer">Agregar Tarea</NavLink>
-                    </div>
-                    <br />
-                    {this.state.tareas.map((t) => <TareaCard key={t.codigo} codigoProyecto={id} tarea={t} />)}
-                </div>);
-        
+        return  <div>
+                    <Row>
+                            <Col xl={12} lg={12}>
+                                <Breadcrumb>
+                                    <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                                    <BreadcrumbItem><Link to={`/proyectos/`}>Proyectos</Link></BreadcrumbItem>
+                                    <BreadcrumbItem active>Tareas</BreadcrumbItem>
+                                </Breadcrumb>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col xl={{size: 6, offset: 3}}>
+                                <Card>
+                                    <CardHeader tag="h2">Tareas</CardHeader>
+
+                                    <CardBody>
+                                        <Container>
+
+                                            {this.state.isLoading ?
+                                                <Row>
+                                                    <Col className="text-center">
+                                                        <Loader
+                                                            type="TailSpin"
+                                                            color="#00BFFF"
+                                                            height={50}
+                                                            width={50}></Loader>
+                                                    </Col>
+                                                </Row>
+                                                :
+                                                <Row>
+                                                    <Col>
+                                                        <Table striped>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Nombre</th>
+                                                                <th>Estado</th>
+                                                                <th><ModalAgregarTarea onClose={() => this.loadTareas()}></ModalAgregarTarea></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            
+                                                            {this.state.tareas.map((r) =>{
+                                                                let estadoString = r.estado.charAt(0).toUpperCase() + r.estado.slice(1);
+                                                                let badgeColor = this.getBadgeColor(estadoString);
+                                                                return <tr key={r.legajo}>
+                                                                    <td>{r.nombre}</td>
+                                                                    <td><Badge color={badgeColor}>{estadoString}</Badge></td>
+                                                                    <td>
+                                                                    <Link to={`/proyectos/${id}/tareas/${r.codigo}`}>
+                                                                        <Button color="info">Ver Tarea</Button>
+                                                                    </Link>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                            )}
+                                                            </tbody>
+                                                        </Table>
+                                                    </Col>
+                                                </Row>
+                                            }
+                                        </Container>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                </div>
+    
     }
 }

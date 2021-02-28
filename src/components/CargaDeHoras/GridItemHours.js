@@ -25,6 +25,7 @@ export default class GridItemHours extends Component {
 
         this.deleteHoursById = this.deleteHoursById.bind(this);
         this.reloadItem = this.reloadItem.bind(this);
+        this.fetchTaskAndProjectNames = this.fetchTaskAndProjectNames.bind(this);
     }
 
     deleteHoursById(){
@@ -54,38 +55,8 @@ export default class GridItemHours extends Component {
             }
         });
     }
-    
-    componentDidMount() {
 
-        let url = 'https://proyectopsa.herokuapp.com/proyectos/' +
-                   this.props.hours.idProject.toString() + '/tarea/' +
-                   this.props.hours.idTask.toString();
-
-        fetch(url)
-            .then(r => r.json())
-            .then((taskByProject) =>
-            {
-
-                let nameTask = "-",
-                    nameProject = "-";
-
-                if (taskByProject.tarea != null){
-                    nameTask = taskByProject.tarea.nombre;
-                    nameProject = taskByProject.tarea.nombreProyecto;
-                }
-
-                this.setState({
-                    isLoading: false,
-                    nameProject: nameProject,
-                    nameTask: nameTask
-                });
-            }, (error) => {console.log(error);});
-    }
-
-    reloadItem(){
-
-        this.props.onReload();
-
+    fetchTaskAndProjectNames(){
         let url = 'https://proyectopsa.herokuapp.com/proyectos/' +
             this.props.hours.idProject.toString() + '/tarea/' +
             this.props.hours.idTask.toString();
@@ -108,6 +79,15 @@ export default class GridItemHours extends Component {
                     nameTask: nameTask
                 });
             }, (error) => {console.log(error);});
+    }
+
+    componentDidMount() {
+        this.fetchTaskAndProjectNames();
+    }
+
+    reloadItem(){
+        this.props.onReload();
+        this.fetchTaskAndProjectNames();
     }
 
     render(){

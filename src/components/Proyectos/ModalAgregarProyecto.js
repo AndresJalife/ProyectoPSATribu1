@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import React, { Component } from 'react';
+import { Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
-import './AgregarProyectoPage.css';
+import './Modal.css';
 
-class AgregarProyectoPage extends Component {
+class ModalAgregarProyecto extends Component {
 
     constructor() {
         super();
@@ -14,17 +13,17 @@ class AgregarProyectoPage extends Component {
             modalBody: null,
             modalOnClose: null,
             modal: false,
+            modalTotal: false,
         }
     }
 
     static propTypes = {
         match: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
+        history: PropTypes.object.isRequired,
     };
 
     crearProyecto(){
-
         let url = "https://proyectopsa.herokuapp.com/proyectos/";
 
         let nombreProyecto = document.getElementById("nombreProyecto").value;
@@ -35,6 +34,7 @@ class AgregarProyectoPage extends Component {
         let presupuesto = document.getElementById("presupuesto").value;
 
         if (!this.validateRequiredEntries(nombreProyecto, fechaInicio, descripcion)) return;
+        if (fechaFin != '' && fechaInicio > fechaFin) return;
 
         let estado = this.obtenerEstado();
 
@@ -61,7 +61,9 @@ class AgregarProyectoPage extends Component {
             .then(response => response.json())
             .then(function(json) {
                 if(json.codigo) {
-                    self.abrirModal("ÉXITO", `El proyecto se generó exitosamente con código: ${json.codigo}`, () => self.props.history.push(`/proyectos/`));
+                    self.setState({modalTotal:false});
+                    self.props.onClose();
+                    self.abrirModal("ÉXITO", `El proyecto se generó exitosamente con código: ${json.codigo}`, () => {});
                 } else {
                     self.abrirModal("ERROR", json.description +  json.validation, () => {});
                 }
@@ -92,9 +94,9 @@ class AgregarProyectoPage extends Component {
         let fechaClassList = document.getElementById("startDate").classList;
         let descClassList = document.getElementById("desc").classList;
         
-        valid = this.validate(nombreProyecto, nombreClassList);
-        valid = this.validate(fechaInicio, fechaClassList);
-        valid = this.validate(descripcion, descClassList);
+        valid &= this.validate(nombreProyecto, nombreClassList);
+        valid &= this.validate(fechaInicio, fechaClassList);
+        valid &= this.validate(descripcion, descClassList);
         return valid;
     }
 
@@ -109,16 +111,19 @@ class AgregarProyectoPage extends Component {
         }
 
         return valid;
-    }
+    }   
 
     render() {
         let self = this;
-        const toggleModal = () =>self.setState({modal:!self.state.modal});
-
+        const toggleModal = () => self.setState({modalTotal:!self.state.modalTotal});
+        const toggleModalError = () => self.setState({modal: !self.state.modal});
         return (
             <div>
-                <div className='formContainer'>
-                    <Form>
+                <Button color="secondary" onClick={toggleModal}>Agregar Proyecto</Button>
+
+                <Modal isOpen={this.state.modalTotal} toggle={toggleModal}>
+                    <ModalHeader id="header" toggle={toggleModal}>Nuevo Proyecto</ModalHeader>
+                    <ModalBody>
                         <FormGroup>
                             <Label className='parametro' for="nombreProyecto" id='nombre'>Nombre Proyecto *</Label>
                             <Input type="string" name="nombreProyecto" id="nombreProyecto" className='general' maxLength="256" required />
@@ -134,19 +139,15 @@ class AgregarProyectoPage extends Component {
                         <FormGroup tag="fieldset">
                             <Label className='parametro'>Estado</Label>
                             <FormGroup check>
-                                <Label check>
+                                <Label check className="radio">
                                     <Input type="radio" name='radio' id='iniciado'  />{' '}
                                     Iniciado
                                 </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                                <Label check>
+                                <Label check className="radio">
                                     <Input type="radio" name='radio' id='enProceso' />{' '}
                                     En Proceso
                                 </Label>
-                            </FormGroup>
-                            <FormGroup check >
-                                <Label check>
+                                <Label check className="radio">
                                     <Input type="radio" name='radio' id='finalizado'  />{' '}
                                     Finalizado
                                 </Label>
@@ -154,22 +155,22 @@ class AgregarProyectoPage extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label className='parametro' for="horas">Horas</Label>
-                            <Input type="number" name="horas" id="horas" className='general' />
+                            <Input type="number" name="horas" id="horas" className='general' min={0} />
                         </FormGroup>
                         <FormGroup>
                             <Label className='parametro' for="presupuesto" >Presupuesto</Label>
-                            <Input type="number" name="presupuesto" id="presupuesto" className='general' />
+                            <Input type="number" name="presupuesto" id="presupuesto" className='general' min={0} />
                         </FormGroup>
                         <FormGroup>
                             <Label className='parametro' for="descripcion" id='desc'>Descripción *</Label>
                             <Input type="textarea" name="descripcion" id="descripcion" className='general' maxLength="256" required />
                         </FormGroup>
                         <Button onClick={() => this.crearProyecto()}>Crear Proyecto</Button>
-                    </Form>
-                    <label id='requisitosLabel'>(*) para aquellos campos que sean requeridos obligatoriamente</label>
-                </div>
-                <Modal isOpen={this.state.modal} toggle={toggleModal} className='popupError' onClosed={this.state.modalOnClose}>
-                    <ModalHeader toggle={toggleModal}>{this.state.modalHeader}</ModalHeader>
+                        <label id='requisitosLabel'>(*) para aquellos campos que sean requeridos obligatoriamente</label>
+                    </ModalBody>
+                </Modal>
+                <Modal isOpen={this.state.modal} toggle={toggleModalError} className='popupError' onClosed={this.state.modalOnClose}>
+                    <ModalHeader toggle={toggleModalError}>{this.state.modalHeader}</ModalHeader>
                     <ModalBody>
                         {this.state.modalBody}
                     </ModalBody>
@@ -179,4 +180,4 @@ class AgregarProyectoPage extends Component {
     }
 }
 
-export default withRouter(AgregarProyectoPage);
+export default withRouter(ModalAgregarProyecto);    

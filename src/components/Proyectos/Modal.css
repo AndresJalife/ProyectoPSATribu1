@@ -1,0 +1,28 @@
+.incorrect{
+    color:red;
+}
+
+.radio, .radio2{
+    margin: 8%;
+}
+
+.radio2{
+    margin-left: 12%;
+    margin-right: 11%;
+}
+
+.parametro{
+    font-weight: bold;
+}
+
+#header{
+    font-weight: bold;
+}
+
+#botonRecurso{
+    margin-left: 17%;
+}
+
+#labelRecurso{
+    margin-left: 17%;
+}
