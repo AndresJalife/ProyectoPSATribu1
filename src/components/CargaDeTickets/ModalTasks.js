@@ -6,6 +6,7 @@ import TimePicker from 'react-times';
 
 import 'react-times/css/classic/default.css';
 import './ModalTickets.css'
+import swal from "sweetalert2";
 
 export default class ModalTickets extends Component {
 
@@ -134,7 +135,10 @@ export default class ModalTickets extends Component {
             },
             mode:'cors'
         })
-
+        swal.fire({
+                            title: "Tareas asignadas al ticket correctamente",
+                            icon: "success"
+                        })
     }
 
 

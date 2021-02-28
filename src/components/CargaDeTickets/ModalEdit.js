@@ -6,6 +6,7 @@ import TimePicker from 'react-times';
 
 import 'react-times/css/classic/default.css';
 import './ModalTickets.css'
+import swal from "sweetalert2";
 
 export default class ModalTickets extends Component {
 
@@ -78,7 +79,6 @@ export default class ModalTickets extends Component {
             "status": this.state.status,
             "resource_id": this.state.resource_id
         };
-        console.log(data)
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -86,8 +86,11 @@ export default class ModalTickets extends Component {
                 'Content-Type': 'application/json',
             },
             mode:'cors'
-        })
-        console.log(data)
+        });
+         swal.fire({
+                            title: "Se modificó el ticket correctamente",
+                            icon: "success"
+                        })
 
     }
 
@@ -173,6 +176,7 @@ export default class ModalTickets extends Component {
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
                                 <Button color="primary" onClick={this.saveTicket}>Guardar</Button>
+
                             </Col>
                         </FormGroup>
 
