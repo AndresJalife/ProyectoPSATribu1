@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
 import {NavLink} from "react-router-dom";
-import TicketCard from "../components/CargaDeTickets/TicketCard";
-import ModalTickets from '../components/CargaDeTickets/ModalTickets';
+import TicketCard from "../../components/CargaDeTickets/TicketCard";
+import ModalTickets from '../../components/CargaDeTickets/ModalTickets';
 
 
 export default class Soporte extends Component {

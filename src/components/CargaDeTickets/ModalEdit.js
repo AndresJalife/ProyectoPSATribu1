@@ -6,6 +6,7 @@ import TimePicker from 'react-times';
 
 import 'react-times/css/classic/default.css';
 import './ModalTickets.css'
+import swal from "sweetalert2";
 
 export default class ModalTickets extends Component {
 
@@ -24,7 +25,9 @@ export default class ModalTickets extends Component {
 
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
-        this.handleTaskChange = this.handleTaskChange.bind(this);
+
+        //this.handleTaskChange = this.handleTaskChange.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
         this.handleStatusChange = this.handleStatusChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,6 +42,16 @@ export default class ModalTickets extends Component {
         }).then(response => response.json().then(data => this.setState({
             resources: data
         })));
+        var url_tasks = 'https://aninfo-soporte.herokuapp.com/tasks';
+        fetch(url_tasks, {
+            method: 'GET'
+        }).then(response => response.json().then(data => {
+            this.setState({tasks: data});
+            if (data.length > 0){
+                this.state.task_id = data[0].codigo
+            }
+        }
+        ))
     }
 
     changeVisibility() {
@@ -60,8 +73,8 @@ export default class ModalTickets extends Component {
         var url = 'https://aninfo-soporte.herokuapp.com/edit_ticket';
         var data = {
             "ticket_id": this.state.id,
+            "name": this.state.name,
             "description": this.state.description,
-            "task_id": this.state.task_id,
             "priority": this.state.priority,
             "status": this.state.status,
             "resource_id": this.state.resource_id
@@ -73,8 +86,11 @@ export default class ModalTickets extends Component {
                 'Content-Type': 'application/json',
             },
             mode:'cors'
-        })
-        console.log(data)
+        });
+         swal.fire({
+                            title: "Se modificó el ticket correctamente",
+                            icon: "success"
+                        })
 
     }
 
@@ -82,10 +98,14 @@ export default class ModalTickets extends Component {
         this.setState({type: event.target.value});
         console.log(event.target.value)
     }
-    handleTaskChange(event) {
-        this.setState({task: event.target.value});
+    handleNameChange(event) {
+        this.setState({name: event.target.value});
         console.log(event.target.value)
     }
+    //handleTaskChange(event) {
+    //    this.setState({task: event.target.value});
+    //    console.log(event.target.value)
+    //}
     handlePriorityChange(event) {
         this.setState({priority: event.target.value});
         console.log(event.target.value)
@@ -123,6 +143,10 @@ export default class ModalTickets extends Component {
 
                     <ModalBody>
                         <FormGroup>
+                            <Label>Nombre</Label>
+                            <Input type="text" value={this.state.name} onChange={this.handleNameChange}></Input>
+                        </FormGroup>
+                        <FormGroup>
                             <Label>Descripcion</Label>
                             <Input type="text" value={this.state.description} onChange={this.handleDescriptionChange}></Input>
                         </FormGroup>
@@ -152,8 +176,11 @@ export default class ModalTickets extends Component {
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 9 }}>
                                 <Button color="primary" onClick={this.saveTicket}>Guardar</Button>
+
                             </Col>
                         </FormGroup>
+
+
                     </ModalBody>
                 </Modal>
             </div>
