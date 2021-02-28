@@ -2,6 +2,7 @@ import {ButtonToolbar, Col, Row} from "reactstrap";
 import {Link} from "react-router-dom";
 import React, {Component} from "react";
 import ModalEdit from '../../components/CargaDeTickets/ModalEdit';
+import ModalTasks from '../../components/CargaDeTickets/ModalTasks';
 
 
 export default class TicketDetail extends Component {
@@ -15,6 +16,24 @@ export default class TicketDetail extends Component {
     componentDidMount() {
         var splitted_url = window.location.href.split('/');
         var ticket_id = splitted_url[splitted_url.length - 1];
+
+        var tasks_url = 'https://aninfo-soporte.herokuapp.com/tasks_by_id'
+        var data = {ticket_id: ticket_id}
+        fetch(tasks_url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode:'cors'
+        }).then(response => response.json().then(tasks => {
+            this.setState({tasks: tasks});
+            //console.log(tasks);
+            //this.modal_tasks.setState({tasks: tasks})
+
+        }))
+
+
         var ticket_data_url = 'https://aninfo-soporte.herokuapp.com/ticket_data'
         var data = {ticket_id: ticket_id}
         fetch(ticket_data_url, {
@@ -32,9 +51,6 @@ export default class TicketDetail extends Component {
             status: ticket["status"],
             priority: ticket["priority"],
             type: ticket["type"],
-            //TODO: multiple tasks
-            //task_name: ticket["task name"],
-            //task_id: ticket["task id"],
             creation_date: ticket["creation date"],
             limit_date:  ticket["limit date"],
             resource_id: ticket["resource id"],
@@ -47,14 +63,23 @@ export default class TicketDetail extends Component {
                 status: ticket["status"],
                 priority: ticket["priority"],
                 type: ticket["type"],
-                //TODO: multiple tasks
-                //task_name: ticket["task name"],
-                //task_id: ticket["task id"],
                 creation_date: ticket["creation date"],
                 limit_date:  ticket["limit date"],
                 resource_id: ticket["resource id"],
                 resource_name: ticket["resource name"]});
-    }));
+            this.modal_tasks.setState({
+                id: ticket["id"],
+                name: ticket["name"],
+                description: ticket["description"],
+                status: ticket["status"],
+                priority: ticket["priority"],
+                type: ticket["type"],
+                creation_date: ticket["creation date"],
+                limit_date:  ticket["limit date"],
+                resource_id: ticket["resource id"],
+                resource_name: ticket["resource name"]})
+
+        }));
     }
 
 
@@ -66,6 +91,9 @@ export default class TicketDetail extends Component {
                     <Col>
                         <ButtonToolbar>
                             <ModalEdit data={this.state} ref={ref => (this.modal_edit = ref)}></ModalEdit>
+                        </ButtonToolbar>
+                        <ButtonToolbar>
+                            <ModalTasks data={this.state} ref={ref => (this.modal_tasks = ref)}></ModalTasks>
                         </ButtonToolbar>
                     </Col>
                 </Row>
