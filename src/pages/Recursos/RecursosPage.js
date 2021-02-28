@@ -81,7 +81,7 @@ export default class RecursosPage extends Component {
                                                             <td>{r.Apellido}</td>
                                                             <td>
                                                                 <Link to={`/cargadehoras/${r.legajo}`}>
-                                                                    <button type="button"  className="btn btn-outline-primary btn-sm">
+                                                                    <button type="button"  className="btn btn-primary btn-sm">
                                                                         Ver recurso
                                                                     </button>
                                                                 </Link>
