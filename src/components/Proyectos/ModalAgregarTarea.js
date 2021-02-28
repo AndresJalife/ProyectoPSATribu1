@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input } from 'reactstrap';
+import { Form, Button,  Modal, ModalHeader, ModalBody, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 import './Modal.css';
+import ModalAsignarRecurso from "../../components/Proyectos/ModalAsignarRecurso";
+
 
 class ModalAgregarTarea extends Component {
 
@@ -15,6 +17,7 @@ class ModalAgregarTarea extends Component {
             modal: false,
             modalTotal: false,
         }
+        this.codigoRecurso = "";
     }
 
     static propTypes = {
@@ -43,7 +46,8 @@ class ModalAgregarTarea extends Component {
             "prioridad": prioridad,
             "fechaFin": fechaFin == '' ? undefined : fechaFin,
             "estado": estado == null ? undefined : estado ,
-            "descripcion": descripcion
+            "descripcion": descripcion,
+            "codigoRecurso": this.codigoRecurso == "" ? undefined : this.codigoRecurso,
         };
         
         let self = this;
@@ -70,6 +74,32 @@ class ModalAgregarTarea extends Component {
                 self.abrirModal("ERROR DEL FETCH", error.message)
             });
     }
+
+    asignarRecurso(){
+        let self = this;
+
+        const onClick = (legajo) => {  
+            self.codigoRecurso = legajo;
+            this.setState({
+                modal: false,
+            });
+        };
+        let content = (
+            <div>
+                <Form>
+                    <FormGroup>
+                        <ModalAsignarRecurso onClick={onClick} />
+                    </FormGroup>
+                </Form>
+            </div>
+        );
+        this.abrirModal(
+            "Asignar Recurso",
+            content,
+            () => {} 
+        )
+    }
+
     componentDidMount(){
         this.id = this.props.match.params.id;
     }
@@ -159,6 +189,11 @@ class ModalAgregarTarea extends Component {
                         <FormGroup>
                             <Label className='parametro' for="fechaFin" >Fecha Fin</Label>
                             <Input type="date" name="fechaFin" id="fechaFin" className='general fecha' />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label className='parametro' for="recurso" id='recursoLabel'>Código Recurso</Label>
+                            <Label id="labelRecurso">{this.codigoRecurso == "" ? "-" : this.codigoRecurso}</Label>
+                            <Button id="botonRecurso" onClick={() => self.asignarRecurso()}>Seleccionar Recurso</Button>
                         </FormGroup>
                         <FormGroup tag="fieldset">
                             <Label className='parametro'>Estado</Label>
