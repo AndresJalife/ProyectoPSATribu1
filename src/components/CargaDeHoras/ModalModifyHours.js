@@ -176,18 +176,40 @@ export default class ModalModifyHours extends Component {
 
     getListTasks(){
 
-        let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + this.state.hoursModel.getIdProject() + '/tarea/';
+        let idProject = this.state.hoursModel.getIdProject();
+        let urlTask = 'https://proyectopsa.herokuapp.com/proyectos/' + idProject + '/tarea/';
+
 
         fetch(urlTask)
             .then(r => r.json())
             .then((tasks) =>
             {
-                this.setState({
-                    hoursModel: this.state.hoursModel,
-                    lstTasks: tasks,
-                    isTaskDisabled: false,
-                    taskIsLoading: false
+                var listTaskAsigned = [];
+
+                tasks.forEach(x => {
+
+                    let url = 'https://proyectopsa.herokuapp.com/proyectos/' +
+                        idProject.toString() + '/tarea/' +
+                        x.codigo.toString();
+
+                    fetch(url)
+                        .then(r => r.json())
+                        .then((oneTask) =>
+                        {
+                            if (oneTask.tarea.codigoRecurso == this.state.hoursModel.file){
+                                listTaskAsigned.push(oneTask.tarea);
+                            }
+
+                            this.setState({
+                                hoursModel: this.state.hoursModel,
+                                lstTasks: listTaskAsigned,
+                                isTaskDisabled: false,
+                                taskIsLoading: false
+                            });
+
+                        }, (error) => {console.log(error);});
                 });
+
             }, (error) => {console.log(error);});
     }
 
