@@ -15,9 +15,7 @@ export default class ModalTickets extends Component {
         this.state = {
             isShow: false,
             resources: [{}],
-            tasks: [{}],
             description: "",
-            task_id: null,
             type: "consulta",
             priority: 1,
             resource_id: null,
@@ -31,7 +29,6 @@ export default class ModalTickets extends Component {
 
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
-        this.handleTaskChange = this.handleTaskChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleResourceChange = this.handleResourceChange.bind(this);
@@ -58,7 +55,6 @@ export default class ModalTickets extends Component {
         var data = {
             "type" : this.state.type,
             "description": this.state.description,
-            "task_id": this.state.task_id,
             "priority": this.state.priority,
             "resource_id": this.state.resource_id,
             "name": this.state.name,
@@ -78,10 +74,6 @@ export default class ModalTickets extends Component {
 
     handleTypeChange(event) {
         this.setState({type: event.target.value});
-        console.log(event.target.value)
-    }
-    handleTaskChange(event) {
-        this.setState({task_id: event.target.value});
         console.log(event.target.value)
     }
     handlePriorityChange(event) {
@@ -117,17 +109,6 @@ export default class ModalTickets extends Component {
                 this.state.resource_id = data[0].legajo
             }
         }));
-        var url_tasks = 'https://aninfo-soporte.herokuapp.com/tasks';
-        fetch(url_tasks, {
-            method: 'GET'
-        }).then(response => response.json().then(data => {
-            this.setState({tasks: data});
-            if (data.length > 0){
-                this.state.task_id = data[0].codigo
-            }
-        }
-        ))
-
     }
 
     render(){
@@ -146,12 +127,6 @@ export default class ModalTickets extends Component {
                         <FormGroup>
                             <Label>Nombre</Label>
                             <Input type="text" value={this.state.name} onChange={this.handleNameChange}></Input>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Tarea</Label>
-                            <Input type="select"  onChange={this.handleTaskChange}>
-                                    {this.state.tasks.map((p) => <option key={p.codigo} value={p.codigo}>{p.nombre} </option>)} </Input>
-
                         </FormGroup>
                         <FormGroup>
                             <Label>Recurso</Label>
