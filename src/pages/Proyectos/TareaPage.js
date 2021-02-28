@@ -40,6 +40,7 @@ class TareaPage extends Component {
         const onClick = (legajo) => {
             if (!self.validateInputText(legajo, "codigoRecursoLabel")) return;
 
+
             self.patch({
                 codigoRecurso: legajo
             }).then(r => self.obtenerTareas());
@@ -306,7 +307,6 @@ class TareaPage extends Component {
             .then((tarea) =>
             {
                 let trueTarea = tarea['tarea'];
-                console.log(trueTarea);
                 this.setState({
                     tarea: trueTarea,
                     prioridad: trueTarea.prioridad,
@@ -345,7 +345,77 @@ class TareaPage extends Component {
     }
 
     eliminarTarea(){
+        
+        let confirmar = () => {
+            // if(this.state.codigoRecurso != ""){
+            //     this.deleteHorasRecurso();
+            // }
+            this.selfDelete();
+        }
 
+        let content = <div>
+            <p>Tenga en cuenta que se eliminaran todas las horas asignadas a esta tarea.</p>
+            <div id="confirmButtons">
+                <Button className="botoneh" onClick={confirmar}>Confirmar</Button>
+                <Button className="botoneh" onClick={() => this.setState({modal:false})}>Cancelar</Button>
+            </div>
+            
+        </div>
+
+        this.abrirModal(
+            "Esta seguro que desea eliminar esta tarea?",
+            content,
+            null
+        )
+    }
+
+    selfDelete(){
+        let self=this;
+        let url = `https://proyectopsa.herokuapp.com/proyectos/${this.state.tarea.codigoProyecto}/tarea/${this.state.tarea.codigo}`
+        fetch(url, {
+            method: 'DELETE', 
+            mode: 'cors', 
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+            .then(r => {
+                self.props.history.push(`/proyectos/${this.state.tarea.codigoProyecto}/tareas`)
+            })
+    }
+
+    deleteHora(hora){
+        console.log(hora)
+        let url = `https://squad6-backend.herokuapp.com/hours/${hora.id}`
+        fetch(url, {
+            method: 'DELETE', 
+            mode: 'cors', 
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+    }
+
+    deleteHorasRecurso(){
+        let horasDelRecurso = []
+        fetch("https://squad6-backend.herokuapp.com/hours")
+            .then(r => r.json())
+            .then(hours => {
+                for (let index in hours){
+                    let hour = hours[index];
+                    if (!hour.file == this.state.codigoRecurso) continue;
+                    if (hour.idProject == this.state.tarea.codigoProyecto && hour.idTask == this.state.tarea.codigo){
+                        horasDelRecurso.push(hour);
+                    }
+                }
+            }, (error) => {console.log(error);})
+            .then(r => {
+                for (let index = 0 ; index < horasDelRecurso.length; index ++){
+                    this.deleteHora(horasDelRecurso[index]);
+                }
+            })
+
+        return horasDelRecurso;
     }
 
     editarNombreODescripcion(){
