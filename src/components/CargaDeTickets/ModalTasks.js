@@ -24,6 +24,7 @@ export default class ModalTickets extends Component {
         this.saveTicketWithEnter = this.saveTicketWithEnter.bind(this);
         this.handleTaskCheckboxChange = this.handleTaskCheckboxChange.bind(this)
         this.isTaskChecked = this.isTaskChecked.bind(this)
+        this.getTasksToSave = this.getTasksToSave.bind(this)
 
     }
     componentDidMount() {
@@ -65,7 +66,7 @@ export default class ModalTickets extends Component {
 
                 if (this.state.tasks[i]["codigo"] == this.state.ticket_tasks[j]["task_id"]) {
                     this.state.tasks[i].checked = true;
-                    continue;
+                    break;
                 }
                 this.state.tasks[i].checked=false;
             }
@@ -104,17 +105,27 @@ export default class ModalTickets extends Component {
     isTaskChecked(id){
        return this.state.tasks[id].checked == true;
     }
+
+    getTasksToSave() {
+        var arr = []
+        for (var i = 0; i < this.state.tasks.length; i++) {
+            if (this.state.tasks[i].checked == true) {
+                arr.push({
+                    task_id: this.state.tasks[i]["codigo"],
+                    task_name: this.state.tasks[i]["nombre"]
+                });
+            }
+        }
+        return arr;
+    }
     saveTicket() {
         this.changeVisibility();
-        var url = 'https://aninfo-soporte.herokuapp.com/edit_ticket';
+        var url = 'https://aninfo-soporte.herokuapp.com/edit_tasks_ticket';
         var data = {
             "ticket_id": this.state.id,
-            "name": this.state.name,
-            "description": this.state.description,
-            "priority": this.state.priority,
-            "status": this.state.status,
-            "resource_id": this.state.resource_id
+            "tasks": this.getTasksToSave()
         };
+        console.log(data);
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -150,6 +161,11 @@ export default class ModalTickets extends Component {
                            <li><input key={p.codigo} onClick={this.handleTaskCheckboxChange} type="checkbox" defaultChecked={p.checked}  ref={ref => (this.modal_tasks = ref)} value={p.codigo}/> {p.nombre}</li>)}
                         </FormGroup>
                     </ModalBody>
+                    <FormGroup check row>
+                            <Col sm={{ size: 10, offset: 9 }}>
+                                <Button color="primary" onClick={this.saveTicket}>Guardar</Button>
+                            </Col>
+                    </FormGroup>
                 </Modal>
             </div>
         );

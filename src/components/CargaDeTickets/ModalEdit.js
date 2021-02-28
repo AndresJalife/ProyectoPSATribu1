@@ -74,12 +74,11 @@ export default class ModalTickets extends Component {
             "ticket_id": this.state.id,
             "name": this.state.name,
             "description": this.state.description,
-            //TODO: multiple tasks
-            //"task_ids": this.state.task_ids,
             "priority": this.state.priority,
             "status": this.state.status,
             "resource_id": this.state.resource_id
         };
+        console.log(data)
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -176,6 +175,8 @@ export default class ModalTickets extends Component {
                                 <Button color="primary" onClick={this.saveTicket}>Guardar</Button>
                             </Col>
                         </FormGroup>
+
+
                     </ModalBody>
                 </Modal>
             </div>
