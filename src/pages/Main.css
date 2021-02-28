@@ -5,3 +5,8 @@
     opacity: 1;
     cursor: pointer;
 }
+
+#container{
+    margin-left: 25%;
+    width: 50%;
+}
