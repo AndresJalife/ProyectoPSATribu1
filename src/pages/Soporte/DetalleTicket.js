@@ -1,8 +1,9 @@
-import {ButtonToolbar, Col, Row} from "reactstrap";
+import {ButtonToolbar, Card, CardBody, CardHeader, Col, Container, Row, Table} from "reactstrap";
 import {Link} from "react-router-dom";
 import React, {Component} from "react";
 import ModalEdit from '../../components/CargaDeTickets/ModalEdit';
 import ModalTasks from '../../components/CargaDeTickets/ModalTasks';
+import Loader from "react-loader-spinner";
 
 
 export default class TicketDetail extends Component {
@@ -99,44 +100,82 @@ export default class TicketDetail extends Component {
     render() {
         return (
             <div>
-                Detalle de ticket
-                <Row>
-                    <Col>
-                       <Row>
-                { this.state.editable && <Col>
-                    <ButtonToolbar>
-                        <ModalEdit data={this.state} ref={ref => (this.modal_edit = ref)}></ModalEdit>
-                    </ButtonToolbar>
-                    <ButtonToolbar>
-                        <ModalTasks data={this.state} ref={ref => (this.modal_tasks = ref)}></ModalTasks>
-                    </ButtonToolbar>
-                </Col> }
-            </Row>
-                    </Col>
-                    <Col>
+                                <Row>
+                    <Col xl={{size: 6, offset: 3}}>
+                        <Card>
+                            <CardHeader tag="h2">Detalle de ticket</CardHeader>
+
+                            <CardBody>
+                                <Container>
+
+                                    {this.state.isLoading ?
+                                        <Row>
+                                            <Col className="text-center">
+                                                <Loader
+                                                    type="TailSpin"
+                                                    color="#00BFFF"
+                                                    height={50}
+                                                    width={50}></Loader>
+                                            </Col>
+                                        </Row>
+                                        :
+                                        <Row>
+                                            <Col>
+                                                <Table striped>
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Estado</th>
+                                                        <th>Prioridad</th>
+                                                        <th>Descripcion</th>
+                                                        <th>Tipo</th>
+                                                        <th>Recurso trabajando</th>
+                                                        <th>Fecha Creacion</th>
+                                                        <th>Fecha Limite</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+
+                                                        <tr >
+                                                            <td>{this.state.status}</td>
+                                                            <td>{this.state.priority}</td>
+                                                            <td>{this.state.description}</td>
+                                                            <td>{this.state.type}</td>
+                                                            <td>{this.state.resource_name}</td>
+                                                            <td>{this.state.creation_date}</td>
+                                                            <td>{this.state.limit_date}</td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </Table>
+                                            </Col>
+                                        </Row>
+                                    }
+
+                    <Row>
+                        { this.state.editable &&
                         <Row>
-                            Estado: {this.state.status}
+                            <Col  xs="6" >
+                                <ButtonToolbar>
+                                    <ModalEdit data={this.state} ref={ref => (this.modal_edit = ref)}></ModalEdit>
+                                </ButtonToolbar>
+                            </Col>
+                            <Col xs="auto" >
+                                <ButtonToolbar>
+                                    <ModalTasks data={this.state} ref={ref => (this.modal_tasks = ref)}></ModalTasks>
+                                </ButtonToolbar>
+                            </Col>
                         </Row>
-                        <Row>
-                            Prioridad: {this.state.priority}
-                        </Row>
-                        <Row>
-                            Descripcion: {this.state.description}
-                        </Row>
-                        <Row>
-                            Tipo: {this.state.type}
-                        </Row>
-                        <Row>
-                            Recurso trabajando: {this.state.resource_name}
-                        </Row>
-                        <Row>
-                            Fecha Creacion: {this.state.creation_date}
-                        </Row>
-                        <Row>
-                            Fecha Limite: {this.state.limit_date}
-                        </Row>
+                        }
+                    </Row>
+                                </Container>
+                            </CardBody>
+                        </Card>
                     </Col>
                 </Row>
+
             </div>)
     }
 }
