@@ -354,7 +354,6 @@ class TareaPage extends Component {
         }
 
         let content = <div>
-            <p>Tenga en cuenta que se eliminaran todas las horas asignadas a esta tarea.</p>
             <div id="confirmButtons">
                 <Button className="botoneh" onClick={confirmar}>Confirmar</Button>
                 <Button className="botoneh" onClick={() => this.setState({modal:false})}>Cancelar</Button>
