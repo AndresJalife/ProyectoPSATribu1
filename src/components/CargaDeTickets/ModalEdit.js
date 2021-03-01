@@ -167,7 +167,7 @@ export default class ModalTickets extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label>Status </Label>
+                            <Label>Estado </Label>
                             <Input type="select" value={this.state.status} onChange={this.handleStatusChange}>
                                 <option value="en progreso soporte">en progreso soporte</option>
                                 <option value="escalado en ingeneria">escalado en ingeneria</option>
