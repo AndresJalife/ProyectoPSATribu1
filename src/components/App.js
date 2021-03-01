@@ -5,7 +5,7 @@ import MainProyectosPage from '../pages/Proyectos/MainProyectosPage';
 import AgregarProyectoPage from '../pages/Proyectos/AgregarProyectoPage';
 import RecursosPage from './../pages/Recursos/RecursosPage';
 import TareaPage from '../pages/Proyectos/TareaPage';
-import Soporte from './../pages/Soporte';
+import Soporte from './../pages/Soporte/Soporte';
 import TicketDetail from './../pages/Soporte/DetalleTicket';
 import Main from './../pages/Main';
 import {Route, Switch} from "react-router";
