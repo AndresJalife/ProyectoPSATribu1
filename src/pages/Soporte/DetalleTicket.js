@@ -11,7 +11,7 @@ export default class TicketDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editable: true
+            editable: false
         }
 
 
@@ -60,7 +60,7 @@ export default class TicketDetail extends Component {
             resource_name: ticket["resource name"]
         });
             if (ticket["status"] !== "resuelto") {
-                this.state.editable = true;
+                this.setState({...this.state, editable: true});
                 console.log(this.state.editable);
                 this.modal_edit.setState({
                     id: ticket["id"],
@@ -88,7 +88,7 @@ export default class TicketDetail extends Component {
                 })
             }
             else {
-                this.state.editable = false;
+                this.setState({...this.state, editable: false});
                 console.log(this.state.editable);
             }
 
@@ -134,9 +134,6 @@ export default class TicketDetail extends Component {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-
-
-
                                                         <tr >
                                                             <td>{this.state.status}</td>
                                                             <td>{this.state.priority}</td>
