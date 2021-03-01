@@ -14,48 +14,32 @@ export default () => (
 
     <header>
         <nav>
-            <br/>
-            <Col xl={{size: 6, offset: 3}}>
-                <div style={{display: "flex"}}>
-                    <Col xl={6} lg={6} className="col-link-inicial">
-                        <Link to='/'>
-                            <Card body inverse style={styles}>
-                                <CardTitle tag="h5">Inicio</CardTitle>
-                            </Card>
-                        </Link>
-                    </Col>
-
-                    <Col xl={6} lg={6} className="col-link-inicial">
-                        <Link to='/proyectos'>
-                            <Card body inverse style={styles}>
-                                <CardTitle tag="h5">Proyectos</CardTitle>
-                            </Card>
-                        </Link>
-                    </Col>
+            <div id="container">
+                <br/>
+                <div className="button" >
+                    <Link to='/proyectos'>
+                        <Card body inverse style={styles}>
+                            <CardTitle tag="h5">Proyectos</CardTitle>
+                        </Card>
+                    </Link>
                 </div>
-            </Col>
-
-            <br />
-
-            <Col xl={{size: 6, offset: 3}}>
-                <div style={{display: "flex"}}>
-                    <Col xl={6} lg={6} className="col-link-inicial">
-                        <Link to='/recursos'>
-                            <Card body inverse style={styles}>
-                                <CardTitle tag="h5">Recursos</CardTitle>
-                            </Card>
-                        </Link>
-                    </Col>
-
-                    <Col xl={6} lg={6} className="col-link-inicial">
-                        <Link to='/soporte'>
-                            <Card body inverse style={styles}>
-                                <CardTitle tag="h5">Soporte</CardTitle>
-                            </Card>
-                        </Link>
-                    </Col>
+                <br />
+                <div className="button">
+                    <Link to='/recursos'>
+                        <Card body inverse style={styles}>
+                            <CardTitle tag="h5">Recursos</CardTitle>
+                        </Card>
+                    </Link>
                 </div>
-            </Col>
+                <br />
+                <div className="button">              
+                    <Link to='/soporte'>
+                        <Card body inverse style={styles}>
+                            <CardTitle tag="h5">Soporte</CardTitle>
+                        </Card>
+                    </Link>
+                </div>
+            </div>
         </nav>
     </header>
 );
