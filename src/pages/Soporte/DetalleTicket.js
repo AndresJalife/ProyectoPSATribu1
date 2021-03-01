@@ -11,9 +11,10 @@ export default class TicketDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editable: false
+            editable: false,
+            ticket_tasks: []
         }
-
+        this.assignedTasks = this.assignedTasks.bind(this);
 
     }
     componentDidMount() {
@@ -59,7 +60,21 @@ export default class TicketDetail extends Component {
             resource_id: ticket["resource id"],
             resource_name: ticket["resource name"]
         });
-            if (ticket["status"] !== "resuelto") {
+            var url_ticket_tasks = 'https://aninfo-soporte.herokuapp.com/tasks_by_id'
+            var request_data = {ticket_id: ticket_id}
+                fetch(url_ticket_tasks, {
+                    method: 'POST',
+                    body: JSON.stringify(request_data),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    mode: 'cors'
+                }).then(response => response.json().then(tasks => {
+                    this.setState({...this.state, ticket_tasks: tasks});
+                    console.log(this.state);
+                }));
+
+        if (ticket["status"] !== "resuelto") {
                 this.setState({...this.state, editable: true});
                 console.log(this.state.editable);
                 this.modal_edit.setState({
@@ -95,7 +110,14 @@ export default class TicketDetail extends Component {
         }));
     }
 
-
+    assignedTasks(){
+        if (this.state.ticket_tasks.length == 0) {
+            return "Ninguna"
+        }
+        else {
+            return ""
+        }
+    }
 
     render() {
         return (
@@ -150,7 +172,12 @@ export default class TicketDetail extends Component {
                                             </Col>
                                         </Row>
                                     }
+                    <Col>
+                        Tareas asignadas: {this.assignedTasks()}
+                    {this.state.ticket_tasks.map((p) =>
+                           <Row><li key={p.codigo}>{p.name}</li></Row>)}
 
+                        </Col>
                     <Row>
                         { this.state.editable &&
                         <Row>

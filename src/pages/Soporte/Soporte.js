@@ -3,6 +3,7 @@ import {Button, ButtonToolbar, Row, Col, Card, CardHeader, CardBody, Container, 
 import {Link, NavLink} from "react-router-dom";
 import TicketCard from "../../components/CargaDeTickets/TicketCard";
 import ModalTickets from '../../components/CargaDeTickets/ModalTickets';
+import ModalFilter from '../../components/CargaDeTickets/ModalFilter';
 import Loader from "react-loader-spinner";
 
 
@@ -43,6 +44,13 @@ export default class Soporte extends Component {
                             <Col>
                                 <ButtonToolbar>
                                     <ModalTickets></ModalTickets>
+                                </ButtonToolbar>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <ButtonToolbar>
+                                    <ModalFilter></ModalFilter>
                                 </ButtonToolbar>
                             </Col>
                         </Row>
@@ -109,6 +117,7 @@ export default class Soporte extends Component {
                         </Card>
                     </Col>
                 </Row>
+
                 </div>);
 
     }
