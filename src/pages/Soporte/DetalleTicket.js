@@ -1,4 +1,15 @@
-import {ButtonToolbar, Card, CardBody, CardHeader, Col, Container, Row, Table} from "reactstrap";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    ButtonToolbar,
+    Card,
+    CardBody,
+    CardHeader,
+    Col,
+    Container,
+    Row,
+    Table
+} from "reactstrap";
 import {Link} from "react-router-dom";
 import React, {Component} from "react";
 import ModalEdit from '../../components/CargaDeTickets/ModalEdit';
@@ -121,9 +132,20 @@ export default class TicketDetail extends Component {
 
     render() {
         return (
-            <div>
-                                <Row>
-                    <Col xl={{size: 6, offset: 3}}>
+            <div style={{padding: 10 + 'px'}}>
+
+                <Row>
+                    <Col xl={12} lg={12}>
+                        <Breadcrumb>
+                            <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to="/soporte">Soporte</Link></BreadcrumbItem>
+                            <BreadcrumbItem>Detalle Ticket</BreadcrumbItem>
+                        </Breadcrumb>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col xl={{size: 8, offset: 2}}>
                         <Card>
                             <CardHeader tag="h2">Detalle de ticket</CardHeader>
 

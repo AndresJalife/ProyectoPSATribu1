@@ -1,5 +1,17 @@
 import React, { Component } from 'react'
-import {Button, ButtonToolbar, Row, Col, Card, CardHeader, CardBody, Container, Table} from 'reactstrap';
+import {
+    Button,
+    ButtonToolbar,
+    Row,
+    Col,
+    Card,
+    CardHeader,
+    CardBody,
+    Container,
+    Table,
+    Breadcrumb,
+    BreadcrumbItem
+} from 'reactstrap';
 import {Link, NavLink} from "react-router-dom";
 import TicketCard from "../../components/CargaDeTickets/TicketCard";
 import ModalTickets from '../../components/CargaDeTickets/ModalTickets';
@@ -38,8 +50,18 @@ export default class Soporte extends Component {
 
     render()
     {
-        return  (<div className='paginaTickets'>
+        return  (<div className='paginaTickets' style={{padding: 10 + 'px'}}>
                     <div>
+
+                        <Row>
+                            <Col xl={12} lg={12}>
+                                <Breadcrumb>
+                                    <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+                                    <BreadcrumbItem active>Soporte</BreadcrumbItem>
+                                </Breadcrumb>
+                            </Col>
+                        </Row>
+
                         <Row>
                             <Col>
                                 <ButtonToolbar>
@@ -56,7 +78,7 @@ export default class Soporte extends Component {
                         </Row>
                     </div>
                                 <Row>
-                    <Col xl={{size: 6, offset: 3}}>
+                    <Col xl={{size: 8, offset: 2}}>
                         <Card>
                             <CardHeader tag="h2">Tickets disponibles</CardHeader>
 
