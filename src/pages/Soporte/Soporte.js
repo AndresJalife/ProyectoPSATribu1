@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Button, ButtonToolbar, Row, Col } from 'reactstrap';
-import {NavLink} from "react-router-dom";
+import {Button, ButtonToolbar, Row, Col, Card, CardHeader, CardBody, Container, Table} from 'reactstrap';
+import {Link, NavLink} from "react-router-dom";
 import TicketCard from "../../components/CargaDeTickets/TicketCard";
 import ModalTickets from '../../components/CargaDeTickets/ModalTickets';
+import Loader from "react-loader-spinner";
 
 
 export default class Soporte extends Component {
@@ -26,9 +27,9 @@ export default class Soporte extends Component {
                 'Content-Type': 'application/json',
             },
             mode:'cors'
-        }).then(response => response.json().then(data => this.setState({
+        }).then(response => response.json().then(data => {this.setState({
             tickets: data
-        })));
+        });console.log(data) }));
 
     }
 
@@ -37,9 +38,6 @@ export default class Soporte extends Component {
     render()
     {
         return  (<div className='paginaTickets'>
-                    <div id='ticketsHeader'>
-                        <p id='tituloTickets'>Tickets</p>
-                    </div>
                     <div>
                         <Row>
                             <Col>
@@ -49,12 +47,68 @@ export default class Soporte extends Component {
                             </Col>
                         </Row>
                     </div>
-                    <div id='ticketsList'>
-                        <p id='tituloTickets'>TicketsDisponibles</p>
-                    </div>
-                    <div id='ticketsContainer'>
-                                {this.state.tickets.map((item) => <TicketCard  key={item.name} item={item} />)}
-                    </div>
+                                <Row>
+                    <Col xl={{size: 6, offset: 3}}>
+                        <Card>
+                            <CardHeader tag="h2">Tickets disponibles</CardHeader>
+
+                            <CardBody>
+                                <Container>
+
+                                    {this.state.isLoading ?
+                                        <Row>
+                                            <Col className="text-center">
+                                                <Loader
+                                                    type="TailSpin"
+                                                    color="#00BFFF"
+                                                    height={50}
+                                                    width={50}></Loader>
+                                            </Col>
+                                        </Row>
+                                        :
+                                        <Row>
+                                            <Col>
+                                                <Table striped>
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Estado</th>
+                                                        <th>Prioridad</th>
+                                                        <th>Fecha limite</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    {this.state.tickets.map((r) =>
+                                                        <tr key={r["name"]}>
+                                                            <td>{r["name"]}</td>
+                                                            <td>{r["status"]}</td>
+                                                            <td>{r["priority"]}</td>
+                                                            <td>{r["limit date"]}</td>
+                                                            <td>
+                                                                <Link to={`/soporte/ticket_detail/${r.id}`}>
+                                                                    <button type="button" className="btn btn-primary btn-sm">
+                                                                        Ver ticket
+                                                                    </button>
+                                                                </Link>
+
+
+                                                            </td>
+                                                        </tr>
+
+                                                    )}
+                                                    </tbody>
+                                                </Table>
+                                            </Col>
+                                        </Row>
+                                    }
+
+
+                                </Container>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
                 </div>);
 
     }

@@ -1,8 +1,9 @@
-import {ButtonToolbar, Col, Row} from "reactstrap";
+import {ButtonToolbar, Card, CardBody, CardHeader, Col, Container, Row, Table} from "reactstrap";
 import {Link} from "react-router-dom";
 import React, {Component} from "react";
 import ModalEdit from '../../components/CargaDeTickets/ModalEdit';
 import ModalTasks from '../../components/CargaDeTickets/ModalTasks';
+import Loader from "react-loader-spinner";
 
 
 export default class TicketDetail extends Component {
@@ -10,9 +11,8 @@ export default class TicketDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editable: true
+            editable: false
         }
-        this.isEditable = this.isEditable.bind(this);
 
 
     }
@@ -59,84 +59,120 @@ export default class TicketDetail extends Component {
             resource_id: ticket["resource id"],
             resource_name: ticket["resource name"]
         });
-            if (ticket["status"] !== "resuelto") {this.state.editable = true}
-            else {this.state.editable = false; console.log("ES FALSEEE")}
-            this.modal_edit.setState({
-                id: ticket["id"],
-                name: ticket["name"],
-                description: ticket["description"],
-                status: ticket["status"],
-                priority: ticket["priority"],
-                type: ticket["type"],
-                creation_date: ticket["creation date"],
-                limit_date:  ticket["limit date"],
-                resource_id: ticket["resource id"],
-                resource_name: ticket["resource name"]});
-            this.modal_tasks.setState({
-                id: ticket["id"],
-                name: ticket["name"],
-                description: ticket["description"],
-                status: ticket["status"],
-                priority: ticket["priority"],
-                type: ticket["type"],
-                creation_date: ticket["creation date"],
-                limit_date:  ticket["limit date"],
-                resource_id: ticket["resource id"],
-                resource_name: ticket["resource name"]})
+            if (ticket["status"] !== "resuelto") {
+                this.setState({...this.state, editable: true});
+                console.log(this.state.editable);
+                this.modal_edit.setState({
+                    id: ticket["id"],
+                    name: ticket["name"],
+                    description: ticket["description"],
+                    status: ticket["status"],
+                    priority: ticket["priority"],
+                    type: ticket["type"],
+                    creation_date: ticket["creation date"],
+                    limit_date: ticket["limit date"],
+                    resource_id: ticket["resource id"],
+                    resource_name: ticket["resource name"]
+                });
+                this.modal_tasks.setState({
+                    id: ticket["id"],
+                    name: ticket["name"],
+                    description: ticket["description"],
+                    status: ticket["status"],
+                    priority: ticket["priority"],
+                    type: ticket["type"],
+                    creation_date: ticket["creation date"],
+                    limit_date: ticket["limit date"],
+                    resource_id: ticket["resource id"],
+                    resource_name: ticket["resource name"]
+                })
+            }
+            else {
+                this.setState({...this.state, editable: false});
+                console.log(this.state.editable);
+            }
 
         }));
     }
 
-    isEditable() {
-        if (this.state.editable) {
-            return (<Row>
-                <Col>
-                    <ButtonToolbar>
-                        <ModalEdit data={this.state} ref={ref => (this.modal_edit = ref)}></ModalEdit>
-                    </ButtonToolbar>
-                    <ButtonToolbar>
-                        <ModalTasks data={this.state} ref={ref => (this.modal_tasks = ref)}></ModalTasks>
-                    </ButtonToolbar>
-                </Col>
-            </Row>)
-        }
-        return (<Row></Row>);
-    }
 
 
     render() {
         return (
             <div>
-                Detalle de ticket
-                {this.isEditable()}
-                <Row>
-                    <Col>
-                       {this.state.name}
-                    </Col>
-                    <Col>
+                                <Row>
+                    <Col xl={{size: 6, offset: 3}}>
+                        <Card>
+                            <CardHeader tag="h2">Detalle de ticket</CardHeader>
+
+                            <CardBody>
+                                <Container>
+
+                                    {this.state.isLoading ?
+                                        <Row>
+                                            <Col className="text-center">
+                                                <Loader
+                                                    type="TailSpin"
+                                                    color="#00BFFF"
+                                                    height={50}
+                                                    width={50}></Loader>
+                                            </Col>
+                                        </Row>
+                                        :
+                                        <Row>
+                                            <Col>
+                                                <Table striped>
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Estado</th>
+                                                        <th>Prioridad</th>
+                                                        <th>Descripcion</th>
+                                                        <th>Tipo</th>
+                                                        <th>Recurso trabajando</th>
+                                                        <th>Fecha Creacion</th>
+                                                        <th>Fecha Limite</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr >
+                                                            <td>{this.state.status}</td>
+                                                            <td>{this.state.priority}</td>
+                                                            <td>{this.state.description}</td>
+                                                            <td>{this.state.type}</td>
+                                                            <td>{this.state.resource_name}</td>
+                                                            <td>{this.state.creation_date}</td>
+                                                            <td>{this.state.limit_date}</td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </Table>
+                                            </Col>
+                                        </Row>
+                                    }
+
+                    <Row>
+                        { this.state.editable &&
                         <Row>
-                            Estado: {this.state.status}
+                            <Col  xs="6" >
+                                <ButtonToolbar>
+                                    <ModalEdit data={this.state} ref={ref => (this.modal_edit = ref)}></ModalEdit>
+                                </ButtonToolbar>
+                            </Col>
+                            <Col xs="auto" >
+                                <ButtonToolbar>
+                                    <ModalTasks data={this.state} ref={ref => (this.modal_tasks = ref)}></ModalTasks>
+                                </ButtonToolbar>
+                            </Col>
                         </Row>
-                        <Row>
-                            Prioridad: {this.state.priority}
-                        </Row>
-                        <Row>
-                            Descripcion: {this.state.description}
-                        </Row>
-                        <Row>
-                            Tipo: {this.state.type}
-                        </Row>
-                        <Row>
-                            Recurso trabajando: {this.state.resource_name}
-                        </Row>
-                        <Row>
-                            Fecha Creacion: {this.state.creation_date}
-                        </Row>
-                        <Row>
-                            Fecha Limite: {this.state.limit_date}
-                        </Row>
+                        }
+                    </Row>
+                                </Container>
+                            </CardBody>
+                        </Card>
                     </Col>
                 </Row>
+
             </div>)
     }
 }
