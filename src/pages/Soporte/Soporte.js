@@ -71,6 +71,7 @@ export default class Soporte extends Component {
                                                 <Table striped>
                                                     <thead>
                                                     <tr>
+                                                        <th>Nombre</th>
                                                         <th>Estado</th>
                                                         <th>Prioridad</th>
                                                         <th>Fecha limite</th>
@@ -80,6 +81,7 @@ export default class Soporte extends Component {
 
                                                     {this.state.tickets.map((r) =>
                                                         <tr key={r["name"]}>
+                                                            <td>{r["name"]}</td>
                                                             <td>{r["status"]}</td>
                                                             <td>{r["priority"]}</td>
                                                             <td>{r["limit date"]}</td>

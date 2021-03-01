@@ -6,6 +6,7 @@ import TimePicker from 'react-times';
 
 import 'react-times/css/classic/default.css';
 import './ModalTickets.css'
+import swal from "sweetalert2";
 
 export default class ModalTickets extends Component {
 
@@ -60,15 +61,26 @@ export default class ModalTickets extends Component {
             "name": this.state.name,
             "id": Math.floor(Math.random() * (10000 - 0 + 1)) + 0
         };
-        console.log(data)
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            mode:'cors'
-        })
+        if (data["description"] == "" || data["name"] == "") {
+            swal.fire({
+                            title: "Debe ingresar nombre y descripcion",
+                            icon: "warning"
+                        })
+        }
+        else {
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors'
+            })
+            swal.fire({
+                            title: "ticket creado correctamente",
+                            icon: "success"
+                        })
+        }
 
     }
 

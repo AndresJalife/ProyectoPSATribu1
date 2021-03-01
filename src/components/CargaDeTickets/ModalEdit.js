@@ -79,6 +79,12 @@ export default class ModalTickets extends Component {
             "status": this.state.status,
             "resource_id": this.state.resource_id
         };
+        if (data["description"] == "" || data["name"] == "") {
+            swal.fire({
+                            title: "Debe ingresar nombre y descripcion",
+                            icon: "warning"
+                        })
+        } else {
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -87,10 +93,11 @@ export default class ModalTickets extends Component {
             },
             mode:'cors'
         });
-         swal.fire({
+        swal.fire({
                             title: "Se modificó el ticket correctamente",
                             icon: "success"
-                        })
+                        })};
+
 
     }
 
