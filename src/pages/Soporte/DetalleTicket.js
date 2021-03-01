@@ -12,7 +12,6 @@ export default class TicketDetail extends Component {
         this.state = {
             editable: true
         }
-        this.isEditable = this.isEditable.bind(this);
 
 
     }
@@ -59,59 +58,60 @@ export default class TicketDetail extends Component {
             resource_id: ticket["resource id"],
             resource_name: ticket["resource name"]
         });
-            if (ticket["status"] !== "resuelto") {this.state.editable = true}
-            else {this.state.editable = false; console.log("ES FALSEEE")}
-            this.modal_edit.setState({
-                id: ticket["id"],
-                name: ticket["name"],
-                description: ticket["description"],
-                status: ticket["status"],
-                priority: ticket["priority"],
-                type: ticket["type"],
-                creation_date: ticket["creation date"],
-                limit_date:  ticket["limit date"],
-                resource_id: ticket["resource id"],
-                resource_name: ticket["resource name"]});
-            this.modal_tasks.setState({
-                id: ticket["id"],
-                name: ticket["name"],
-                description: ticket["description"],
-                status: ticket["status"],
-                priority: ticket["priority"],
-                type: ticket["type"],
-                creation_date: ticket["creation date"],
-                limit_date:  ticket["limit date"],
-                resource_id: ticket["resource id"],
-                resource_name: ticket["resource name"]})
+            if (ticket["status"] !== "resuelto") {
+                this.state.editable = true;
+                console.log(this.state.editable);
+                this.modal_edit.setState({
+                    id: ticket["id"],
+                    name: ticket["name"],
+                    description: ticket["description"],
+                    status: ticket["status"],
+                    priority: ticket["priority"],
+                    type: ticket["type"],
+                    creation_date: ticket["creation date"],
+                    limit_date: ticket["limit date"],
+                    resource_id: ticket["resource id"],
+                    resource_name: ticket["resource name"]
+                });
+                this.modal_tasks.setState({
+                    id: ticket["id"],
+                    name: ticket["name"],
+                    description: ticket["description"],
+                    status: ticket["status"],
+                    priority: ticket["priority"],
+                    type: ticket["type"],
+                    creation_date: ticket["creation date"],
+                    limit_date: ticket["limit date"],
+                    resource_id: ticket["resource id"],
+                    resource_name: ticket["resource name"]
+                })
+            }
+            else {
+                this.state.editable = false;
+                console.log(this.state.editable);
+            }
 
         }));
     }
 
-    isEditable() {
-        if (this.state.editable) {
-            return (<Row>
-                <Col>
-                    <ButtonToolbar>
-                        <ModalEdit data={this.state} ref={ref => (this.modal_edit = ref)}></ModalEdit>
-                    </ButtonToolbar>
-                    <ButtonToolbar>
-                        <ModalTasks data={this.state} ref={ref => (this.modal_tasks = ref)}></ModalTasks>
-                    </ButtonToolbar>
-                </Col>
-            </Row>)
-        }
-        return (<Row></Row>);
-    }
 
 
     render() {
         return (
             <div>
                 Detalle de ticket
-                {this.isEditable()}
                 <Row>
                     <Col>
-                       {this.state.name}
+                       <Row>
+                { this.state.editable && <Col>
+                    <ButtonToolbar>
+                        <ModalEdit data={this.state} ref={ref => (this.modal_edit = ref)}></ModalEdit>
+                    </ButtonToolbar>
+                    <ButtonToolbar>
+                        <ModalTasks data={this.state} ref={ref => (this.modal_tasks = ref)}></ModalTasks>
+                    </ButtonToolbar>
+                </Col> }
+            </Row>
                     </Col>
                     <Col>
                         <Row>
